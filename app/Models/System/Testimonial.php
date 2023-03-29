@@ -7,5 +7,14 @@ use App\Models\BaseModel;
 
 class Testimonial extends BaseModel
 {
-    use HasFactory;
+    protected $fillable = [
+        'name',
+        'address',
+        'note',
+        'rate',
+        'image_url',
+        'is_active',
+        'created_at',
+        'updated_at'
+    ];
 }

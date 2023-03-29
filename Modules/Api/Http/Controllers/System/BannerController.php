@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Api\Http\Controllers\Banner;
+namespace Modules\Api\Http\Controllers\System;
 
 use App\Http\Controllers\Controller;
 use App\Models\System\Banner;

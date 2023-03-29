@@ -53,9 +53,7 @@ trait ApiResponseHelper
     {
         $contents = $this->morphToArray($contents) ?? [];
 
-        $data['data'] = [] === $contents
-            ? $this->_api_helpers_defaultSuccessData
-            : $contents;
+        $data['data'] = $contents;
 
         return $this->apiResponse($data);
     }
