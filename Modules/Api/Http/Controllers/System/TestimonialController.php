@@ -10,9 +10,11 @@ class TestimonialController extends Controller
 {
     public function testimonials()
     {
+        // Get all active testimonials
         $testimonials = Testimonial::where('is_active', 1)
                                    ->get();
 
+        // Return response with testimonials
         return $this->respondWithSuccessWithData(TestimonialResource::collection($testimonials));
     }
 }

@@ -10,9 +10,11 @@ class BannerController extends Controller
 {
     public function banners()
     {
+        // Get all active banners
         $banners = Banner::where('is_active', 1)
                          ->get();
 
+        // Return response with banners
         return $this->respondWithSuccessWithData(BannerResource::collection($banners));
     }
 }
