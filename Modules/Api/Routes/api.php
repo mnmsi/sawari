@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use Modules\Api\Http\Controllers\Auth\ApiAuthController;
 use Modules\Api\Http\Controllers\OTP\OtpController;
+use Modules\Api\Http\Controllers\Product\ProductController;
 use Modules\Api\Http\Controllers\System\BannerController;
 use Modules\Api\Http\Controllers\System\ShowroomController;
 use Modules\Api\Http\Controllers\System\TestimonialController;
@@ -34,8 +35,7 @@ Route::middleware('auth:sanctum')->group(function () {
 });
 
 // Product Routes (Auth) or (Guest) Mode
-Route::middleware('auth:sanctum')->group(function () {
-    Route::get('user', [UserController::class, 'user']);
-    Route::get('logout', [ApiAuthController::class, 'logout']);
+Route::middleware('guest')->group(function () {
+    Route::get('product/count', [ProductController::class, 'totalProductType']);
 });
 
