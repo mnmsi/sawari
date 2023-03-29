@@ -49,4 +49,17 @@ class ApiAuthController extends Controller
             'user'  => $user,
         ]);
     }
+
+    /**
+     * @return JsonResponse
+     */
+    public function logout(): JsonResponse
+    {
+        $user = Auth::user()->token();
+        $user->revoke();
+
+        return response()->json([
+            'message' => 'Logged out successfully'
+        ], Response::HTTP_OK);
+    }
 }
