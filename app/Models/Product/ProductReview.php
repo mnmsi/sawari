@@ -7,5 +7,12 @@ use App\Models\BaseModel;
 
 class ProductReview extends BaseModel
 {
-    use HasFactory;
+    protected $fillable = [
+        'user_id',
+        'product_id',
+        'review',
+        'rate',
+        'created_at',
+        'updated_at'
+    ];
 }

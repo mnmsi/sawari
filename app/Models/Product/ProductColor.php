@@ -7,5 +7,11 @@ use App\Models\BaseModel;
 
 class ProductColor extends BaseModel
 {
-    use HasFactory;
+    protected $fillable = [
+        'product_id',
+        'name',
+        'image_url',
+        'created_at',
+        'updated_at'
+    ];
 }

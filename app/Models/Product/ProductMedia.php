@@ -7,5 +7,13 @@ use App\Models\BaseModel;
 
 class ProductMedia extends BaseModel
 {
-    use HasFactory;
+    protected $fillable = [
+        'product_id',
+        'product_color_id',
+        'type',
+        'url',
+        'thumbnail_url',
+        'created_at',
+        'updated_at'
+    ];
 }
