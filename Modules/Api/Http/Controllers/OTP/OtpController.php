@@ -9,12 +9,15 @@ use Modules\Api\Http\Traits\OTP\OtpTrait;
 
 class OtpController extends Controller
 {
+    // Use OtpTrait for generate and send otp
     use OtpTrait;
 
     public function sendOtp(SendOtpRequest $request)
     {
+        // Generate otp
         $otp = $this->generateOtp();
 
+        // Send otp to user phone if send sms is true then update or create phone verification record
         if ($isSendSms = $this->sendSms($request->phone, $otp)) {
             PhoneVerification::updateOrCreate([
                 'phone' => $request->phone
@@ -25,6 +28,7 @@ class OtpController extends Controller
             ]);
         }
 
+        // Return response with success status according to send sms
         return $this->respondWithSuccessStatus($isSendSms);
     }
 }

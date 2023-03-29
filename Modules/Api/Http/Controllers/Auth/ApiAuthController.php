@@ -9,41 +9,52 @@ use App\Models\User\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 use Modules\Api\Http\Requests\Auth\AuthenticateUserRequest;
 use Modules\Api\Http\Requests\Auth\RegisterUserRequest;
-use Modules\Api\Http\Traits\OTP\OtpTrait;
 
 class ApiAuthController extends Controller
 {
-    use OtpTrait;
-
     public function login(AuthenticateUserRequest $request)
     {
+        // Authentication for requested phone and password
         if (Auth::attempt($request->only('phone', 'password'))) {
-            $user  = Auth::user();
+
+            // Get user for current request which is authenticated
+            $user = Auth::user();
+
+            // Create token for current requested user
             $token = $user->createToken('user-auth');
 
+            // Return response token and user with success status
             return $this->respondWithSuccess([
                 'token' => $token->plainTextToken,
                 'user'  => $user,
             ]);
 
-        } else {
+        } // If authentication fails
+        else {
             return $this->respondUnAuthenticated();
         }
     }
 
     public function register(RegisterUserRequest $request)
     {
+        // Check if request has file
         if ($request->hasFile('avatar')) {
+            // Merge avatar with request
             $request->merge([
-                'avatar' => $request->avatar->store('avatars')
+                'avatar' => $request->avatar->store('avatars') // Store file in public disk
             ]);
         }
 
+        // Create user
         $user  = User::create($request->all());
+
+        // Create token for current requested user
         $token = $user->createToken('user-auth');
 
+        // Return response token and user with success status
         return $this->respondWithSuccess([
             'token' => $token->plainTextToken,
             'user'  => $user,
@@ -55,11 +66,13 @@ class ApiAuthController extends Controller
      */
     public function logout(): JsonResponse
     {
-        $user = Auth::user()->token();
-        $user->revoke();
+        // Session flush for current user
+        Session::flush();
 
-        return response()->json([
-            'message' => 'Logged out successfully'
-        ], Response::HTTP_OK);
+        // Delete current token for current user
+        Auth::user()->currentAccessToken()->delete();
+
+        // Return response with success status
+        return $this->respondWithSuccessStatus('Logged out successfully');
     }
 }

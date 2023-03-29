@@ -20,6 +20,7 @@ class UserController extends Controller
      */
     public function user(): JsonResponse
     {
+        // Return response with user data
         return $this->respondWithSuccessWithData(Auth::user());
     }
 }
