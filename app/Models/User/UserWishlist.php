@@ -7,5 +7,10 @@ use App\Models\BaseModel;
 
 class UserWishlist extends BaseModel
 {
-    use HasFactory;
+    protected $fillable = [
+        'user_id',
+        'product_id',
+        'created_at',
+        'updated_at'
+    ];
 }
