@@ -7,9 +7,11 @@ use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\Response;
+use Modules\Api\Http\Traits\Response\ApiResponseHelper;
 
 class SendOtpRequest extends FormRequest
 {
+    use ApiResponseHelper;
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -33,10 +35,7 @@ class SendOtpRequest extends FormRequest
     protected function failedValidation(Validator $validator)
     {
         throw new HttpResponseException(
-            response()->json([
-                'status'  => false,
-                'message' => $validator->errors()->all(),
-            ], Response::HTTP_UNPROCESSABLE_ENTITY)
+            $this->respondFailedValidation($validator->errors()->first())
         );
     }
 }
