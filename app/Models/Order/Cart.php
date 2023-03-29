@@ -7,5 +7,12 @@ use App\Models\BaseModel;
 
 class Cart extends BaseModel
 {
-    use HasFactory;
+    protected $fillable = [
+        'user_id',
+        'product_id',
+        'product_color_id',
+        'quantity',
+        'created_at',
+        'updated_at'
+    ];
 }
