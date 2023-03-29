@@ -44,6 +44,7 @@ class AuthenticateUserRequest extends FormRequest
 
     protected function failedValidation(Validator $validator)
     {
+        // Throw response exception with failed validation message
         throw new HttpResponseException(
             $this->respondFailedValidation($validator->errors()->first())
         );

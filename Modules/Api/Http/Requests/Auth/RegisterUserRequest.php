@@ -44,19 +44,21 @@ class RegisterUserRequest extends FormRequest
             'password'   => [
                 'required',
                 'string',
-                Password::min(6)->mixedCase()->numbers()->symbols()->uncompromised()
+                Password::min(6)->mixedCase()->numbers()->symbols()->uncompromised() // Password must be at least 6 characters and must contain at least one uppercase letter, one number, and one symbol. Ex. 466Un&
             ],
         ];
     }
 
     protected function passedValidation()
     {
+        // Verify OTP if it is not valid throw response exception
         if (!$this->verifyOtp($this->phone, $this->otp)) {
             throw new HttpResponseException(
                 $this->respondFailedValidation('Invalid OTP')
             );
         }
 
+        // Hash password and merge it with request
         $this->merge([
             'password' => Hash::make($this->password),
         ]);
@@ -64,6 +66,7 @@ class RegisterUserRequest extends FormRequest
 
     protected function failedValidation(Validator $validator)
     {
+        // Throw response exception with failed validation message
         throw new HttpResponseException(
             $this->respondFailedValidation($validator->errors()->first())
         );
