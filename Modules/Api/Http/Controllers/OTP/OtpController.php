@@ -25,8 +25,6 @@ class OtpController extends Controller
             ]);
         }
 
-        return $this->respondWithSuccess([
-            'status' => $isSendSms,
-        ]);
+        return $this->respondWithSuccessStatus($isSendSms);
     }
 }

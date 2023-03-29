@@ -46,6 +46,34 @@ trait ApiResponseHelper
         return $this->apiResponse($data);
     }
 
+    /**
+     * @param array|Arrayable|JsonSerializable|null $contents
+     */
+    public function respondWithSuccessWithData($contents = null): JsonResponse
+    {
+        $contents = $this->morphToArray($contents) ?? [];
+
+        $data['data'] = [] === $contents
+            ? $this->_api_helpers_defaultSuccessData
+            : $contents;
+
+        return $this->apiResponse($data);
+    }
+
+    /**
+     * @param array|Arrayable|JsonSerializable|null $contents
+     */
+    public function respondWithSuccessStatus($contents = null): JsonResponse
+    {
+        $contents = $this->morphToArray($contents) ?? [];
+
+        $data['status'] = [] === $contents
+            ? $this->_api_helpers_defaultSuccessData
+            : $contents;
+
+        return $this->apiResponse($data);
+    }
+
     public function setDefaultSuccessResponse(?array $content = null): self
     {
         $this->_api_helpers_defaultSuccessData = $content ?? [];
