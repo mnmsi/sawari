@@ -7,5 +7,12 @@ use App\Models\BaseModel;
 
 class Banner extends BaseModel
 {
-    use HasFactory;
+    protected $fillable = [
+        'page',
+        'show_on',
+        'image_url',
+        'is_active',
+        'created_at',
+        'updated_at',
+    ];
 }
