@@ -16,6 +16,8 @@ trait FeatureProductTrait
                       ->where('type', 'bike')
                       ->where('is_used', 1)
                       ->where('is_featured', 1)
+                      ->inRandomOrder()
+                      ->take(4)
                       ->get();
     }
 
@@ -29,6 +31,13 @@ trait FeatureProductTrait
                       ->where('type', 'bike')
                       ->where('is_used', 0)
                       ->where('is_featured', 1)
+                      ->inRandomOrder()
+                      ->take(4)
                       ->get();
+    }
+
+    public function calculateDiscountPrice($price, $discountRate)
+    {
+        return $price - ($price * $discountRate / 100);
     }
 }
