@@ -7,5 +7,10 @@ use App\Models\BaseModel;
 
 class PaymentMethod extends BaseModel
 {
-    use HasFactory;
+    protected $fillable = [
+        'name',
+        'is_active',
+        'created_at',
+        'updated_at'
+    ];
 }

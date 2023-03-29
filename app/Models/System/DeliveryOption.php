@@ -7,5 +7,11 @@ use App\Models\BaseModel;
 
 class DeliveryOption extends BaseModel
 {
-    use HasFactory;
+    protected $fillable = [
+        'name',
+        'bonus',
+        'is_active',
+        'created_at',
+        'updated_at'
+    ];
 }
