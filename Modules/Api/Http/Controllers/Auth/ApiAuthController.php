@@ -63,9 +63,6 @@ class ApiAuthController extends Controller
      */
     public function logout(): JsonResponse
     {
-        return $this->respondWithSuccessStatus('Logged out successfully');
-
-
         // Session flush for current user
         Session::flush();
 
@@ -73,6 +70,6 @@ class ApiAuthController extends Controller
         Auth::user()->currentAccessToken()->delete();
 
         // Return response with success status
-        return $this->respondWithSuccessStatus('Logged out successfully');
+        return $this->respondWithSuccessStatusWithMsg('Logged out successfully');
     }
 }
