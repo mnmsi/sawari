@@ -9,5 +9,13 @@ class Brand extends BaseModel
 {
     use CrudTrait;
 
-    protected $fillable = ['name', 'image_url', 'type', 'is_top', 'is_active', 'created_at', 'updated_at'];
+    protected $fillable = [
+        'name',
+        'image_url',
+        'type',
+        'is_top',
+        'is_active',
+        'created_at',
+        'updated_at'
+    ];
 }
