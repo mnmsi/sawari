@@ -3,11 +3,8 @@
 namespace Modules\Api\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Auth\SendOtpRequest;
-use App\Models\User\PhoneVerification;
 use App\Models\User\User;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Modules\Api\Http\Requests\Auth\AuthenticateUserRequest;
@@ -49,7 +46,7 @@ class ApiAuthController extends Controller
         }
 
         // Create user
-        $user  = User::create($request->all());
+        $user = User::create($request->all());
 
         // Create token for current requested user
         $token = $user->createToken('user-auth');
@@ -66,6 +63,9 @@ class ApiAuthController extends Controller
      */
     public function logout(): JsonResponse
     {
+        return $this->respondWithSuccessStatus('Logged out successfully');
+
+
         // Session flush for current user
         Session::flush();
 

@@ -61,15 +61,29 @@ trait ApiResponseHelper
     }
 
     /**
-     * @param array|Arrayable|JsonSerializable|null $contents
+     * @param string|bool|null $contents
+     */
+    public function respondWithSuccessStatusWithMsg($contents = null): JsonResponse
+    {
+        $data = $this->_api_helpers_defaultSuccessData;
+
+        if (!is_null($contents)) {
+            $data['message'] = $contents;
+        }
+
+        return $this->apiResponse($data);
+    }
+
+    /**
+     * @param bool|null $contents
      */
     public function respondWithSuccessStatus($contents = null): JsonResponse
     {
-        $contents = $this->morphToArray($contents) ?? [];
+        $data = $this->_api_helpers_defaultSuccessData;
 
-        $data['status'] = [] === $contents
-            ? $this->_api_helpers_defaultSuccessData
-            : $contents;
+        if (!is_null($contents)) {
+            $data['status'] = $contents;
+        }
 
         return $this->apiResponse($data);
     }
