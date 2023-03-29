@@ -41,7 +41,7 @@ class ApiAuthController extends Controller
             ]);
         }
 
-        $user  = User::create($request->validated());
+        $user  = User::create($request->all());
         $token = $user->createToken('user-auth');
 
         return $this->respondWithSuccess([

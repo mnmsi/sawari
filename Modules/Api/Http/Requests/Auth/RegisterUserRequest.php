@@ -15,7 +15,6 @@ class RegisterUserRequest extends FormRequest
 {
     use OtpTrait, ApiResponseHelper;
 
-
     /**
      * Determine if the user is authorized to make this request.
      *
