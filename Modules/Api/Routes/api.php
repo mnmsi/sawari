@@ -33,16 +33,16 @@ Route::middleware('guest')->group(function () {
 Route::middleware('auth:sanctum')->group(function () {
     // Routes on user prefix
     Route::prefix('user')->group(function () {
-        Route::get('me', [UserController::class, 'user']);                    // User Info Routes
+        Route::get('me', [UserController::class, 'user']);                     // User Info Routes
         Route::post('update', [UserController::class, 'update']);              // User Update Routes
-        Route::get('addresses', [UserAddressController::class, 'addresses']); // User Address Routes
+        Route::get('addresses', [UserAddressController::class, 'addresses']);  // User Address Routes
     });
 
     // Routes on address prefix
     Route::controller(UserAddressController::class)->prefix('address')->group(function () {
-        Route::post('store', 'store');   // Address Store Routes
-        Route::post('update', 'update'); // Address Update Routes
-        Route::post('delete', 'delete'); // Address Delete Routes
+        Route::post('store', 'store');        // Address Store Routes
+        Route::put('update/{id}', 'update');  // Address Update Routes
+        Route::post('delete', 'delete');      // Address Delete Routes
     });
 });
 

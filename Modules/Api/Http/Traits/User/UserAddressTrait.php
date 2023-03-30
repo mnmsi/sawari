@@ -23,4 +23,15 @@ trait UserAddressTrait
                    ->addresses()
                    ->create($data);
     }
+
+    /**
+     * @return mixed
+     */
+    public function updateAddress($id, $data)
+    {
+        return Auth::user()
+                   ->addresses()
+                   ->where('id', $id)
+                   ->update($data);
+    }
 }

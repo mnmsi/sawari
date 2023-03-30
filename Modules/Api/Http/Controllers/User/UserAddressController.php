@@ -38,4 +38,18 @@ class UserAddressController extends Controller
             UserAddressResource::collection($this->getAddresses())
         );
     }
+
+    /**
+     * @return JsonResponse
+     */
+    public function update(UserAddressRequest $request, $id)
+    {
+        // Update address
+        $address = $this->updateAddress($id, $request->validated());
+
+        // Return response with user addresses
+        return $this->respondWithSuccessWithData(
+            UserAddressResource::collection($this->getAddresses())
+        );
+    }
 }
