@@ -10,6 +10,7 @@ use Modules\Api\Http\Controllers\Product\ProductController;
 use Modules\Api\Http\Controllers\System\BannerController;
 use Modules\Api\Http\Controllers\System\ShowroomController;
 use Modules\Api\Http\Controllers\System\TestimonialController;
+use Modules\Api\Http\Controllers\User\UserAddressController;
 use Modules\Api\Http\Controllers\User\UserController;
 
 // Authenticating Routes
@@ -30,7 +31,11 @@ Route::middleware('guest')->group(function () {
 
 // User Routes (Auth) or (User) Mode
 Route::middleware('auth:sanctum')->group(function () {
-    Route::get('user', [UserController::class, 'user']); // User Info Routes
+    // Routes on user prefix
+    Route::prefix('user')->group(function () {
+        Route::get('me', [UserController::class, 'user']);                    // User Info Routes
+        Route::get('addresses', [UserAddressController::class, 'addresses']); // User Address Routes
+    });
 });
 
 // Product Routes (Auth) or (Guest) Mode
