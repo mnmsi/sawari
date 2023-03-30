@@ -56,7 +56,6 @@ Route::middleware('auth:sanctum')->group(function () {
 // Product Routes (Auth) or (Guest) Mode
 Route::middleware('guest')->group(function () {
 
-
     // Routes on product prefix
     Route::controller(ProductController::class)->prefix('product')->group(function () {
         Route::get('counts', 'totalProductType');    // Total Product Count
