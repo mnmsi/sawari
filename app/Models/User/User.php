@@ -3,9 +3,13 @@
 namespace App\Models\User;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Models\Order\Order;
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Date;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
@@ -51,5 +55,40 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'phone_verified_at' => 'datetime',
+        'dob'               => 'date',
     ];
+
+    protected $appends = [
+        'name'
+    ];
+
+    public function name(): Attribute
+    {
+        return Attribute::make(
+            get: fn() => $this->first_name . ' ' . $this->last_name, // Concatenate first name and last name
+        );
+    }
+
+    public function dob(): Attribute
+    {
+        return Attribute::make(
+            get: fn($value) => Carbon::parse($value)->format('d-m-Y'),  // Format date of birth
+        );
+    }
+
+    public function addresses()
+    {
+        return $this->hasMany(UserAddress::class);
+    }
+
+    public function wishList()
+    {
+        return $this->hasMany(UserWishList::class);
+    }
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
 }

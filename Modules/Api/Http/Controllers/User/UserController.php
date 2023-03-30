@@ -5,6 +5,7 @@ namespace Modules\Api\Http\Controllers\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
+use Modules\Api\Http\Resources\User\UserResource;
 
 class UserController extends Controller
 {
@@ -14,6 +15,8 @@ class UserController extends Controller
     public function user(): JsonResponse
     {
         // Return response with user data
-        return $this->respondWithSuccessWithData(Auth::user());
+        return $this->respondWithSuccessWithData(
+            new UserResource(Auth::user())
+        );
     }
 }

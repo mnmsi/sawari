@@ -26,6 +26,7 @@ class DatabaseSeeder extends Seeder
             ShowroomSeeder::class,
             TestimonialSeeder::class,
             UserSeeder::class,
+            UserAddressSeeder::class,
             ProductSeeder::class,
             ProductColorSeeder::class,
             ProductMediaSeeder::class,
