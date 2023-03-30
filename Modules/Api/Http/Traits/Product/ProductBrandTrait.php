@@ -13,7 +13,10 @@ trait ProductBrandTrait
     public function getBikeBrands()
     {
         return Brand::where('is_active', 1)
-                    ->where('type', 'bike')
+                    ->where(function ($query) {
+                        $query->where('type', 'bike')
+                              ->orWhere('type', 'both');
+                    })
                     ->orderBy('name', 'asc')
                     ->get();
     }
@@ -24,7 +27,10 @@ trait ProductBrandTrait
     public function getPopularBikeBrands()
     {
         return Brand::where('is_active', 1)
-                    ->where('type', 'bike')
+                    ->where(function ($query) {
+                        $query->where('type', 'bike')
+                              ->orWhere('type', 'both');
+                    })
                     ->where('is_popular', 1)
                     ->orderBy('name', 'asc')
                     ->get();
@@ -36,7 +42,10 @@ trait ProductBrandTrait
     public function getAccessoryBrands()
     {
         return Brand::where('is_active', 1)
-                    ->where('type', 'accessory')
+                    ->where(function ($query) {
+                        $query->where('type', 'accessory')
+                              ->orWhere('type', 'both');
+                    })
                     ->orderBy('name', 'asc')
                     ->get();
     }
@@ -47,7 +56,10 @@ trait ProductBrandTrait
     public function getPopularAccessoryBrands()
     {
         return Brand::where('is_active', 1)
-                    ->where('type', 'accessory')
+                    ->where(function ($query) {
+                        $query->where('type', 'accessory')
+                              ->orWhere('type', 'both');
+                    })
                     ->where('is_popular', 1)
                     ->orderBy('name', 'asc')
                     ->get();
