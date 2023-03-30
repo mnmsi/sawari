@@ -4,7 +4,7 @@ namespace Modules\Api\Http\Controllers\Product;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
-use Modules\Api\Http\Resources\Product\FeatureBikeResource;
+use Modules\Api\Http\Resources\Product\BikeListResource;
 use Modules\Api\Http\Traits\Product\FeatureProductTrait;
 
 class FeatureProductController extends Controller
@@ -17,7 +17,7 @@ class FeatureProductController extends Controller
     public function newBike()
     {
         return $this->respondWithSuccessWithData(
-            FeatureBikeResource::collection($this->featuredNewBike())
+            BikeListResource::collection($this->featuredNewBike())
         );
     }
 
@@ -27,7 +27,7 @@ class FeatureProductController extends Controller
     public function usedBike()
     {
         return $this->respondWithSuccessWithData(
-            FeatureBikeResource::collection($this->featuredUsedBike())
+            BikeListResource::collection($this->featuredUsedBike())
         );
     }
 
