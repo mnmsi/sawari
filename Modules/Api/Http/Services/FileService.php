@@ -21,15 +21,35 @@ class FileService
         }
 
         if ($exists) {
-            if (Str::contains($exists, 'storage/')) {
-                $exists = Str::replace('storage/', '', $exists);
-            }
-
-            if (Storage::exists($exists)) {
-                Storage::delete($exists);
-            }
+            self::deleteFile(self::trimStorage($exists));
         }
 
         return "storage/" . $file->store($directory);
+    }
+
+    /**
+     * @param $path
+     * @return mixed|string
+     */
+    public static function trimStorage($path)
+    {
+        if (Str::contains($path, 'storage/')) {
+            $path = Str::replace('storage/', '', $path);
+        }
+
+        return $path;
+    }
+
+    /**
+     * @param $path
+     * @return bool
+     */
+    public static function deleteFile($path): bool
+    {
+        if (Storage::exists($path)) {
+            Storage::delete($path);
+        }
+
+        return false;
     }
 }
