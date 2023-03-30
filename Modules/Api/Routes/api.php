@@ -60,6 +60,7 @@ Route::middleware('guest')->group(function () {
     Route::controller(ProductController::class)->prefix('product')->group(function () {
         Route::get('counts', 'totalProductType');    // Total Product Count
         Route::get('bikes', 'bikes');                // Product List Routes
+        Route::get('accessories', 'accessories');    // Product List Routes
     });
 
     // Routes on bike prefix for bike brand and bike category

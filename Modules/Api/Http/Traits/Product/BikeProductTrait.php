@@ -4,7 +4,7 @@ namespace Modules\Api\Http\Traits\Product;
 
 use App\Models\Product\Product;
 
-trait ProductTrait
+trait BikeProductTrait
 {
     /**
      * @param array $filters

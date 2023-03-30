@@ -6,12 +6,12 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Modules\Api\Http\Resources\Product\BikeCollection;
-use Modules\Api\Http\Traits\Product\ProductTrait;
+use Modules\Api\Http\Traits\Product\BikeProductTrait;
 use Modules\Api\Http\Traits\Product\TotalProductCountTrait;
 
 class ProductController extends Controller
 {
-    use TotalProductCountTrait, ProductTrait;
+    use TotalProductCountTrait, BikeProductTrait;
 
     /**
      * @return JsonResponse
