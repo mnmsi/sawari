@@ -35,4 +35,24 @@ class ProductBrandController extends Controller
             BrandResource::collection($this->getPopularBikeBrands())
         );
     }
+
+    /**
+     * @return JsonResponse
+     */
+    public function accessoryBrands()
+    {
+        return $this->respondWithSuccessWithData(
+            BrandResource::collection($this->getAccessoryBrands())
+        );
+    }
+
+    /**
+     * @return JsonResponse
+     */
+    public function popularAccessoryBrands()
+    {
+        return $this->respondWithSuccessWithData(
+            BrandResource::collection($this->getPopularAccessoryBrands())
+        );
+    }
 }

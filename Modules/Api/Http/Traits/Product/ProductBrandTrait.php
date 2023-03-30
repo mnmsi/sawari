@@ -29,4 +29,27 @@ trait ProductBrandTrait
                     ->orderBy('name', 'asc')
                     ->get();
     }
+
+    /**
+     * @return mixed
+     */
+    public function getAccessoryBrands()
+    {
+        return Brand::where('is_active', 1)
+                    ->where('type', 'accessory')
+                    ->orderBy('name', 'asc')
+                    ->get();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPopularAccessoryBrands()
+    {
+        return Brand::where('is_active', 1)
+                    ->where('type', 'accessory')
+                    ->where('is_popular', 1)
+                    ->orderBy('name', 'asc')
+                    ->get();
+    }
 }

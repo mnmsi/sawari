@@ -48,6 +48,12 @@ Route::middleware('guest')->group(function () {
             Route::get('brands', 'bikeBrands');                    // Product Brands
             Route::get('popular-brands', 'popularBikeBrands');     // Product Popular Brands
         });
+
+        // Accessory Brand Route
+        Route::prefix('accessory')->group(function () {
+            Route::get('brands', 'accessoryBrands');                // Accessory Brands
+            Route::get('popular-brands', 'popularAccessoryBrands'); // Accessory Popular Brands
+        });
     });
 
     // Routes on accessory prefix for accessory category
