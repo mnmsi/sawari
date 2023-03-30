@@ -5,11 +5,11 @@ namespace Modules\Api\Http\Controllers\Product;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
 use Modules\Api\Http\Resources\Product\BikeResource;
-use Modules\Api\Http\Traits\Product\FeatureProductTrait;
+use Modules\Api\Http\Traits\Product\FeatureTrait;
 
 class FeatureController extends Controller
 {
-    use FeatureProductTrait;
+    use FeatureTrait;
 
     /**
      * @return JsonResponse

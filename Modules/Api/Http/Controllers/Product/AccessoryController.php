@@ -6,5 +6,8 @@ use App\Http\Controllers\Controller;
 
 class AccessoryController extends Controller
 {
+    public function accessories()
+    {
 
+    }
 }

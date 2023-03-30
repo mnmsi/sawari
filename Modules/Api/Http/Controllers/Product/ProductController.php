@@ -4,11 +4,11 @@ namespace Modules\Api\Http\Controllers\Product;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
-use Modules\Api\Http\Traits\Product\TotalProductCountTrait;
+use Modules\Api\Http\Traits\Product\ProductCountTrait;
 
 class ProductController extends Controller
 {
-    use TotalProductCountTrait;
+    use ProductCountTrait;
 
     /**
      * @return JsonResponse

@@ -5,11 +5,11 @@ namespace Modules\Api\Http\Controllers\Product;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
 use Modules\Api\Http\Resources\Product\CategoryResource;
-use Modules\Api\Http\Traits\Product\ProductCategoryTrait;
+use Modules\Api\Http\Traits\Product\CategoryTrait;
 
 class CategoryController extends Controller
 {
-    use ProductCategoryTrait;
+    use CategoryTrait;
 
     /**
      * @return JsonResponse

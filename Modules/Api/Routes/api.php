@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use Modules\Api\Http\Controllers\Auth\ApiAuthController;
 use Modules\Api\Http\Controllers\OTP\OtpController;
+use Modules\Api\Http\Controllers\Product\AccessoryController;
 use Modules\Api\Http\Controllers\Product\BikeController;
 use Modules\Api\Http\Controllers\Product\FeatureController;
 use Modules\Api\Http\Controllers\Product\BrandController;
@@ -59,9 +60,9 @@ Route::middleware('guest')->group(function () {
 
     // Routes on product prefix
     Route::prefix('product')->group(function () {
-        Route::get('counts', [ProductController::class, 'totalProductType']);        // Total Product Count
-        Route::get('bikes', [BikeController::class, 'bikes']);                       // Bike Product List Routes
-        Route::get('accessories', [ProductController::class, 'accessories']);        // Accessories Product List Routes
+        Route::get('counts', [ProductController::class, 'totalProductType']);          // Total Product Count
+        Route::get('bikes', [BikeController::class, 'bikes']);                         // Bike Product List Routes
+        Route::get('accessories', [AccessoryController::class, 'accessories']);        // Accessories Product List Routes
     });
 
     // Routes on bike prefix for bike brand and bike category

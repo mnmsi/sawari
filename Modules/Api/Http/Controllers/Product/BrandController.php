@@ -5,11 +5,11 @@ namespace Modules\Api\Http\Controllers\Product;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
 use Modules\Api\Http\Resources\Product\BrandResource;
-use Modules\Api\Http\Traits\Product\ProductBrandTrait;
+use Modules\Api\Http\Traits\Product\BrandTrait;
 
 class BrandController extends Controller
 {
-    use ProductBrandTrait;
+    use BrandTrait;
 
     /**
      * @return JsonResponse
