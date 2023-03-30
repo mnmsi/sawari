@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use Modules\Api\Http\Controllers\Auth\ApiAuthController;
 use Modules\Api\Http\Controllers\OTP\OtpController;
 use Modules\Api\Http\Controllers\Product\FeatureProductController;
+use Modules\Api\Http\Controllers\Product\ProductBrandController;
+use Modules\Api\Http\Controllers\Product\ProductCategoryController;
 use Modules\Api\Http\Controllers\Product\ProductController;
 use Modules\Api\Http\Controllers\System\BannerController;
 use Modules\Api\Http\Controllers\System\ShowroomController;
@@ -35,15 +37,24 @@ Route::middleware('auth:sanctum')->group(function () {
 Route::middleware('guest')->group(function () {
     // Routes on product prefix
     Route::prefix('product')->group(function () {
+        // Total Product Count for new and used bikes and accessories
         Route::get('count', [ProductController::class, 'totalProductType']); // Total Product Count
+
+        Route::controller(ProductBrandController::class)->group(function () {
+            Route::get('brands', 'brands');                // Product Brands
+            Route::get('popular-brands', 'popularBrands'); // Product Popular Brands
+        });
+
+        Route::controller(ProductCategoryController::class)->group(function () {
+            Route::get('categories', 'categories');                // Product Categories
+            Route::get('popular-categories', 'popularCategories'); // Product Popular Categories
+        });
     });
 
     // Routes on feature prefix
-    Route::prefix('feature')->group(function () {
-        Route::controller(FeatureProductController::class)->group(function () {
-            Route::get('new-bike', 'newBike');   // Feature new bikes
-            Route::get('used-bike', 'usedBike'); // Feature used bikes
-        });
+    Route::controller(FeatureProductController::class)->prefix('featured')->group(function () {
+        Route::get('new-bike', 'newBike');   // Feature new bikes
+        Route::get('used-bike', 'usedBike'); // Feature used bikes
     });
 });
 

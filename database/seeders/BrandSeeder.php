@@ -78,6 +78,76 @@ class BrandSeeder extends Seeder
                 'image_url' => 'https://via.placeholder.com/150',
                 'type'      => 'bike',
             ],
+            [
+                'name'      => 'Royal Enfield',
+                'image_url' => 'https://via.placeholder.com/150',
+                'type'      => 'accessory',
+            ],
+            [
+                'name'      => 'KTM',
+                'image_url' => 'https://via.placeholder.com/150',
+                'type'      => 'accessory',
+            ],
+            [
+                'name'      => 'Aprilia',
+                'image_url' => 'https://via.placeholder.com/150',
+                'type'      => 'accessory',
+            ],
+            [
+                'name'      => 'Kymco',
+                'image_url' => 'https://via.placeholder.com/150',
+                'type'      => 'accessory',
+            ],
+            [
+                'name'      => 'Royal Enfield',
+                'image_url' => 'https://via.placeholder.com/150',
+                'type'      => 'accessory',
+            ],
+            [
+                'name'      => 'Royal Enfield',
+                'image_url' => 'https://via.placeholder.com/150',
+                'type'      => 'accessory',
+            ],
+            [
+                'name'      => 'KTM',
+                'image_url' => 'https://via.placeholder.com/150',
+                'type'      => 'accessory',
+            ],
+            [
+                'name'      => 'Aprilia',
+                'image_url' => 'https://via.placeholder.com/150',
+                'type'      => 'accessory',
+            ],
+            [
+                'name'      => 'Kymco',
+                'image_url' => 'https://via.placeholder.com/150',
+                'type'      => 'accessory',
+            ],
+            [
+                'name'      => 'Royal Enfield',
+                'image_url' => 'https://via.placeholder.com/150',
+                'type'      => 'accessory',
+            ],
+            [
+                'name'      => 'Royal Enfield',
+                'image_url' => 'https://via.placeholder.com/150',
+                'type'      => 'accessory',
+            ],
+            [
+                'name'      => 'KTM',
+                'image_url' => 'https://via.placeholder.com/150',
+                'type'      => 'accessory',
+            ],
+            [
+                'name'      => 'Aprilia',
+                'image_url' => 'https://via.placeholder.com/150',
+                'type'      => 'accessory',
+            ],
+            [
+                'name'      => 'Kymco',
+                'image_url' => 'https://via.placeholder.com',
+                'type'      => 'accessory',
+            ]
         ]);
     }
 }

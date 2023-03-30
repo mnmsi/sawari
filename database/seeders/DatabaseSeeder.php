@@ -16,7 +16,20 @@ class DatabaseSeeder extends Seeder
             CountySeeder::class,
             DivisionSeeder::class,
             CitySeeder::class,
-            AreaSeeder::class
+            AreaSeeder::class,
+            BannerSeeder::class,
+            BikeBodyTypeSeeder::class,
+            BrandSeeder::class,
+            CategorySeeder::class,
+            DeliveryOptionSeeder::class,
+            PaymentMethodSeeder::class,
+            ShowroomSeeder::class,
+            TestimonialSeeder::class,
+            UserSeeder::class,
+            ProductSeeder::class,
+            ProductColorSeeder::class,
+            ProductMediaSeeder::class,
+            ProductSpecificationSeeder::class
         ]);
     }
 }
