@@ -3,6 +3,7 @@
 namespace Modules\Api\Http\Controllers\Product;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Modules\Api\Http\Resources\Product\BikeCollection;
 use Modules\Api\Http\Traits\Product\ProductTrait;
@@ -12,6 +13,9 @@ class ProductController extends Controller
 {
     use TotalProductCountTrait, ProductTrait;
 
+    /**
+     * @return JsonResponse
+     */
     public function totalProductType()
     {
         return $this->respondWithSuccessWithData([
@@ -21,22 +25,16 @@ class ProductController extends Controller
         ]);
     }
 
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     */
     public function bikes(Request $request)
     {
-        $filterData = [
-            'brand_id'      => $request->brand_id,
-            'body_type_id'  => $request->body_type_id,
-            'category_id'   => $request->category_id,
-            'is_used'       => $request->is_used,
-            'color'         => $request->color,
-            'price'         => $request->price,
-            'discount_rate' => $request->discount_rate,
-            'search'        => $request->search,
-            'sort_by'       => $request->sort_by,
-            'sort_type'     => $request->sort_type,
-            'per_page'      => $request->per_page,
-        ];
+        // Initialize filter data
+        $filterData = $this->initializeBikeFilterData($request);
 
+        // Return bike products with pagination and filter data as response
         return $this->respondWithSuccessWithData(
             new BikeCollection($this->getBikeProducts($filterData))
         );
