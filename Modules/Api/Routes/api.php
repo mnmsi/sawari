@@ -39,16 +39,21 @@ Route::middleware('guest')->group(function () {
     Route::prefix('product')->group(function () {
         // Total Product Count for new and used bikes and accessories
         Route::get('count', [ProductController::class, 'totalProductType']); // Total Product Count
+    });
 
-        Route::controller(ProductBrandController::class)->group(function () {
-            Route::get('brands', 'brands');                // Product Brands
-            Route::get('popular-brands', 'popularBrands'); // Product Popular Brands
+    // Routes on bike prefix for bike brand and bike category
+    Route::controller(ProductBrandController::class)->group(function () {
+        // Routes on bike prefix for bike brand and popular bike brand
+        Route::prefix('bike')->group(function () {
+            Route::get('brands', 'bikeBrands');                    // Product Brands
+            Route::get('popular-brands', 'popularBikeBrands');     // Product Popular Brands
         });
+    });
 
-        Route::controller(ProductCategoryController::class)->group(function () {
-            Route::get('categories', 'categories');                // Product Categories
-            Route::get('popular-categories', 'popularCategories'); // Product Popular Categories
-        });
+    // Routes on accessory prefix for accessory category
+    Route::controller(ProductCategoryController::class)->prefix('accessory')->group(function () {
+        Route::get('categories', 'categories');                // Product Categories
+        Route::get('popular-categories', 'popularCategories'); // Product Popular Categories
     });
 
     // Routes on feature prefix

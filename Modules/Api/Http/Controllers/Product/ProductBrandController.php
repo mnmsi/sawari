@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\SendOtpRequest;
 use App\Models\User\PhoneVerification;
 use Illuminate\Http\JsonResponse;
+use Modules\Api\Http\Resources\Product\BrandResource;
 use Modules\Api\Http\Traits\OTP\OtpTrait;
 use Modules\Api\Http\Traits\Product\ProductBrandTrait;
 use Modules\Api\Http\Traits\Product\ProductTrait;
@@ -18,16 +19,20 @@ class ProductBrandController extends Controller
     /**
      * @return JsonResponse
      */
-    public function brands()
+    public function bikeBrands()
     {
-        return $this->respondWithSuccessWithData($this->getBikeBrands());
+        return $this->respondWithSuccessWithData(
+            BrandResource::collection($this->getBikeBrands())
+        );
     }
 
     /**
      * @return JsonResponse
      */
-    public function popularBrands()
+    public function popularBikeBrands()
     {
-        return $this->respondWithSuccessWithData($this->getPopularBikeBrands());
+        return $this->respondWithSuccessWithData(
+            BrandResource::collection($this->getPopularBikeBrands())
+        );
     }
 }
