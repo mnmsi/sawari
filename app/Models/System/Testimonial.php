@@ -17,4 +17,8 @@ class Testimonial extends BaseModel
         'created_at',
         'updated_at'
     ];
+
+    protected $casts = [
+        'is_active' => 'boolean',
+    ];
 }

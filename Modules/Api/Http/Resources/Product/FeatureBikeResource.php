@@ -19,10 +19,13 @@ class FeatureBikeResource extends JsonResource
     public function toArray($request)
     {
         return [
+            'id'                   => $this->id,
             'name'                 => $this->name,
             'price'                => $this->price,
             'discount_rate'        => $this->discount_rate,
             'price_after_discount' => $this->calculateDiscountPrice($this->price, $this->discount_rate),
+            'is_used'              => $this->is_used,
+            'colors'               => $this->colors->pluck('name'),
         ];
     }
 }

@@ -11,6 +11,12 @@ class ProductColor extends BaseModel
         'product_id',
         'name',
         'image_url',
+        'stock',
+        'created_at',
+        'updated_at'
+    ];
+
+    protected $hidden = [
         'created_at',
         'updated_at'
     ];

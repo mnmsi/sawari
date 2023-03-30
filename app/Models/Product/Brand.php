@@ -13,9 +13,14 @@ class Brand extends BaseModel
         'name',
         'image_url',
         'type',
-        'is_top',
+        'is_popular',
         'is_active',
         'created_at',
         'updated_at'
+    ];
+
+    protected $casts = [
+        'is_popular' => 'boolean',
+        'is_active'  => 'boolean'
     ];
 }
