@@ -4,18 +4,21 @@ namespace Modules\Api\Http\Controllers\Product;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
-use Modules\Api\Http\Traits\Product\ProductTrait;
+use Modules\Api\Http\Resources\Product\CategoryResource;
+use Modules\Api\Http\Traits\Product\ProductCategoryTrait;
 
 class ProductCategoryController extends Controller
 {
-    use ProductTrait;
+    use ProductCategoryTrait;
 
     /**
      * @return JsonResponse
      */
     public function categories()
     {
-        return $this->respondWithSuccessWithData($this->getCategories());
+        return $this->respondWithSuccessWithData(
+            CategoryResource::collection($this->getCategories())
+        );
     }
 
     /**
@@ -23,6 +26,8 @@ class ProductCategoryController extends Controller
      */
     public function popularCategories()
     {
-        return $this->respondWithSuccessWithData($this->getPopularCategories());
+        return $this->respondWithSuccessWithData(
+            CategoryResource::collection($this->getPopularCategories())
+        );
     }
 }
