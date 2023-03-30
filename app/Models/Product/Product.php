@@ -22,6 +22,7 @@ class Product extends BaseModel
         'is_featured',
         'is_active',
         'badge_url',
+        'image_url',
         'short_description',
         'description',
         'created_at',

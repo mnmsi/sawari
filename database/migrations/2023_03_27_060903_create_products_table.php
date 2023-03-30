@@ -25,6 +25,7 @@ return new class extends Migration {
             $table->tinyInteger('is_featured')->default(0)->comment('0: No, 1: Yes');
             $table->tinyInteger('is_active')->default(1)->comment('0: Inactive, 1: Active');
             $table->string('badge_url')->nullable();
+            $table->string('image_url')->nullable();
             $table->mediumText('short_description')->nullable();
             $table->longText('description');
             $table->dateTime('created_at')->useCurrent();

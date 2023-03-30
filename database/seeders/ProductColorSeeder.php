@@ -17,111 +17,133 @@ class ProductColorSeeder extends Seeder
             [
                 'product_id' => 1,
                 'name'       => 'Red',
+                'stock'      => 10,
                 'image_url'  => 'https://via.placeholder.com/150'
             ],
             [
                 'product_id' => 1,
                 'name'       => 'Blue',
+                'stock'      => 10,
                 'image_url'  => 'https://via.placeholder.com/150'
             ],
             [
                 'product_id' => 1,
                 'name'       => 'Black',
+                'stock'      => 10,
                 'image_url'  => 'https://via.placeholder.com/150'
             ],
             [
                 'product_id' => 2,
                 'name'       => 'Red',
+                'stock'      => 10,
                 'image_url'  => 'https://via.placeholder.com/150'
             ],
             [
                 'product_id' => 2,
                 'name'       => 'Blue',
+                'stock'      => 10,
                 'image_url'  => 'https://via.placeholder.com/150'
             ],
             [
                 'product_id' => 2,
                 'name'       => 'Black',
+                'stock'      => 10,
                 'image_url'  => 'https://via.placeholder.com/150'
             ],
             [
                 'product_id' => 3,
                 'name'       => 'Red',
+                'stock'      => 10,
                 'image_url'  => 'https://via.placeholder.com/150'
             ],
             [
                 'product_id' => 3,
                 'name'       => 'Blue',
+                'stock'      => 10,
                 'image_url'  => 'https://via.placeholder.com/150'
             ],
             [
                 'product_id' => 3,
                 'name'       => 'Black',
+                'stock'      => 10,
                 'image_url'  => 'https://via.placeholder.com/150'
             ],
             [
                 'product_id' => 4,
                 'name'       => 'Red',
+                'stock'      => 10,
                 'image_url'  => 'https://via.placeholder.com/150'
             ],
             [
                 'product_id' => 4,
                 'name'       => 'Blue',
+                'stock'      => 10,
                 'image_url'  => 'https://via.placeholder.com/150'
             ],
             [
                 'product_id' => 4,
                 'name'       => 'Black',
+                'stock'      => 10,
                 'image_url'  => 'https://via.placeholder.com/150'
             ],
             [
                 'product_id' => 5,
                 'name'       => 'Red',
+                'stock'      => 10,
                 'image_url'  => 'https://via.placeholder.com/150'
             ],
             [
                 'product_id' => 5,
                 'name'       => 'Blue',
+                'stock'      => 10,
                 'image_url'  => 'https://via.placeholder.com/150'
             ],
             [
                 'product_id' => 5,
                 'name'       => 'Black',
+                'stock'      => 10,
                 'image_url'  => 'https://via.placeholder.com/150'
             ],
             [
                 'product_id' => 6,
                 'name'       => 'Red',
+                'stock'      => 10,
                 'image_url'  => 'https://via.placeholder.com/150'
             ],
             [
                 'product_id' => 6,
                 'name'       => 'Blue',
+                'stock'      => 10,
                 'image_url'  => 'https://via.placeholder.com/150'
             ],
             [
                 'product_id' => 6,
                 'name'       => 'Black',
+                'stock'      => 10,
                 'image_url'  => 'https://via.placeholder.com/150'
             ],
             [
                 'product_id' => 7,
                 'name'       => 'Red',
+                'stock'      => 10,
                 'image_url'  => 'https://via.placeholder.com/150'
             ],
             [
                 'product_id' => 7,
                 'name'       => 'Blue',
+                'stock'      => 10,
                 'image_url'  => 'https://via.placeholder.com/150'
             ],
             [
                 'product_id' => 7,
                 'name'       => 'Black',
+                'stock'      => 10,
                 'image_url'  => 'https://via.placeholder.com/150'
             ],
             [
                 'product_id' => 8,
                 'name'       => 'Red',
+                'stock'      => 10,
                 'image_url'  => 'https://via.placeholder.com/150'
             ]
         ]);

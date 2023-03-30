@@ -26,7 +26,9 @@ class FeatureProductController extends Controller
      */
     public function usedBike()
     {
-        return $this->respondWithSuccessWithData($this->featuredUsedBike());
+        return $this->respondWithSuccessWithData(
+            FeatureBikeResource::collection($this->featuredUsedBike())
+        );
     }
 
 }
