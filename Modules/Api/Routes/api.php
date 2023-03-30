@@ -34,6 +34,7 @@ Route::middleware('auth:sanctum')->group(function () {
     // Routes on user prefix
     Route::prefix('user')->group(function () {
         Route::get('me', [UserController::class, 'user']);                    // User Info Routes
+        Route::post('update', [UserController::class, 'update']);              // User Update Routes
         Route::get('addresses', [UserAddressController::class, 'addresses']); // User Address Routes
     });
 });

@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Modules\Api\Http\Requests\Auth\AuthenticateUserRequest;
 use Modules\Api\Http\Requests\Auth\RegisterUserRequest;
+use Modules\Api\Http\Services\FileService;
 
 class ApiAuthController extends Controller
 {
@@ -37,16 +38,16 @@ class ApiAuthController extends Controller
 
     public function register(RegisterUserRequest $request)
     {
+        $reqData = $request->all(); // Get request data
+
         // Check if request has file
         if ($request->hasFile('avatar')) {
             // Merge avatar with request
-            $request->merge([
-                'avatar' => $request->avatar->store('avatars') // Store file in public disk
-            ]);
+            $reqData['avatar'] = FileService::storeOrUpdateFile($request->avatar, 'avatar'); // Store file in public disk
         }
 
         // Create user
-        $user = User::create($request->all());
+        $user = User::create($reqData);
 
         // Create token for current requested user
         $token = $user->createToken('user-auth');
