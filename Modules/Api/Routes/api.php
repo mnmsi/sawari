@@ -42,7 +42,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::controller(UserAddressController::class)->prefix('address')->group(function () {
         Route::post('store', 'store');        // Address Store Routes
         Route::put('update/{id}', 'update');  // Address Update Routes
-        Route::post('delete', 'delete');      // Address Delete Routes
+        Route::delete('delete/{id}', 'delete');      // Address Delete Routes
     });
 });
 
