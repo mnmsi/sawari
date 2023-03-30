@@ -60,9 +60,20 @@ Route::middleware('guest')->group(function () {
 
     // Routes on product prefix
     Route::prefix('product')->group(function () {
+
+        // Route for product count
         Route::get('counts', [ProductController::class, 'totalProductType']);          // Total Product Count
-        Route::get('bikes', [BikeController::class, 'bikes']);                         // Bike Product List Routes
-        Route::get('accessories', [AccessoryController::class, 'accessories']);        // Accessories Product List Routes
+
+        // Routes on AccessoryController
+        Route::controller(BikeController::class)->group(function () {
+            Route::get('accessories', 'accessories');        // Accessories Routes
+        });
+    });
+
+    // Routes on BikeController
+    Route::controller(BikeController::class)->group(function () {
+        Route::get('bikes', 'bikes');                              // Bikes Routes
+        Route::get('bike/details/{id}', 'details');                // Bike Details Routes
     });
 
     // Routes on bike prefix for bike brand and bike category

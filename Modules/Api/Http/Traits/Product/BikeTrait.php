@@ -76,4 +76,13 @@ trait BikeTrait
             'per_page'           => $request->per_page,
         ];
     }
+
+    public function getBikeDetails($id)
+    {
+        return Product::with('brand', 'bodyType', 'category', 'colors', 'media', 'specifications')
+                      ->where('type', 'bike')
+                      ->where('is_active', 1)
+                      ->where('id', $id)
+                      ->first();
+    }
 }

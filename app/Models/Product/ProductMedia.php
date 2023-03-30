@@ -16,4 +16,14 @@ class ProductMedia extends BaseModel
         'created_at',
         'updated_at'
     ];
+
+    public function product()
+    {
+        return $this->belongsTo(Product::class);
+    }
+
+    public function color()
+    {
+        return $this->belongsTo(ProductColor::class, 'product_color_id', 'id');
+    }
 }

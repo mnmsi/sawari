@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Modules\Api\Http\Resources\Product\BikeCollection;
+use Modules\Api\Http\Resources\Product\BikeDetailsResource;
 use Modules\Api\Http\Traits\Product\BikeTrait;
 use Modules\Api\Http\Traits\Product\ProductCountTrait;
 
@@ -28,4 +29,23 @@ class BikeController extends Controller
         );
     }
 
+    /**
+     * @param $id
+     * @return JsonResponse
+     */
+    public function details($id)
+    {
+        // Get bike details
+        $bikeDetails = $this->getBikeDetails($id);
+
+        // Check if bike details is empty
+        if (empty($bikeDetails)) {
+            return $this->respondWithNotFound();
+        }
+
+        // Return bike details as response
+        return $this->respondWithSuccessWithData(
+            new BikeDetailsResource($bikeDetails)
+        );
+    }
 }
