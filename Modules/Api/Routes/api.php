@@ -31,31 +31,41 @@ Route::middleware('guest')->group(function () {
 
 // User Routes (Auth) or (User) Mode
 Route::middleware('auth:sanctum')->group(function () {
+
     // Routes on user prefix
     Route::prefix('user')->group(function () {
-        Route::get('me', [UserController::class, 'user']);                     // User Info Routes
-        Route::post('update', [UserController::class, 'update']);              // User Update Routes
+
+        // Routes on user prefix
+        Route::controller(UserController::class)->group(function () {
+            Route::get('me', 'user');                     // User Info Routes
+            Route::post('update', 'update');              // User Update Routes
+        });
+
+        // User Address List Routes
         Route::get('addresses', [UserAddressController::class, 'addresses']);  // User Address Routes
     });
 
     // Routes on address prefix
     Route::controller(UserAddressController::class)->prefix('address')->group(function () {
-        Route::post('store', 'store');        // Address Store Routes
-        Route::put('update/{id}', 'update');  // Address Update Routes
+        Route::post('store', 'store');               // Address Store Routes
+        Route::put('update/{id}', 'update');         // Address Update Routes
         Route::delete('delete/{id}', 'delete');      // Address Delete Routes
     });
 });
 
 // Product Routes (Auth) or (Guest) Mode
 Route::middleware('guest')->group(function () {
+
     // Routes on product prefix
     Route::prefix('product')->group(function () {
+
         // Total Product Count for new and used bikes and accessories
         Route::get('count', [ProductController::class, 'totalProductType']); // Total Product Count
     });
 
     // Routes on bike prefix for bike brand and bike category
     Route::controller(ProductBrandController::class)->group(function () {
+
         // Routes on bike prefix for bike brand and popular bike brand
         Route::prefix('bike')->group(function () {
             Route::get('brands', 'bikeBrands');                    // Product Brands
