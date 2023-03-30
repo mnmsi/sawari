@@ -7,7 +7,7 @@ use Illuminate\Http\JsonResponse;
 use Modules\Api\Http\Resources\Product\BrandResource;
 use Modules\Api\Http\Traits\Product\ProductBrandTrait;
 
-class ProductBrandController extends Controller
+class BrandController extends Controller
 {
     use ProductBrandTrait;
 

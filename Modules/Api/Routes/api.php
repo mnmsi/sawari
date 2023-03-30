@@ -3,9 +3,10 @@
 use Illuminate\Support\Facades\Route;
 use Modules\Api\Http\Controllers\Auth\ApiAuthController;
 use Modules\Api\Http\Controllers\OTP\OtpController;
-use Modules\Api\Http\Controllers\Product\FeatureProductController;
-use Modules\Api\Http\Controllers\Product\ProductBrandController;
-use Modules\Api\Http\Controllers\Product\ProductCategoryController;
+use Modules\Api\Http\Controllers\Product\BikeController;
+use Modules\Api\Http\Controllers\Product\FeatureController;
+use Modules\Api\Http\Controllers\Product\BrandController;
+use Modules\Api\Http\Controllers\Product\CategoryController;
 use Modules\Api\Http\Controllers\Product\ProductController;
 use Modules\Api\Http\Controllers\System\BannerController;
 use Modules\Api\Http\Controllers\System\ShowroomController;
@@ -57,14 +58,14 @@ Route::middleware('auth:sanctum')->group(function () {
 Route::middleware('guest')->group(function () {
 
     // Routes on product prefix
-    Route::controller(ProductController::class)->prefix('product')->group(function () {
-        Route::get('counts', 'totalProductType');    // Total Product Count
-        Route::get('bikes', 'bikes');                // Product List Routes
-        Route::get('accessories', 'accessories');    // Product List Routes
+    Route::prefix('product')->group(function () {
+        Route::get('counts', [ProductController::class, 'totalProductType']);        // Total Product Count
+        Route::get('bikes', [BikeController::class, 'bikes']);                       // Bike Product List Routes
+        Route::get('accessories', [ProductController::class, 'accessories']);        // Accessories Product List Routes
     });
 
     // Routes on bike prefix for bike brand and bike category
-    Route::controller(ProductBrandController::class)->group(function () {
+    Route::controller(BrandController::class)->group(function () {
 
         // Routes on bike prefix for bike brand and popular bike brand
         Route::prefix('bike')->group(function () {
@@ -80,13 +81,13 @@ Route::middleware('guest')->group(function () {
     });
 
     // Routes on accessory prefix for accessory category
-    Route::controller(ProductCategoryController::class)->prefix('accessory')->group(function () {
+    Route::controller(CategoryController::class)->prefix('accessory')->group(function () {
         Route::get('categories', 'categories');                // Product Categories
         Route::get('popular-categories', 'popularCategories'); // Product Popular Categories
     });
 
     // Routes on feature prefix
-    Route::controller(FeatureProductController::class)->prefix('featured')->group(function () {
+    Route::controller(FeatureController::class)->prefix('featured')->group(function () {
         Route::get('new-bike', 'newBike');   // Feature new bikes
         Route::get('used-bike', 'usedBike'); // Feature used bikes
     });

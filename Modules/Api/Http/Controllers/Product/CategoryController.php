@@ -7,7 +7,7 @@ use Illuminate\Http\JsonResponse;
 use Modules\Api\Http\Resources\Product\CategoryResource;
 use Modules\Api\Http\Traits\Product\ProductCategoryTrait;
 
-class ProductCategoryController extends Controller
+class CategoryController extends Controller
 {
     use ProductCategoryTrait;
 

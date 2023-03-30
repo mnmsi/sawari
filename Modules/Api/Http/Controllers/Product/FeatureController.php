@@ -7,7 +7,7 @@ use Illuminate\Http\JsonResponse;
 use Modules\Api\Http\Resources\Product\BikeResource;
 use Modules\Api\Http\Traits\Product\FeatureProductTrait;
 
-class FeatureProductController extends Controller
+class FeatureController extends Controller
 {
     use FeatureProductTrait;
 
