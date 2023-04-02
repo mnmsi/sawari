@@ -3,6 +3,9 @@
 namespace Modules\Api\Http\Traits\Product;
 
 use App\Models\Product\Product;
+use App\Models\System\BikeBodyType;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 
 trait BikeTrait
 {
@@ -77,6 +80,10 @@ trait BikeTrait
         ];
     }
 
+    /**
+     * @param $id
+     * @return Builder|Model|object|null
+     */
     public function getBikeDetails($id)
     {
         return Product::with('brand', 'bodyType', 'category', 'colors', 'media', 'specifications')
@@ -86,6 +93,9 @@ trait BikeTrait
                       ->first();
     }
 
+    /**
+     * @return mixed
+     */
     public function getRelatedBikes()
     {
         return Product::where('type', 'bike')
@@ -93,5 +103,14 @@ trait BikeTrait
                       ->inRandomOrder()
                       ->take(4)
                       ->get();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getBikeBodyTypes()
+    {
+        return BikeBodyType::select('id', 'name')
+                           ->get();
     }
 }

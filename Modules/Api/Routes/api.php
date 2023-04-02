@@ -72,9 +72,10 @@ Route::middleware('guest')->group(function () {
 
     // Routes on BikeController
     Route::controller(BikeController::class)->group(function () {
-        Route::get('bikes', 'bikes');                              // Bikes Routes
-        Route::get('related-bikes', 'relatedBikes');                              // Bikes Routes
-        Route::get('bike/details/{id}', 'details');                // Bike Details Routes
+        Route::get('bikes', 'bikes');                                             // Bikes Routes
+        Route::get('related-bikes', 'relatedBikes');                              // Related Bikes Routes
+        Route::get('bike-body-types', 'bikeBodyTypes');                              // Related Bikes Routes
+        Route::get('bike/details/{id}', 'details');                               // Bike Details Routes
     });
 
     // Routes on bike prefix for bike brand and bike category

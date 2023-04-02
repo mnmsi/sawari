@@ -50,10 +50,23 @@ class BikeController extends Controller
         );
     }
 
+    /**
+     * @return JsonResponse
+     */
     public function relatedBikes()
     {
         return $this->respondWithSuccessWithData(
             BikeResource::collection(($this->getRelatedBikes()))
+        );
+    }
+
+    /**
+     * @return JsonResponse
+     */
+    public function bikeBodyTypes()
+    {
+        return $this->respondWithSuccessWithData(
+            $this->getBikeBodyTypes()
         );
     }
 }
