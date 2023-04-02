@@ -7,6 +7,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Modules\Api\Http\Resources\Product\BikeCollection;
 use Modules\Api\Http\Resources\Product\BikeDetailsResource;
+use Modules\Api\Http\Resources\Product\BikeResource;
 use Modules\Api\Http\Traits\Product\BikeTrait;
 use Modules\Api\Http\Traits\Product\ProductCountTrait;
 
@@ -46,6 +47,13 @@ class BikeController extends Controller
         // Return bike details as response
         return $this->respondWithSuccessWithData(
             new BikeDetailsResource($bikeDetails)
+        );
+    }
+
+    public function relatedBikes()
+    {
+        return $this->respondWithSuccessWithData(
+            BikeResource::collection(($this->getRelatedBikes()))
         );
     }
 }

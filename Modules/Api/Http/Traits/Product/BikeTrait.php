@@ -85,4 +85,13 @@ trait BikeTrait
                       ->where('id', $id)
                       ->first();
     }
+
+    public function getRelatedBikes()
+    {
+        return Product::where('type', 'bike')
+                      ->where('is_active', 1)
+                      ->inRandomOrder()
+                      ->take(4)
+                      ->get();
+    }
 }

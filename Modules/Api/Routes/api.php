@@ -73,6 +73,7 @@ Route::middleware('guest')->group(function () {
     // Routes on BikeController
     Route::controller(BikeController::class)->group(function () {
         Route::get('bikes', 'bikes');                              // Bikes Routes
+        Route::get('related-bikes', 'relatedBikes');                              // Bikes Routes
         Route::get('bike/details/{id}', 'details');                // Bike Details Routes
     });
 
