@@ -63,11 +63,6 @@ Route::middleware('guest')->group(function () {
 
         // Route for product count
         Route::get('counts', [ProductController::class, 'totalProductType']);          // Total Product Count
-
-        // Routes on AccessoryController
-        Route::controller(BikeController::class)->group(function () {
-            Route::get('accessories', 'accessories');        // Accessories Routes
-        });
     });
 
     // Routes on BikeController
@@ -76,6 +71,11 @@ Route::middleware('guest')->group(function () {
         Route::get('related-bikes', 'relatedBikes');                              // Related Bikes Routes
         Route::get('bike-body-types', 'bikeBodyTypes');                              // Related Bikes Routes
         Route::get('bike/details/{id}', 'details');                               // Bike Details Routes
+    });
+
+    // Routes on AccessoryController
+    Route::controller(AccessoryController::class)->group(function () {
+        Route::get('accessories', 'accessories');        // Accessories Routes
     });
 
     // Routes on bike prefix for bike brand and bike category
