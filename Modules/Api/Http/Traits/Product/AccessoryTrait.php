@@ -74,4 +74,16 @@ trait AccessoryTrait
                       ->where('id', $id)
                       ->first();
     }
+
+    /**
+     * @return mixed
+     */
+    public function getRelatedAccessories()
+    {
+        return Product::where('type', 'accessory')
+                      ->where('is_active', 1)
+                      ->inRandomOrder()
+                      ->take(4)
+                      ->get();
+    }
 }

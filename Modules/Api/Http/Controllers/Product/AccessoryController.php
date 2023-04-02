@@ -45,4 +45,11 @@ class AccessoryController extends Controller
             new AccessoryDetailsResource($accessoryDetails)
         );
     }
+
+    public function relatedAccessories()
+    {
+        return $this->respondWithSuccessWithData(
+            AccessoryResource::collection(($this->getRelatedAccessories()))
+        );
+    }
 }
