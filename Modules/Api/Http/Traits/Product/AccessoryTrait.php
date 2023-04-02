@@ -11,7 +11,7 @@ trait AccessoryTrait
 {
     public function getAccessories($filters)
     {
-        return Product::where('type', 'bike')
+        return Product::where('type', 'accessory')
             ->where('is_active', 1)
             ->when($filters['brand_id'], function ($query) use ($filters) {
                 $query->where('brand_id', $filters['brand_id']);
@@ -60,5 +60,18 @@ trait AccessoryTrait
             'sort_type'          => $request->sort_type,
             'per_page'           => $request->per_page,
         ];
+    }
+
+    /**
+     * @param $id
+     * @return Builder|Model|object|null
+     */
+    public function getAccessoryDetails($id)
+    {
+        return Product::with('brand', 'bodyType', 'category', 'colors', 'media', 'specifications')
+                      ->where('type', 'accessory')
+                      ->where('is_active', 1)
+                      ->where('id', $id)
+                      ->first();
     }
 }
