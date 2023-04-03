@@ -35,9 +35,4 @@ trait FeatureTrait
                       ->take(4)
                       ->get();
     }
-
-    public function calculateDiscountPrice($price, $discountRate)
-    {
-        return $price - ($price * $discountRate / 100);
-    }
 }

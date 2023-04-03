@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Modules\Api\Http\Controllers\Auth\ApiAuthController;
+use Modules\Api\Http\Controllers\Order\CartController;
 use Modules\Api\Http\Controllers\Order\OrderController;
 use Modules\Api\Http\Controllers\OTP\OtpController;
 use Modules\Api\Http\Controllers\Product\AccessoryController;
@@ -115,6 +116,6 @@ Route::middleware('guest')->group(function () {
         Route::get('used-bike', 'usedBike'); // Feature used bikes
     });
 
-
+    Route::post('cart', [CartController::class, 'cart']); // Cart Routes
 });
 
