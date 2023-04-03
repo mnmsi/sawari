@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Modules\Api\Http\Controllers\Auth\ApiAuthController;
+use Modules\Api\Http\Controllers\Order\OrderController;
 use Modules\Api\Http\Controllers\OTP\OtpController;
 use Modules\Api\Http\Controllers\Product\AccessoryController;
 use Modules\Api\Http\Controllers\Product\BikeController;
@@ -29,6 +30,12 @@ Route::middleware('guest')->group(function () {
     Route::get('banners', [BannerController::class, 'banners']);                // Banner Routes
     Route::get('testimonials', [TestimonialController::class, 'testimonials']); // Testimonial Routes
     Route::get('showrooms', [ShowroomController::class, 'showrooms']);          // Showroom Routes
+
+    // Routes on OrderController
+    Route::controller(OrderController::class)->group(function () {
+        Route::get('delivery-options', 'deliveryOptions'); // Delivery Options
+        Route::get('payment-methods', 'paymentMethods');   // Payment Methods
+    });
 });
 
 // User Routes (Auth) or (User) Mode
@@ -107,5 +114,7 @@ Route::middleware('guest')->group(function () {
         Route::get('new-bike', 'newBike');   // Feature new bikes
         Route::get('used-bike', 'usedBike'); // Feature used bikes
     });
+
+
 });
 
