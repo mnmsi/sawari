@@ -119,5 +119,6 @@ Route::middleware('guest')->group(function () {
     });
 
     Route::post('cart', [CartController::class, 'cart']); // Cart Routes
+    Route::delete('cart/remove/{sku}', [CartController::class, 'removeCart']); // Cart Routes
 });
 

@@ -71,6 +71,13 @@ trait CartTrait
     {
         // Get existing cart product by product id and color id
         return Arr::where($cart, function ($value) use ($data) {
+
+            // Check if sku is set
+            if (is_string($data)) {
+                return $value['sku'] == $data;
+            }
+
+            // Check if product id and color id is set
             return $value['product_id'] == $data['product_id'] && $value['product_color_id'] == $data['product_color_id'];
         });
     }
@@ -111,7 +118,7 @@ trait CartTrait
             }
 
             // Remove product from cart if quantity is 0
-            if ($qtn === 0) {
+            if ($qtn == 0) {
                 Arr::forget($cart, $key);
                 break;
             }
@@ -157,5 +164,24 @@ trait CartTrait
 
         // Return carted product details
         return $cartedProdDetails;
+    }
+
+    public function removeProductFromCart($cart, $key)
+    {
+        // Remove product from cart
+        Arr::forget($cart, $key);
+
+        return $cart;
+    }
+
+    public function returnResponseWithCookie($carts)
+    {
+        return response()
+            ->json([
+                'status' => true,
+                'data'   => $this->getCartedProductDetails($carts), // Get carted product details
+            ])->withCookie(
+                cookie()
+                    ->forever('cart', json_encode($carts)));
     }
 }
