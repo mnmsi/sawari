@@ -6,6 +6,7 @@ use App\Models\Product\Product;
 use App\Models\System\BikeBodyType;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 trait BikeTrait
 {
@@ -18,10 +19,10 @@ trait BikeTrait
         return Product::where('type', 'bike')
                       ->where('is_active', 1)
                       ->when($filters['brand_id'], function ($query) use ($filters) {
-                          $query->where('brand_id', $filters['brand_id']);
+                          $query->whereIn('brand_id', $filters['brand_id']);
                       })
                       ->when($filters['body_type_id'], function ($query) use ($filters) {
-                          $query->where('body_type_id', $filters['body_type_id']);
+                          $query->whereIn('body_type_id', $filters['body_type_id']);
                       })
                       ->when($filters['category_id'], function ($query) use ($filters) {
                           $query->where('category_id', $filters['category_id']);
@@ -31,7 +32,7 @@ trait BikeTrait
                       })
                       ->when($filters['color'], function ($query) use ($filters) {
                           $query->whereHas('colors', function ($query) use ($filters) {
-                              $query->where('name', '%' . $filters['color'] . '%');
+                              $query->whereIn('name', $filters['color']);
                           });
                       })
                       ->when($filters['search'], function ($query) use ($filters) {
@@ -64,11 +65,11 @@ trait BikeTrait
     public function initializeBikeFilterData($request)
     {
         return [
-            'brand_id'           => $request->brand_id,
-            'body_type_id'       => $request->body_type_id,
-            'category_id'        => $request->category_id,
+            'brand_id'           => isset($request->brand_id) ? explode(',', $request->brand_id) : null,
+            'body_type_id'       => isset($request->body_type_id) ? explode(',', $request->body_type_id) : null,
+            'category_id'        => isset($request->category_id) ? explode(',', $request->category_id) : null,
             'is_used'            => $request->is_used,
-            'color'              => $request->color,
+            'color'              => isset($request->color) ? explode(',', $request->color) : null,
             'price_from'         => $request->price_from,
             'price_to'           => $request->price_to,
             'discount_rate_from' => $request->discount_rate_from,
