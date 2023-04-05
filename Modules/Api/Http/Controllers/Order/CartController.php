@@ -18,6 +18,7 @@ class CartController extends Controller
     {
         $product = $this->getProductDetails($request->product_id);
         $carts   = $this->addProductToCart($product, $request->all());
+        $cartedProdDetails = $this->getCartedProductDetails($carts);
 
         /*return response()
             ->json([
@@ -29,7 +30,7 @@ class CartController extends Controller
         return response()
             ->json([
                 'status' => 'success',
-                'data'   => collect($carts)->values(),
+                'data'   => $cartedProdDetails,
             ])->withCookie(
                 cookie()
                     ->forever('cart', json_encode($carts)));

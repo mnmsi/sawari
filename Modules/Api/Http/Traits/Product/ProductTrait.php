@@ -22,7 +22,6 @@ trait ProductTrait
      */
     public function getProductDetails($productId)
     {
-        return Product::where('id', $productId)
-                      ->first();
+        return Product::find($productId);
     }
 }

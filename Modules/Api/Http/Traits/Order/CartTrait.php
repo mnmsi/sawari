@@ -5,6 +5,7 @@ namespace Modules\Api\Http\Traits\Order;
 use App\Models\Order\Cart;
 use Closure;
 use Illuminate\Support\Arr;
+use Modules\Api\Http\Traits\Product\ProductTrait;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 
@@ -23,9 +24,6 @@ trait CartTrait
         if ($this->checkExistingCartProduct($cart, $data)) {
             $cart = $this->updateExistingCartProductQuantity($cart, $data);
         } else {
-
-            $data['price'] = $this->calculateDiscountPrice($product->price, $product->discount_rate);
-
             $cart[] = $this->addNewProduct($data);
         }
 
@@ -49,7 +47,7 @@ trait CartTrait
      */
     public function getExistingCartProduct($cart, $data)
     {
-        return Arr::where($cart, function ($value, $key) use ($data) {
+        return Arr::where($cart, function ($value) use ($data) {
             return $value['product_id'] == $data['product_id'] && $value['product_color_id'] == $data['product_color_id'];
         });
     }
@@ -64,8 +62,6 @@ trait CartTrait
             'product_id'       => $data['product_id'],
             'product_color_id' => $data['product_color_id'],
             'quantity'         => $data['quantity'],
-            'price'            => $data['price'],
-            'total'            => $data['price'] * $data['quantity'],
         ];
     }
 
@@ -73,9 +69,39 @@ trait CartTrait
     {
         foreach ($this->getExistingCartProduct($cart, $data) as $key => $item) {
             $cart[$key]['quantity'] = $item['quantity'] + $data['quantity'];
-            $cart[$key]['total']    = $cart[$key]['quantity'] * $cart[$key]['price'];
         }
 
         return $cart;
+    }
+
+    /**
+     * @param $carts
+     * @return array
+     */
+    public function getCartedProductDetails($carts)
+    {
+        $cartedProdDetails = [];
+        foreach ($carts as $cart) {
+            // Get product details
+            $product = $this->getProductDetails($cart['product_id']);
+
+            // Calculate discount price
+            $discountPrice = $this->calculateDiscountPrice($product->price, $product->discount_rate);
+
+            // Push product details to cartedProdDetails array
+            $cartedProdDetails[] = [
+                'product_id'       => $product->id,
+                'product_name'     => $product->name,
+                'product_color_id' => $cart['product_color_id'],
+                'quantity'         => $cart['quantity'],
+                'price'            => $product->price,
+                'discount_rate'    => $product->discount_rate,
+                'discount_price'   => $discountPrice,
+                'total_price'      => $discountPrice * $cart['quantity'],
+            ];
+        }
+
+        // Return carted product details
+        return $cartedProdDetails;
     }
 }
