@@ -110,6 +110,7 @@ trait CartTrait
                 ];
             }
 
+            // Remove product from cart if quantity is 0
             if ($qtn === 0) {
                 Arr::forget($cart, $key);
                 break;
