@@ -29,7 +29,7 @@ class CartController extends Controller
 
         return response()
             ->json([
-                'status' => 'success',
+                'status' => true,
                 'data'   => $cartedProdDetails,
             ])->withCookie(
                 cookie()
