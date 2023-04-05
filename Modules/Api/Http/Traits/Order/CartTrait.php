@@ -5,6 +5,8 @@ namespace Modules\Api\Http\Traits\Order;
 use App\Models\Order\Cart;
 use Closure;
 use Illuminate\Support\Arr;
+use Modules\Api\Http\Resources\Product\BrandResource;
+use Modules\Api\Http\Resources\Product\ColorResource;
 use Modules\Api\Http\Traits\Product\ProductTrait;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
@@ -84,20 +86,25 @@ trait CartTrait
         foreach ($carts as $cart) {
             // Get product details
             $product = $this->getProductDetails($cart['product_id']);
+            $product->load('brand', 'colors');
 
             // Calculate discount price
             $discountPrice = $this->calculateDiscountPrice($product->price, $product->discount_rate);
+            $color         = $product->colors->first();
 
             // Push product details to cartedProdDetails array
             $cartedProdDetails[] = [
-                'product_id'       => $product->id,
-                'product_name'     => $product->name,
-                'product_color_id' => $cart['product_color_id'],
-                'quantity'         => $cart['quantity'],
-                'price'            => $product->price,
-                'discount_rate'    => $product->discount_rate,
-                'discount_price'   => $discountPrice,
-                'total_price'      => $discountPrice * $cart['quantity'],
+                'product_id'      => $product->id,
+                'product_name'    => $product->name,
+                'brand'           => new BrandResource($product->brand),
+                'color'           => new ColorResource($color),
+                'quantity'        => $cart['quantity'],
+                'price'           => $product->price,
+                'discount_rate'   => $product->discount_rate,
+                'discount_price'  => $discountPrice,
+                'total_price'     => $discountPrice * $cart['quantity'],
+                'shipping_charge' => $product->shipping_charge,
+                'stock'           => $color->stock,
             ];
         }
 

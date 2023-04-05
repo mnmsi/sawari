@@ -16,8 +16,8 @@ class CartController extends Controller
 
     public function cart(AddCartRequest $request): JsonResponse
     {
-        $product = $this->getProductDetails($request->product_id);
-        $carts   = $this->addProductToCart($product, $request->all());
+        $product           = $this->getProductDetails($request->product_id);
+        $carts             = $this->addProductToCart($product, $request->all());
         $cartedProdDetails = $this->getCartedProductDetails($carts);
 
         /*return response()
