@@ -12,6 +12,7 @@ use Modules\Api\Http\Controllers\Product\BrandController;
 use Modules\Api\Http\Controllers\Product\CategoryController;
 use Modules\Api\Http\Controllers\Product\ProductController;
 use Modules\Api\Http\Controllers\System\BannerController;
+use Modules\Api\Http\Controllers\System\ColorController;
 use Modules\Api\Http\Controllers\System\ShowroomController;
 use Modules\Api\Http\Controllers\System\TestimonialController;
 use Modules\Api\Http\Controllers\User\UserAddressController;
@@ -31,6 +32,7 @@ Route::middleware('guest')->group(function () {
     Route::get('banners', [BannerController::class, 'banners']);                // Banner Routes
     Route::get('testimonials', [TestimonialController::class, 'testimonials']); // Testimonial Routes
     Route::get('showrooms', [ShowroomController::class, 'showrooms']);          // Showroom Routes
+    Route::get('colors', [ColorController::class, 'colors']);                   // Color Routes
 
     // Routes on OrderController
     Route::controller(OrderController::class)->group(function () {
