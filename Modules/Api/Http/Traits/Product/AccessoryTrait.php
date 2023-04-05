@@ -2,13 +2,21 @@
 
 namespace Modules\Api\Http\Traits\Product;
 
+use App\Models\BaseModel;
 use App\Models\Product\Product;
 use App\Models\System\BikeBodyType;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Pagination\LengthAwarePaginator;
+use LaravelIdea\Helper\App\Models\_IH_BaseModel_C;
+use LaravelIdea\Helper\App\Models\Product\_IH_Product_C;
 
 trait AccessoryTrait
 {
+    /**
+     * @param $filters
+     * @return BaseModel[]|Product[]|LengthAwarePaginator|_IH_BaseModel_C|_IH_Product_C
+     */
     public function getAccessories($filters)
     {
         return Product::where('type', 'accessory')
@@ -49,8 +57,8 @@ trait AccessoryTrait
     public function initializeAccessoryFilterData($request)
     {
         return [
-            'brand_id'           => $request->brand_id,
-            'category_id'        => $request->category_id,
+            'brand_id'           => isset($request->brand_id) ? explode(',', $request->brand_id) : null,
+            'category_id'        => isset($request->category_id) ? explode(',', $request->category_id) : null,
             'price_from'         => $request->price_from,
             'price_to'           => $request->price_to,
             'discount_rate_from' => $request->discount_rate_from,
@@ -64,7 +72,7 @@ trait AccessoryTrait
 
     /**
      * @param $id
-     * @return Builder|Model|object|null
+     * @return BaseModel|Product
      */
     public function getAccessoryDetails($id)
     {
