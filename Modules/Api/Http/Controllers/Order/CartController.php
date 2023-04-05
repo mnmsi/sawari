@@ -12,6 +12,10 @@ class CartController extends Controller
 {
     use CartTrait, ProductTrait;
 
+    /**
+     * @param AddCartRequest $request
+     * @return JsonResponse
+     */
     public function cart(AddCartRequest $request): JsonResponse
     {
         /*return response()

@@ -9,6 +9,9 @@ use Modules\Api\Http\Resources\Product\ColorResource;
 
 trait CartTrait
 {
+    /**
+     * @return array|mixed
+     */
     public function getCartedData()
     {
         // Get cookie data
@@ -87,6 +90,11 @@ trait CartTrait
         ];
     }
 
+    /**
+     * @param $cart
+     * @param $data
+     * @return mixed|string[]
+     */
     public function updateExistingCartProductQuantity($cart, $data)
     {
         // Update existing cart product quantity
