@@ -33,13 +33,10 @@ class CartController extends Controller
             return $this->respondFailedValidation($carts['error']);
         }
 
-        // Get carted product details
-        $cartedProdDetails = $this->getCartedProductDetails($carts);
-
         return response()
             ->json([
                 'status' => true,
-                'data'   => $cartedProdDetails,
+                'data'   => $this->getCartedProductDetails($carts), // Get carted product details
             ])->withCookie(
                 cookie()
                     ->forever('cart', json_encode($carts)));
