@@ -2,14 +2,10 @@
 
 namespace Modules\Api\Http\Traits\Order;
 
-use App\Models\Order\Cart;
 use Closure;
 use Illuminate\Support\Arr;
 use Modules\Api\Http\Resources\Product\BrandResource;
 use Modules\Api\Http\Resources\Product\ColorResource;
-use Modules\Api\Http\Traits\Product\ProductTrait;
-use Psr\Container\ContainerExceptionInterface;
-use Psr\Container\NotFoundExceptionInterface;
 
 trait CartTrait
 {
