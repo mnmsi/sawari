@@ -7,8 +7,6 @@ use Illuminate\Http\JsonResponse;
 use Modules\Api\Http\Requests\Order\AddCartRequest;
 use Modules\Api\Http\Traits\Order\CartTrait;
 use Modules\Api\Http\Traits\Product\ProductTrait;
-use Psr\Container\ContainerExceptionInterface;
-use Psr\Container\NotFoundExceptionInterface;
 
 class CartController extends Controller
 {
@@ -16,16 +14,23 @@ class CartController extends Controller
 
     public function cart(AddCartRequest $request): JsonResponse
     {
-        $product           = $this->getProductDetails($request->product_id);
-        $carts             = $this->addProductToCart($product, $request->all());
-        $cartedProdDetails = $this->getCartedProductDetails($carts);
-
         /*return response()
             ->json([
                 'status' => 'success',
                 'data'   => [],
             ])
             ->withCookie(cookie()->forget('cart'));*/
+
+        // Add product to cart
+        $carts = $this->addProductToCart($request->all());
+
+        // Check if there is any error
+        if (isset($carts['error'])) {
+            return $this->respondFailedValidation($carts['error']);
+        }
+
+        // Get carted product details
+        $cartedProdDetails = $this->getCartedProductDetails($carts);
 
         return response()
             ->json([
