@@ -15,6 +15,7 @@ return new class extends Migration {
             $table->string('name');
             $table->string('image_url');
             $table->enum('type', ['both', 'bike', 'accessory']);
+            $table->unsignedBigInteger('category_id')->nullable();
             $table->tinyInteger('is_popular')->default(0)->comment('0: Not Popular, 1: Popular');
             $table->tinyInteger('is_active')->default(1)->comment('0: Inactive, 1: Active');
             $table->dateTime('created_at')->useCurrent();
