@@ -52,6 +52,10 @@ class BrandController extends Controller
         );
     }
 
+    /**
+     * @param $id
+     * @return JsonResponse
+     */
     public function categoryBrands($id)
     {
         return $this->respondWithSuccessWithData(
