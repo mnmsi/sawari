@@ -121,10 +121,10 @@ Route::middleware('guest')->group(function () {
     });
 
     // Routes on cart prefix
-    Route::controller(CartController::class)->group(function () {
-        Route::post('cart', 'cart');                      // Cart Add/Increase/Decreased Routes
-        Route::get('cart/products', 'carts');             // Get Carted Products
-        Route::delete('cart/remove/{sku}', 'removeCart'); // Cart Remove Routes
+    Route::controller(CartController::class)->prefix('cart')->group(function () {
+        Route::post('/', 'cart');                      // Cart Add/Increase/Decreased Routes
+        Route::get('products', 'carts');               // Get Carted Products
+        Route::delete('remove/{sku}', 'removeCart');   // Cart Remove Routes
     });
 });
 
