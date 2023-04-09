@@ -17,6 +17,7 @@ return new class extends Migration {
             $table->enum('type', ['bike', 'accessory']);
             $table->unsignedBigInteger('category_id')->nullable();
             $table->string('name');
+            $table->string('product_code')->unique();
             $table->double('price', 10, 2, true);
             $table->integer('discount_rate')->default(0);
             $table->integer('shipping_charge');
