@@ -26,4 +26,24 @@ class Showroom extends BaseModel
     protected $casts = [
         'is_active' => 'boolean',
     ];
+
+    public function country()
+    {
+        return $this->belongsTo(Country::class);
+    }
+
+    public function division()
+    {
+        return $this->belongsTo(Division::class);
+    }
+
+    public function city()
+    {
+        return $this->belongsTo(City::class);
+    }
+
+    public function area()
+    {
+        return $this->belongsTo(Area::class);
+    }
 }
