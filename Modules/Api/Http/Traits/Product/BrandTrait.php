@@ -63,4 +63,16 @@ trait BrandTrait
             ->orderBy('name', 'asc')
             ->get();
     }
+
+    public function getCategoryBrands($id)
+    {
+        return Brand::where('is_active', 1)
+            ->where('category_id', $id)
+            ->where(function ($query) {
+                $query->where('type', 'accessory')
+                    ->orWhere('type', 'both');
+            })
+            ->orderBy('name')
+            ->get();
+    }
 }

@@ -104,6 +104,8 @@ Route::middleware('guest')->group(function () {
             Route::get('brands', 'accessoryBrands');                // Accessory Brands
             Route::get('popular-brands', 'popularAccessoryBrands'); // Accessory Popular Brands
         });
+
+        Route::get('category/brands/{id}', 'categoryBrands');       // Accessory Category Brands
     });
 
     // Routes on accessory prefix for accessory category
@@ -118,7 +120,7 @@ Route::middleware('guest')->group(function () {
         Route::get('used-bike', 'usedBike'); // Feature used bikes
     });
 
-    Route::post('cart', [CartController::class, 'cart']); // Cart Routes
+    Route::post('cart', [CartController::class, 'cart']);                      // Cart Routes
     Route::delete('cart/remove/{sku}', [CartController::class, 'removeCart']); // Cart Routes
 });
 

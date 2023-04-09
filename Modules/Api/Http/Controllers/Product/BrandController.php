@@ -51,4 +51,11 @@ class BrandController extends Controller
             BrandResource::collection($this->getPopularAccessoryBrands())
         );
     }
+
+    public function categoryBrands($id)
+    {
+        return $this->respondWithSuccessWithData(
+            BrandResource::collection($this->getCategoryBrands($id))
+        );
+    }
 }
