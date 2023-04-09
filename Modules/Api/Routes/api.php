@@ -120,7 +120,11 @@ Route::middleware('guest')->group(function () {
         Route::get('used-bike', 'usedBike'); // Feature used bikes
     });
 
-    Route::post('cart', [CartController::class, 'cart']);                      // Cart Routes
-    Route::delete('cart/remove/{sku}', [CartController::class, 'removeCart']); // Cart Routes
+    // Routes on cart prefix
+    Route::controller(CartController::class)->group(function () {
+        Route::post('cart', 'cart');                      // Cart Add/Increase/Decreased Routes
+        Route::get('cart/products', 'carts');             // Get Carted Products
+        Route::delete('cart/remove/{sku}', 'removeCart'); // Cart Remove Routes
+    });
 });
 

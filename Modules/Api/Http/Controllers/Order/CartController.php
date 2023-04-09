@@ -14,6 +14,14 @@ class CartController extends Controller
     use CartTrait, ProductTrait;
 
     /**
+     * @return JsonResponse
+     */
+    public function carts()
+    {
+        return $this->returnResponseWithCookie($this->getCartedData());
+    }
+
+    /**
      * @param AddCartRequest $request
      * @return JsonResponse
      */
@@ -38,10 +46,14 @@ class CartController extends Controller
         return $this->returnResponseWithCookie($carts);
     }
 
+    /**
+     * @param $sku
+     * @return JsonResponse
+     */
     public function removeCart($sku)
     {
         $cartedData = $this->getCartedData();                           // Get carted data
-        $isExits    = $this->getExistingCartProduct($cartedData, $sku); // Check if product exists in cart
+        $isExits = $this->getExistingCartProduct($cartedData, $sku);    // Check if product exists in cart
 
         // Check if product doesn't exist in cart
         if (count($isExits) == 0) {
