@@ -8,8 +8,6 @@ use Modules\Api\Http\Traits\Product\FeatureTrait;
 
 class AccessoryResource extends JsonResource
 {
-    use FeatureTrait;
-
     /**
      * Transform the resource into an array.
      *
