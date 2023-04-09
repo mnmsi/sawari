@@ -150,6 +150,7 @@ trait CartTrait
                 'sku'             => $cart['sku'],
                 'product_id'      => $product->id,
                 'product_name'    => $product->name,
+                'image'           => $product->media->where('type', 'image')->first()->url ?? $product->image_url,
                 'brand'           => new BrandResource($product->brand),
                 'color'           => new ColorResource($color),
                 'quantity'        => $cart['quantity'],
