@@ -19,6 +19,7 @@ class ProductController extends Controller
             'total_new_bikes'   => $this->totalNewBikes(),
             'total_used_bikes'  => $this->totalUsedBikes(),
             'total_accessories' => $this->totalAccessories(),
+            'total_shops'       => $this->totalShops(),
         ]);
     }
 }

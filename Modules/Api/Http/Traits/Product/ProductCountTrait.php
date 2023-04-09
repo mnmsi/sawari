@@ -3,6 +3,7 @@
 namespace Modules\Api\Http\Traits\Product;
 
 use App\Models\Product\Product;
+use App\Models\System\Showroom;
 
 trait ProductCountTrait
 {
@@ -13,9 +14,9 @@ trait ProductCountTrait
     {
         // Total New Bike Product Count
         return Product::where('is_active', 1)
-                      ->where('type', 'bike')
-                      ->where('is_used', 1)
-                      ->count();
+            ->where('type', 'bike')
+            ->where('is_used', 1)
+            ->count();
 
     }
 
@@ -26,9 +27,9 @@ trait ProductCountTrait
     {
         // Total Used Bike Product Count
         return Product::where('is_active', 1)
-                      ->where('type', 'bike')
-                      ->where('is_used', 0)
-                      ->count();
+            ->where('type', 'bike')
+            ->where('is_used', 0)
+            ->count();
     }
 
 
@@ -39,7 +40,17 @@ trait ProductCountTrait
     {
         // Total Accessory Product Count
         return Product::where('is_active', 1)
-                      ->where('type', 'accessory')
-                      ->count();
+            ->where('type', 'accessory')
+            ->count();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function totalShops()
+    {
+        // Total Shop Count
+        return Showroom::where('is_active', 1)
+            ->count();
     }
 }
