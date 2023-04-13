@@ -46,10 +46,23 @@ class AccessoryController extends Controller
         );
     }
 
+    /**
+     * @return JsonResponse
+     */
     public function relatedAccessories()
     {
         return $this->respondWithSuccessWithData(
             AccessoryResource::collection(($this->getRelatedAccessories()))
+        );
+    }
+
+    /**
+     * @return JsonResponse
+     */
+    public function featuredAccessories()
+    {
+        return $this->respondWithSuccessWithData(
+            AccessoryResource::collection(($this->getFeaturedAccessories()))
         );
     }
 }

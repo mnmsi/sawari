@@ -34,17 +34,17 @@ trait AccessoryTrait
                 $query->when($filters['price_from'], function ($query) use ($filters) {
                     $query->where('price', '>=', $filters['price_from']);
                 })
-                      ->when($filters['price_to'], function ($query) use ($filters) {
-                          $query->where('price', '<=', $filters['price_to']);
-                      });
+                    ->when($filters['price_to'], function ($query) use ($filters) {
+                        $query->where('price', '<=', $filters['price_to']);
+                    });
             })
             ->where(function ($query) use ($filters) {
                 $query->when($filters['discount_rate_from'], function ($query) use ($filters) {
                     $query->where('discount_rate', '>=', $filters['discount_rate_from']);
                 })
-                      ->when($filters['discount_rate_to'], function ($query) use ($filters) {
-                          $query->where('discount_rate', '<=', $filters['discount_rate_to']);
-                      });
+                    ->when($filters['discount_rate_to'], function ($query) use ($filters) {
+                        $query->where('discount_rate', '<=', $filters['discount_rate_to']);
+                    });
             })
             ->orderBy($filters['sort_by'] ?? 'id', $filters['sort_type'] ?? 'desc')
             ->paginate($filters['per_page'] ?? 10);
@@ -77,10 +77,10 @@ trait AccessoryTrait
     public function getAccessoryDetails($id)
     {
         return Product::with('brand', 'bodyType', 'category', 'colors', 'media', 'specifications')
-                      ->where('type', 'accessory')
-                      ->where('is_active', 1)
-                      ->where('id', $id)
-                      ->first();
+            ->where('type', 'accessory')
+            ->where('is_active', 1)
+            ->where('id', $id)
+            ->first();
     }
 
     /**
@@ -89,9 +89,19 @@ trait AccessoryTrait
     public function getRelatedAccessories()
     {
         return Product::where('type', 'accessory')
-                      ->where('is_active', 1)
-                      ->inRandomOrder()
-                      ->take(4)
-                      ->get();
+            ->where('is_active', 1)
+            ->inRandomOrder()
+            ->take(4)
+            ->get();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFeaturedAccessories()
+    {
+        return Product::where('type', 'accessory')
+            ->where('is_featured', 1)
+            ->get();
     }
 }
