@@ -23,7 +23,7 @@ class AccessoryController extends Controller
         $filters = $this->initializeAccessoryFilterData($request);
 
         return $this->respondWithSuccessWithData(
-            AccessoryCollection::collection($this->getAccessories($filters))
+            new AccessoryCollection($this->getAccessories($filters))
         );
     }
 
