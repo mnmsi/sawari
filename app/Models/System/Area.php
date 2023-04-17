@@ -10,4 +10,5 @@ class Area extends BaseModel
     public $timestamps = false;
 
 
+
 }
