@@ -11,6 +11,7 @@
     use Modules\Api\Http\Controllers\Product\BrandController;
     use Modules\Api\Http\Controllers\Product\CategoryController;
     use Modules\Api\Http\Controllers\Product\ProductController;
+    use Modules\Api\Http\Controllers\Product\ReviewController;
     use Modules\Api\Http\Controllers\System\BannerController;
     use Modules\Api\Http\Controllers\System\ColorController;
     use Modules\Api\Http\Controllers\System\ShowroomController;
@@ -71,6 +72,11 @@
             Route::get('city/{id?}', 'city');
             Route::get('area/{id?}', 'area');
         });
+
+//        add review
+        Route::controller(ReviewController::class)->group(function () {
+            Route::post('product/add-review', 'store');
+        });
     });
 
 // Product Routes (Auth) or (Guest) Mode
@@ -81,6 +87,7 @@
 
             // Route for product count
             Route::get('counts', [ProductController::class, 'totalProductType']);          // Total Product Count
+            Route::get('review/{id}',[ReviewController::class,'review']); // Product Review
         });
 
         // Routes on BikeController
@@ -88,7 +95,7 @@
             Route::get('bikes', 'bikes');                                                // Bikes Routes
             Route::get('related-bikes', 'relatedBikes');                                 // Related Bikes Routes
             Route::get('bike-body-types', 'bikeBodyTypes');                              // Related Bikes Routes
-            Route::get('bike/details/{id}', 'details');                                  // Bike Details Routes
+            Route::get('bike/details/{name}', 'details');                                  // Bike Details Routes
         });
 
         // Routes on AccessoryController
@@ -96,7 +103,7 @@
             Route::get('accessories', 'accessories');                        // Accessories Routes
             Route::get('related-accessories', 'relatedAccessories');         // Related Accessories Routes
             Route::get('featured-accessories', 'featuredAccessories');        // Featured Accessories Routes
-            Route::get('accessory/details/{id}', 'details');                 // Accessory Details Routes
+            Route::get('accessory/details/{name}', 'details');                 // Accessory Details Routes
         });
 
         // Routes on bike prefix for bike brand and bike category

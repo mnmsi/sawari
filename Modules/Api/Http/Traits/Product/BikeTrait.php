@@ -86,15 +86,15 @@ trait BikeTrait
     }
 
     /**
-     * @param $id
+     * @param $name
      * @return Builder|Model|object|null
      */
-    public function getBikeDetails($id)
+    public function getBikeDetails($name)
     {
         return Product::with('brand', 'bodyType', 'category', 'colors', 'media', 'specifications')
             ->where('type', 'bike')
             ->where('is_active', 1)
-            ->where('id', $id)
+            ->where('name', $name)
             ->first();
     }
 

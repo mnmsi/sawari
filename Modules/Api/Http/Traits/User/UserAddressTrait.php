@@ -19,6 +19,9 @@ trait UserAddressTrait
      */
     public function storeAddress($data)
     {
+        if($data['is_default'] == 1)
+            Auth::user()->addresses()->update(['is_default' => 0]);
+
         return Auth::user()
                    ->addresses()
                    ->create($data);
@@ -29,6 +32,8 @@ trait UserAddressTrait
      */
     public function updateAddress($id, $data)
     {
+        if($data['is_default'] == 1)
+            Auth::user()->addresses()->update(['is_default' => 0]);
         return Auth::user()
                    ->addresses()
                    ->where('id', $id)

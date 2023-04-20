@@ -2,6 +2,7 @@
 
 namespace App\Models\Product;
 
+use App\Models\User\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Models\BaseModel;
 
@@ -15,4 +16,9 @@ class ProductReview extends BaseModel
         'created_at',
         'updated_at'
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

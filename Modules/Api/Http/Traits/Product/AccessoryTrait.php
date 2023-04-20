@@ -74,12 +74,12 @@ trait AccessoryTrait
      * @param $id
      * @return BaseModel|Product
      */
-    public function getAccessoryDetails($id)
+    public function getAccessoryDetails($name)
     {
         return Product::with('brand', 'bodyType', 'category', 'colors', 'media', 'specifications')
             ->where('type', 'accessory')
             ->where('is_active', 1)
-            ->where('id', $id)
+            ->where('name', $name)
             ->first();
     }
 

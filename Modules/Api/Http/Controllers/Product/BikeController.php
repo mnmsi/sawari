@@ -34,10 +34,10 @@ class BikeController extends Controller
      * @param $id
      * @return JsonResponse
      */
-    public function details($id)
+    public function details($name)
     {
         // Get bike details
-        $bikeDetails = $this->getBikeDetails($id);
+        $bikeDetails = $this->getBikeDetails($name);
 
         // Check if bike details is empty
         if (empty($bikeDetails)) {

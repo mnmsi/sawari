@@ -31,10 +31,10 @@ class AccessoryController extends Controller
      * @param $id
      * @return JsonResponse
      */
-    public function details($id)
+    public function details($name)
     {
         // Get bike details
-        $accessoryDetails = $this->getAccessoryDetails($id);
+        $accessoryDetails = $this->getAccessoryDetails($name);
 
         // Check if bike details is empty
         if (empty($accessoryDetails)) {
