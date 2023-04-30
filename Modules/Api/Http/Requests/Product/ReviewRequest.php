@@ -18,7 +18,7 @@
         public function rules()
         {
             return [
-                'product_id' => 'required|numeric|exists:products,id',
+                'product_id' => 'required|numeric|exists:products,id|unique:product_reviews,product_id,NULL,id,user_id,' . auth()->id(),
                 'review' => 'required|string',
                 'rate' => 'required|numeric|min:1|max:5',
             ];

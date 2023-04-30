@@ -14,8 +14,10 @@
     use Modules\Api\Http\Controllers\Product\ReviewController;
     use Modules\Api\Http\Controllers\System\BannerController;
     use Modules\Api\Http\Controllers\System\ColorController;
+    use Modules\Api\Http\Controllers\System\PrivacyPolicyController;
     use Modules\Api\Http\Controllers\System\ShowroomController;
     use Modules\Api\Http\Controllers\System\SystemAddressController;
+    use Modules\Api\Http\Controllers\System\TermsConditionController;
     use Modules\Api\Http\Controllers\System\TestimonialController;
     use Modules\Api\Http\Controllers\User\UserAddressController;
     use Modules\Api\Http\Controllers\User\UserController;
@@ -141,6 +143,14 @@
             Route::post('/', 'cart');                      // Cart Add/Increase/Decreased Routes
             Route::get('products', 'carts');               // Get Carted Products
             Route::delete('remove/{sku}', 'removeCart');   // Cart Remove Routes
+        });
+//        Route on Terms and Condition
+        Route::controller(TermsConditionController::class)->group(function () {
+            Route::get('terms', 'terms');
+        });
+//        Route on Privacy Policy
+        Route::controller(PrivacyPolicyController::class)->group(function () {
+            Route::get('privacy-policy', 'privacyPolicy');
         });
     });
 

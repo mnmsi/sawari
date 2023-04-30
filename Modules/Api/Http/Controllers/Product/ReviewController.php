@@ -19,8 +19,9 @@ class ReviewController extends Controller
     }
     public function store(ReviewRequest $request){
         $data = $this->storeReview($request->validated());
-        return $this->respondWithSuccessWithData(
-            ReviewResource::collection($this->getReview($data->product_id))
-        );
+        return Response()->json([
+            'status' => 'success',
+            'message' => 'Review added successfully',
+        ], 200);
     }
 }
