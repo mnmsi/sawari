@@ -12,22 +12,22 @@ return new class extends Migration {
     {
         Schema::create('bike_sell_requests', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('city_id');
-            $table->unsignedBigInteger('area_id');
-            $table->unsignedBigInteger('brand_id');
-            $table->unsignedBigInteger('bike_id');
-            $table->integer('registration_year');
-            $table->integer('registration_duration');
-            $table->string('registration_zone');
-            $table->string('registration_series');
-            $table->string('color');
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->unsignedBigInteger('city_id')->nullable();
+            $table->unsignedBigInteger('area_id')->nullable();
+            $table->unsignedBigInteger('brand_id')->nullable();
+            $table->unsignedBigInteger('bike_id')->nullable();
+            $table->integer('registration_year')->nullable();
+            $table->integer('registration_duration')->nullable();
+            $table->string('registration_zone')->nullable();
+            $table->string('registration_series')->nullable();
+            $table->string('color')->nullable();
             $table->string('mileage_range');
-            $table->enum('bought_from_us', ['yes', 'no']);
-            $table->string('ownership_status');
-            $table->string('engine_condition');
-            $table->string('accident_history');
-            $table->string('bike_image');
+            $table->enum('bought_from_us', ['yes', 'no'])->nullable();
+            $table->string('ownership_status')->nullable();
+            $table->string('engine_condition')->nullable();
+            $table->string('accident_history')->nullable();
+            $table->string('bike_image')->nullable();
             $table->dateTime('created_at')->useCurrent();
             $table->dateTime('updated_at')->useCurrentOnUpdate()->nullable();
         });

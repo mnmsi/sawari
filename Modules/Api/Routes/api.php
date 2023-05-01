@@ -12,6 +12,7 @@
     use Modules\Api\Http\Controllers\Product\CategoryController;
     use Modules\Api\Http\Controllers\Product\ProductController;
     use Modules\Api\Http\Controllers\Product\ReviewController;
+    use Modules\Api\Http\Controllers\SellBike\SellBikeController;
     use Modules\Api\Http\Controllers\System\BannerController;
     use Modules\Api\Http\Controllers\System\ColorController;
     use Modules\Api\Http\Controllers\System\PrivacyPolicyController;
@@ -151,6 +152,11 @@
 //        Route on Privacy Policy
         Route::controller(PrivacyPolicyController::class)->group(function () {
             Route::get('privacy-policy', 'privacyPolicy');
+        });
+
+//        Sell Bike
+        Route::controller(SellBikeController::class)->prefix('sell')->group(function () {
+            Route::get('bike/{brand_id}', 'bikeByBrand');
         });
     });
 

@@ -2,6 +2,7 @@
 
 namespace App\Models\Product;
 
+use App\Models\Sell\SellBike;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use App\Models\BaseModel;
 
@@ -23,4 +24,9 @@ class Brand extends BaseModel
         'is_popular' => 'boolean',
         'is_active'  => 'boolean'
     ];
+
+    public function sellBike()
+    {
+        return $this->hasMany(SellBike::class);
+    }
 }
