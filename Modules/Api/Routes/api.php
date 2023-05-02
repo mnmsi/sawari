@@ -80,11 +80,6 @@
         Route::controller(ReviewController::class)->group(function () {
             Route::post('product/add-review', 'store');
         });
-
-        // Routes on store sell bike prefix
-        Route::controller(SellBikeController::class)->prefix('sell')->group(function () {
-            Route::post('store', 'store');               // Store Sell Bike Routes
-        });
     });
 
 // Product Routes (Auth) or (Guest) Mode
