@@ -41,7 +41,7 @@ class BikeController extends Controller
 
         // Check if bike details is empty
         if (empty($bikeDetails)) {
-            return $this->respondWithNotFound();
+            return $this->respondNotFound("Not Found");
         }
 
         // Return bike details as response

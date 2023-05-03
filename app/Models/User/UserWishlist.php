@@ -7,6 +7,7 @@ use App\Models\BaseModel;
 
 class UserWishlist extends BaseModel
 {
+    protected $table = 'user_wishlist';
     protected $fillable = [
         'user_id',
         'product_id',
