@@ -21,6 +21,8 @@
 
         public function list()
         {
-            return 1;
+            return $this->respondWithSuccessWithData(
+                $this->wishListList()
+            );
         }
     }

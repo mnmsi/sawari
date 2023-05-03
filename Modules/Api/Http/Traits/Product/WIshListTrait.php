@@ -20,4 +20,11 @@
                 ]);
             }
         }
+
+        public function wishListList()
+        {
+            return UserWishlist::where('user_id', auth()->user()->id)
+                ->with('product')
+                ->get();
+        }
     }
