@@ -105,7 +105,7 @@
             Route::get('bikes', 'bikes');                                                // Bikes Routes
             Route::get('related-bikes', 'relatedBikes');                                 // Related Bikes Routes
             Route::get('bike-body-types', 'bikeBodyTypes');                              // Related Bikes Routes
-            Route::get('bike/details/{name}', 'details');                                  // Bike Details Routes
+//            Route::get('bike/details/{name}', 'details');                                  // Bike Details Routes
         });
 
         // Routes on AccessoryController
@@ -166,4 +166,5 @@
             Route::get('bike/{brand_id}', 'bikeByBrand');
         });
     });
+    Route::get('bike/details/{name}', [BikeController::class,'details']);
 
