@@ -1,34 +1,59 @@
 <?php
 
-namespace Modules\Api\Http\Controllers\OTP;
+    namespace Modules\Api\Http\Controllers\OTP;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Auth\SendOtpRequest;
-use App\Models\User\PhoneVerification;
-use Modules\Api\Http\Traits\OTP\OtpTrait;
+    use App\Http\Controllers\Controller;
+    use App\Http\Requests\Auth\OtpValidateRequest;
+    use App\Http\Requests\Auth\SendOtpRequest;
+    use App\Models\User\PhoneVerification;
+    use Modules\Api\Http\Traits\OTP\OtpTrait;
 
-class OtpController extends Controller
-{
-    // Use OtpTrait for generate and send otp
-    use OtpTrait;
-
-    public function sendOtp(SendOtpRequest $request)
+    class OtpController extends Controller
     {
-        // Generate otp
-        $otp = $this->generateOtp();
+        // Use OtpTrait for generate and send otp
+        use OtpTrait;
 
-        // Send otp to user phone if send sms is true then update or create phone verification record
-        if ($isSendSms = $this->sendSms($request->phone, $otp)) {
-            PhoneVerification::updateOrCreate([
-                'phone' => $request->phone
-            ], [
-                'phone'      => $request->phone,
-                'otp'        => $otp,
-                'expires_at' => now()->addMinutes(5),
-            ]);
+        public function sendOtp(SendOtpRequest $request)
+        {
+            // Generate otp
+            $otp = $this->generateOtp();
+            $message = "This is your IOTAIT otp: $otp"; // Message to send with OTP
+
+
+            // Send otp to user phone if send sms is true then update or create phone verification record
+            if ($isSendSms = $this->sendSms($request->phone, $message)) {
+                PhoneVerification::updateOrCreate([
+                    'phone' => $request->phone
+                ], [
+                    'phone' => $request->phone,
+                    'otp' => $otp,
+                    'expires_at' => now()->addMinutes(5),
+                ]);
+            }
+
+            // Return response with success status according to send sms
+            return $this->respondWithSuccessStatus($isSendSms);
         }
 
-        // Return response with success status according to send sms
-        return $this->respondWithSuccessStatus($isSendSms);
+        public function verifyOtp(OtpValidateRequest $request)
+        {
+            // Find phone verification record by phone and otp
+            $phoneVerification = PhoneVerification::where('phone', $request->phone)
+                ->where('otp', $request->otp)
+                ->first();
+
+            // If phone verification record found then check if it is expired or not
+            if ($phoneVerification) {
+                if (now() > $phoneVerification->expires_at) {
+                    // If expired then return response with error status
+                    return $this->respondError('OTP is expired');
+                }
+
+                // If not expired then return response with success status
+                return $this->respondWithSuccessStatus();
+            }
+
+            // If phone verification record not found then return response with error status
+            return $this->respondError('OTP is invalid');
+        }
     }
-}

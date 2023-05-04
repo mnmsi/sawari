@@ -28,10 +28,13 @@
     Route::controller(ApiAuthController::class)->group(function () {
         Route::match(['get', 'post'], 'login', 'login');
         Route::post('register', 'register');
+        Route::post('forgot-password', 'forgotPassword');
+        Route::post('reset-password', 'resetPassword')->name('password.reset');
         Route::get('logout', 'logout')->middleware('auth:sanctum');
     });
 
     Route::post('send-otp', [OtpController::class, 'sendOtp']); // Send OTP Routes
+    Route::post('verify-otp', [OtpController::class, 'verifyOtp']); // Verify OTP Routes
 
 // System Routes (Public) or (Guest) Mode
     Route::middleware('guest')->group(function () {
@@ -97,7 +100,7 @@
 
             // Route for product count
             Route::get('counts', [ProductController::class, 'totalProductType']);          // Total Product Count
-            Route::get('review/{id}',[ReviewController::class,'review']); // Product Review
+            Route::get('review/{id}', [ReviewController::class, 'review']); // Product Review
         });
 
         // Routes on BikeController
@@ -165,6 +168,7 @@
         Route::controller(SellBikeController::class)->prefix('sell')->group(function () {
             Route::get('bike/{brand_id}', 'bikeByBrand');
         });
+
     });
-    Route::get('bike/details/{name}', [BikeController::class,'details']);
+    Route::get('bike/details/{name}', [BikeController::class, 'details']);
 

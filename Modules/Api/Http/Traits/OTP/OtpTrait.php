@@ -11,7 +11,7 @@ trait OtpTrait
         return rand(100000, 999999);
     }
 
-    public function sendSms($phone, $otp)
+    public function sendSms($phone, $message)
     {
         $curl = curl_init();
 
@@ -22,7 +22,7 @@ trait OtpTrait
             CURLOPT_CUSTOMREQUEST  => 'POST',
             CURLOPT_POSTFIELDS     => [
                 'api_key' => config('services.alpha_sms.api_key'), // AlphaSMS API Key
-                'msg'     => "This is your IOTAIT otp: $otp", // Message to send with OTP
+                'msg'     =>  $message, // Message to send with OTP
                 'to'      => $phone
             ],
         ]);
@@ -31,6 +31,7 @@ trait OtpTrait
         curl_close($curl);
 
         $response = json_decode($response);
+
 
         // Check if the response is successful then return true
         if ($response->error == 0) {
