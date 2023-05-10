@@ -11,8 +11,30 @@ class Cart extends BaseModel
         'user_id',
         'product_id',
         'product_color_id',
+        'price',
+        'total',
         'quantity',
         'created_at',
         'updated_at'
     ];
+
+    public function product()
+    {
+        return $this->belongsTo('App\Models\Product\Product');
+    }
+
+    public function productColor()
+    {
+        return $this->belongsTo('App\Models\Product\ProductColor');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo('App\Models\User');
+    }
+
+
+
+
 }
+

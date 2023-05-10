@@ -98,7 +98,7 @@
                     ], [
                         'phone' => $request->phone,
                         'otp' => $otp,
-                        'expires_at' => now()->addMinutes(5),
+                        'expires_at' => now()->addMinutes(30),
                     ]);
                 }
                 return $this->respondWithSuccessStatus($isSendSms);
@@ -110,9 +110,9 @@
 
         public function resetPassword(ResetPasswordRequest $request)
         {
-            User::update([
-                'password' => $request->password
-            ]);
+           User::where('phone', $request->phone)->update([
+               'password' => $request->password
+              ]);
             return $this->respondWithSuccessStatusWithMsg(['message' => 'Password updated successfully']);
         }
     }

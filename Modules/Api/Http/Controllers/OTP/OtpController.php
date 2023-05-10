@@ -6,6 +6,8 @@
     use App\Http\Requests\Auth\OtpValidateRequest;
     use App\Http\Requests\Auth\SendOtpRequest;
     use App\Models\User\PhoneVerification;
+    use App\Models\User\User;
+    use Illuminate\Support\Facades\Hash;
     use Modules\Api\Http\Traits\OTP\OtpTrait;
 
     class OtpController extends Controller
@@ -27,7 +29,7 @@
                 ], [
                     'phone' => $request->phone,
                     'otp' => $otp,
-                    'expires_at' => now()->addMinutes(5),
+                    'expires_at' => now()->addMinutes(30),
                 ]);
             }
 
@@ -56,4 +58,5 @@
             // If phone verification record not found then return response with error status
             return $this->respondError('OTP is invalid');
         }
+
     }

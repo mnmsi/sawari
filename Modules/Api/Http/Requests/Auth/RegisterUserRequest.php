@@ -34,18 +34,14 @@ class RegisterUserRequest extends FormRequest
     {
         return [
             'first_name' => 'required|string|max:190',
-            'last_name'  => 'required|string|max:190',
-            'phone'      => 'required|string|unique:App\Models\User\User,phone',
-            'otp'        => 'required|numeric|digits:6',
-            'email'      => 'nullable | string | email | max:190 | unique:App\Models\User\User,email',
-            'dob'        => 'nullable | date',
-            'gender'     => 'nullable | in:male,female,other',
-            'avatar'     => 'nullable | image | mimes:jpeg,png,jpg,gif,svg | max:2048',
-            'password'   => [
-                'required',
-                'string',
-                Password::min(6)->mixedCase()->numbers()->symbols()->uncompromised() // Password must be at least 6 characters and must contain at least one uppercase letter, one number, and one symbol. Ex. 466Un&
-            ],
+            'last_name' => 'required|string|max:190',
+            'phone' => 'required|string|unique:App\Models\User\User,phone',
+            'otp' => 'required|numeric|digits:6',
+            'email' => 'nullable | string | email | max:190 | unique:App\Models\User\User,email',
+            'dob' => 'nullable | date',
+            'gender' => 'nullable | in:male,female,other',
+            'avatar' => 'nullable | image | mimes:jpeg,png,jpg,gif,svg | max:2048',
+            'password' => ['required', 'string', 'min:6'],
         ];
     }
 

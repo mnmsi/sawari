@@ -29,7 +29,7 @@
         Route::match(['get', 'post'], 'login', 'login');
         Route::post('register', 'register');
         Route::post('forgot-password', 'forgotPassword');
-        Route::post('reset-password', 'resetPassword')->name('password.reset');
+        Route::post('reset-password', 'resetPassword');
         Route::get('logout', 'logout')->middleware('auth:sanctum');
     });
 
@@ -90,6 +90,13 @@
             Route::post('add', 'store');
             Route::get('list', 'list');
         });
+
+        // Routes on cart prefix
+        Route::controller(CartController::class)->prefix('cart')->group(function () {
+            Route::get('/', 'carts');                      // Cart Add/Increase/Decreased Routes
+            Route::post('add', 'store');               // Get Carted Products
+            Route::delete('remove/{id}', 'removeCart');   // Cart Remove Routes
+        });
     });
 
 // Product Routes (Auth) or (Guest) Mode
@@ -149,12 +156,7 @@
             Route::get('used-bike', 'usedBike'); // Feature used bikes
         });
 
-        // Routes on cart prefix
-        Route::controller(CartController::class)->prefix('cart')->group(function () {
-            Route::post('/', 'cart');                      // Cart Add/Increase/Decreased Routes
-            Route::get('products', 'carts');               // Get Carted Products
-            Route::delete('remove/{sku}', 'removeCart');   // Cart Remove Routes
-        });
+
 //        Route on Terms and Condition
         Route::controller(TermsConditionController::class)->group(function () {
             Route::get('terms', 'terms');

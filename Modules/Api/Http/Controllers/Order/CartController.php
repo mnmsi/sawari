@@ -3,9 +3,11 @@
 namespace Modules\Api\Http\Controllers\Order;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Client\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Arr;
 use Modules\Api\Http\Requests\Order\AddCartRequest;
+use Modules\Api\Http\Resources\Cart\CartResource;
 use Modules\Api\Http\Traits\Order\CartTrait;
 use Modules\Api\Http\Traits\Product\ProductTrait;
 
@@ -18,52 +20,37 @@ class CartController extends Controller
      */
     public function carts()
     {
-        return $this->returnResponseWithCookie($this->getCartedData());
+        $carts = $this->getCartedData(); // Get carted data
+        return $this->respondWithSuccessWithData(
+            CartResource::collection($carts)
+        );
     }
 
     /**
      * @param AddCartRequest $request
      * @return JsonResponse
      */
-    public function cart(AddCartRequest $request): JsonResponse
+    public function store(AddCartRequest $request): JsonResponse
     {
-        /*return response()
-            ->json([
-                'status' => 'success',
-                'data'   => [],
-            ])
-            ->withCookie(cookie()->forget('cart'));*/
-
-        // Add product to cart
-        $carts = $this->addProductToCart($request->all());
-
-        // Check if there is any error
-        if (isset($carts['error'])) {
-            return $this->respondFailedValidation($carts['error']);
-        }
-
-        // Return response with cookie
-        return $this->returnResponseWithCookie($carts);
+        $this->addProductToCart($request); // Get carted data
+        return $this->respondWithSuccess([
+            'message' => 'Product added to cart successfully',
+        ]);
     }
 
     /**
      * @param $sku
      * @return JsonResponse
      */
-    public function removeCart($sku)
+    public function removeCart($id)
     {
-        $cartedData = $this->getCartedData();                           // Get carted data
-        $isExits = $this->getExistingCartProduct($cartedData, $sku);    // Check if product exists in cart
-
-        // Check if product doesn't exist in cart
-        if (count($isExits) == 0) {
-            return $this->respondFailedValidation('Product not found in cart');
+        $cart = $this->removeProductFromCart($id);
+        if($cart){
+            return $this->respondWithSuccess([
+                'message' => 'Product removed from cart successfully',
+            ]);
+        }else{
+            return $this->respondError('Product not found in cart');
         }
-
-        // Remove product from cart
-        $carts = $this->removeProductFromCart($cartedData, array_key_first($isExits));
-
-        // Return response with cookie
-        return $this->returnResponseWithCookie($carts);
     }
 }
