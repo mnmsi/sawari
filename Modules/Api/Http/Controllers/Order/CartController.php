@@ -3,13 +3,13 @@
 namespace Modules\Api\Http\Controllers\Order;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Client\Request;
+use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Arr;
 use Modules\Api\Http\Requests\Order\AddCartRequest;
 use Modules\Api\Http\Resources\Cart\CartResource;
 use Modules\Api\Http\Traits\Order\CartTrait;
 use Modules\Api\Http\Traits\Product\ProductTrait;
+
 
 class CartController extends Controller
 {
@@ -21,9 +21,10 @@ class CartController extends Controller
     public function carts()
     {
         $carts = $this->getCartedData(); // Get carted data
-        return $this->respondWithSuccessWithData(
-            CartResource::collection($carts)
-        );
+        return $this->respondWithSuccess([
+            'data' => CartResource::collection($carts),
+            'total_price' => $this->getTotalPrice(),
+        ]);
     }
 
     /**
@@ -39,18 +40,54 @@ class CartController extends Controller
     }
 
     /**
-     * @param $sku
+     * @param $id
      * @return JsonResponse
      */
     public function removeCart($id)
     {
         $cart = $this->removeProductFromCart($id);
-        if($cart){
+        if ($cart) {
             return $this->respondWithSuccess([
                 'message' => 'Product removed from cart successfully',
             ]);
-        }else{
+        } else {
             return $this->respondError('Product not found in cart');
         }
     }
+
+    /**
+     * @return JsonResponse
+     */
+
+    public function updateCart(Request $request)
+    {
+        $request->validate([
+            'id' => 'required|exists:carts,id',
+            'product_id' => 'required|exists:products,id',
+            'product_color_id' => 'required|exists:product_colors,id',
+            'quantity' => 'required|numeric|min:1',
+        ]);
+        $cart = $this->updateCartProduct($request);
+        if ($cart) {
+            return $this->respondWithSuccess([
+                'message' => 'Product updated in cart successfully',
+            ]);
+        } else {
+            return $this->respondError('Product not found in cart');
+        }
+    }
+
+    /**
+     * @return JsonResponse
+     */
+
+    public function getSelectedProduct(){
+        $product = $this->getSelectedCartProduct();
+        return $this->respondWithSuccess([
+            'data' => CartResource::collection($product),
+            'total_price' => $this->getTotalPrice(),
+        ]);
+    }
+
+
 }

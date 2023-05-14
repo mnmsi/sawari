@@ -11,6 +11,19 @@ use Modules\Api\Http\Resources\Product\ColorResource;
 
 trait CartTrait
 {
+
+    /**
+     * @return mixed
+     */
+
+//    total price of cart
+
+    public function getTotalPrice()
+    {
+        return Cart::where('status', '1')->where('user_id', auth()->id())->sum('total');
+
+    }
+
     /**
      * @return array|mixed
      */
@@ -26,7 +39,7 @@ trait CartTrait
     public function addProductToCart($request): mixed
     {
         $request->merge(['user_id' => auth()->id()]);
-        $cart = Cart::where('product_id',$request->product_id)->where('product_color_id',$request->product_color_id)->where('user_id',auth()->id())->first();
+        $cart = Cart::where('product_id', $request->product_id)->where('product_color_id', $request->product_color_id)->where('user_id', auth()->id())->first();
         if ($cart) {
             $cart->update($request->all());
             return $cart;
@@ -46,32 +59,38 @@ trait CartTrait
     }
 
     /**
-     * @param $cart
-     * @param $data
-     * @return array
+     * @param $id
+     * @return bool
      */
-
-    /**
-     * @param $data
-     * @return array
-     */
-
-    /**
-     * @param $cart
-     * @param $data
-     * @return mixed|string[]
-     */
-
 
     public function removeProductFromCart($id)
     {
-        $cart = Cart::where('id',$id)->where('user_id',auth()->id())->first();
+        $cart = Cart::where('id', $id)->where('user_id', auth()->id())->first();
         if ($cart) {
             $cart->delete();
             return true;
         } else {
             return false;
         }
+    }
+
+    public function updateCartProduct($request)
+    {
+        $cart = Cart::where('id', $request->id)->where('user_id', auth()->id())->first();
+        if ($cart) {
+            $cart->update($request->all());
+            return $cart;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * @return array
+     *
+     */
+    public function getSelectedCartProduct(){
+        return Cart::where('user_id', auth()->id())->where('status', '1')->get();
     }
 
 

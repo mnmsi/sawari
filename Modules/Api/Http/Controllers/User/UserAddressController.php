@@ -60,9 +60,9 @@ class UserAddressController extends Controller
     {
         // Delete address
         $address = Auth::user()
-                       ->addresses()
-                       ->where('id', $id)
-                       ->delete();
+            ->addresses()
+            ->where('id', $id)
+            ->delete();
 
         if (!$address) {
             return $this->respondNotFound('Address not found');
@@ -71,6 +71,17 @@ class UserAddressController extends Controller
         // Return response with user addresses
         return $this->respondWithSuccessWithData(
             UserAddressResource::collection($this->getAddresses())
+        );
+    }
+
+    /**
+     * @return JsonResponse
+     */
+
+    public function getSelectedAddress($id = null)
+    {
+        return $this->respondWithSuccessWithData(
+            new UserAddressResource($this->selectedAddress($id))
         );
     }
 }

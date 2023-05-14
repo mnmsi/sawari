@@ -46,4 +46,16 @@ class UserAddress extends BaseModel
     {
         return $this->belongsTo(Area::class);
     }
+
+//    if user has only one address then set it default
+    public static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($address) {
+            if ($address->user->addresses->count() == 0) {
+                $address->is_default = true;
+            }
+        });
+    }
 }

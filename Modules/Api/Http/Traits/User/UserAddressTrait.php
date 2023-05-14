@@ -19,12 +19,12 @@ trait UserAddressTrait
      */
     public function storeAddress($data)
     {
-        if($data['is_default'] == 1)
+        if ($data['is_default'] == 1)
             Auth::user()->addresses()->update(['is_default' => 0]);
 
         return Auth::user()
-                   ->addresses()
-                   ->create($data);
+            ->addresses()
+            ->create($data);
     }
 
     /**
@@ -32,11 +32,23 @@ trait UserAddressTrait
      */
     public function updateAddress($id, $data)
     {
-        if($data['is_default'] == 1)
+        if ($data['is_default'] == 1)
             Auth::user()->addresses()->update(['is_default' => 0]);
         return Auth::user()
-                   ->addresses()
-                   ->where('id', $id)
-                   ->update($data);
+            ->addresses()
+            ->where('id', $id)
+            ->update($data);
+    }
+
+// selected address
+
+    public function selectedAddress($id = null)
+    {
+        if ($id == null) {
+            return Auth::user()->addresses()->where('is_default', 1)->first();
+        } else {
+            return Auth::user()->addresses()->where('id', $id)->first();
+        }
+
     }
 }

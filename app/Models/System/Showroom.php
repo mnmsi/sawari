@@ -2,6 +2,7 @@
 
 namespace App\Models\System;
 
+use App\Models\Order\Order;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Models\BaseModel;
 
@@ -45,5 +46,9 @@ class Showroom extends BaseModel
     public function area()
     {
         return $this->belongsTo(Area::class);
+    }
+
+    public function order(){
+        return $this->belongsTo(Order::class);
     }
 }

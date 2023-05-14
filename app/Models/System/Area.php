@@ -8,7 +8,5 @@ use App\Models\BaseModel;
 class Area extends BaseModel
 {
     public $timestamps = false;
-
-
-
 }
+
