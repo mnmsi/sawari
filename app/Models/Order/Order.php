@@ -14,6 +14,7 @@ class Order extends BaseModel
         'product_color_id',
         'payment_method_id',
         'delivery_option_id',
+        'user_address_id',
         'showroom_id',
         'quantity',
         'price',
@@ -30,5 +31,41 @@ class Order extends BaseModel
     {
         return $this->hasMany(ShowRoom::class);
     }
+
+    public function product()
+    {
+        return $this->belongsTo('App\Models\Product\Product');
+    }
+
+    public function productColor()
+    {
+        return $this->belongsTo('App\Models\Product\ProductColor');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo('App\Models\User');
+    }
+
+    public function paymentMethod()
+    {
+        return $this->belongsTo('App\Models\System\PaymentMethod');
+    }
+
+    public function deliveryOption()
+    {
+        return $this->belongsTo('App\Models\System\DeliveryOption');
+    }
+
+    public function userAddress()
+    {
+        return $this->belongsTo('App\Models\User\UserAddress');
+    }
+
+    public function orderStatus()
+    {
+        return $this->hasMany('App\Models\Order\OrderStatus');
+    }
+
 }
 

@@ -17,13 +17,14 @@ return new class extends Migration {
             $table->unsignedBigInteger('product_color_id');
             $table->unsignedBigInteger('payment_method_id');
             $table->unsignedBigInteger('delivery_option_id');
+            $table->unsignedBigInteger('user_address_id');
             $table->integer('quantity');
             $table->float('price');
             $table->integer('discount_rate');
             $table->integer('shipping_amount');
             $table->float('subtotal_price');
             $table->float('total_price');
-            $table->enum('status', ['pending', 'processing', 'completed', 'delivered', 'cancelled']);
+            $table->enum('status', ['pending', 'processing', 'completed', 'delivered', 'cancelled'])->default('pending');
             $table->dateTime('created_at')->useCurrent();
             $table->dateTime('updated_at')->useCurrentOnUpdate()->nullable();
         });

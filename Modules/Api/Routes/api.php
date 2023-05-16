@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Modules\Api\Http\Controllers\Auth\ApiAuthController;
 use Modules\Api\Http\Controllers\Order\CartController;
 use Modules\Api\Http\Controllers\Order\OrderController;
+use Modules\Api\Http\Controllers\Order\ShippingChargeController;
 use Modules\Api\Http\Controllers\OTP\OtpController;
 use Modules\Api\Http\Controllers\Product\AccessoryController;
 use Modules\Api\Http\Controllers\Product\BikeController;
@@ -46,12 +47,16 @@ Route::middleware('guest')->group(function () {
     // Routes on OrderController
     Route::controller(OrderController::class)->group(function () {
         Route::get('delivery-options', 'deliveryOptions'); // Delivery Options
-        Route::get('payment-methods', 'paymentMethods');   // Payment Methods
+        Route::get('payment-methods', 'paymentMethods');   // Payment Methods// Shipping Charges
+
     });
 });
 
 // User Routes (Auth) or (User) Mode
 Route::middleware('auth:sanctum')->group(function () {
+
+//   shipping charge
+
 
     // Routes on user prefix
     Route::prefix('user')->group(function () {
@@ -102,6 +107,8 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('update', 'updateCart');   // Cart Update Routes
         Route::get('selected-product', 'getSelectedProduct');   // Cart Update Routes
     });
+
+    Route::post('make-order', [OrderController::class, 'order']); // Make Order Routes
 });
 
 // Product Routes (Auth) or (Guest) Mode
@@ -175,6 +182,8 @@ Route::middleware('guest')->group(function () {
     Route::controller(SellBikeController::class)->prefix('sell')->group(function () {
         Route::get('bike/{brand_id}', 'bikeByBrand');
     });
+
+    Route::get('shipping-charges/{name?}', [ShippingChargeController::class,'shippingCharges']);
 
 });
 Route::get('bike/details/{name}', [BikeController::class, 'details']);
