@@ -39,13 +39,17 @@ trait CartTrait
     public function addProductToCart($request): mixed
     {
         $request->merge(['user_id' => auth()->id()]);
-        $cart = Cart::where('product_id', $request->product_id)->where('product_color_id', $request->product_color_id)->where('user_id', auth()->id())->first();
-        if ($cart) {
-            $cart->update($request->all());
-            return $cart;
-        } else {
-            return Cart::create($request->all());
+        try {
+            $cart = Cart::where('product_id', $request->product_id)->where('product_color_id', $request->product_color_id)->where('user_id', auth()->id())->first();
+            if ($cart) {
+                return false;
+            } else {
+                return Cart::create($request->all());
+            }
+        } catch (\Exception $e) {
+            return $e->getMessage();
         }
+
     }
 
     /**
@@ -89,7 +93,8 @@ trait CartTrait
      * @return array
      *
      */
-    public function getSelectedCartProduct(){
+    public function getSelectedCartProduct()
+    {
         return Cart::where('user_id', auth()->id())->where('status', '1')->get();
     }
 

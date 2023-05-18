@@ -11,6 +11,7 @@ class Cart extends BaseModel
         'user_id',
         'product_id',
         'product_color_id',
+        'discount_rate',
         'price',
         'total',
         'quantity',
@@ -33,8 +34,6 @@ class Cart extends BaseModel
     {
         return $this->belongsTo('App\Models\User');
     }
-
-
 
 
 }

@@ -33,10 +33,15 @@ class CartController extends Controller
      */
     public function store(AddCartRequest $request): JsonResponse
     {
-        $this->addProductToCart($request); // Get carted data
-        return $this->respondWithSuccess([
-            'message' => 'Product added to cart successfully',
-        ]);
+        $data = $this->addProductToCart($request); // Get carted data
+        if ($data) {
+            return $this->respondWithSuccess([
+                'message' => 'Product added to cart successfully',
+            ]);
+        } else {
+            return $this->respondError('Product already added to cart');
+        }
+
     }
 
     /**

@@ -20,6 +20,8 @@ return new class extends Migration
             $table->decimal('price', 10, 2);
             $table->integer('quantity');
             $table->decimal('total', 10, 2);
+            $table->integer('discount_rate')->nullable();
+            $table->decimal('subtotal_price', 10, 2)->nullable();
             $table->dateTime('created_at')->useCurrent();
             $table->dateTime('updated_at')->useCurrentOnUpdate()->nullable();
         });

@@ -21,12 +21,7 @@ class CreateOrderRequest extends FormRequest
         return [
             'cart_id'=>'required|array|exists:App\Models\Order\Cart,id',
             'delivery_option_id' => 'required|integer|exists:App\Models\System\DeliveryOption,id',
-            'showroom_id' => 'required_if:delivery_option_id,2|integer|exists:App\Models\System\Showroom,id',
-            'user_address_id' => 'required|exists:App\Models\User\UserAddress,id',
-            'discount_rate' => 'required|numeric',
-            'shipping_amount' => 'required|numeric',
-            'subtotal_price' => 'required|numeric',
-            'total_price' => 'required|numeric',
+            'payment_method_id' => 'required|integer|exists:App\Models\System\PaymentMethod,id',
         ];
     }
 

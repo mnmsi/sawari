@@ -10,13 +10,11 @@ class Order extends BaseModel
 {
     protected $fillable = [
         'user_id',
-        'product_id',
-        'product_color_id',
         'payment_method_id',
         'delivery_option_id',
         'user_address_id',
         'showroom_id',
-        'quantity',
+        'transaction_id',
         'price',
         'discount_rate',
         'shipping_amount',

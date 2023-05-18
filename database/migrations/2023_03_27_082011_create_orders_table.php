@@ -13,17 +13,15 @@ return new class extends Migration {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('product_id');
-            $table->unsignedBigInteger('product_color_id');
             $table->unsignedBigInteger('payment_method_id');
             $table->unsignedBigInteger('delivery_option_id');
-            $table->unsignedBigInteger('user_address_id');
-            $table->integer('quantity');
-            $table->float('price');
-            $table->integer('discount_rate');
-            $table->integer('shipping_amount');
-            $table->float('subtotal_price');
-            $table->float('total_price');
+            $table->unsignedBigInteger('user_address_id')->nullable();
+            $table->unsignedBigInteger('showroom_id')->nullable();
+            $table->string('transaction_id')->nullable();
+            $table->integer('discount_rate')->nullable();
+            $table->integer('shipping_amount')->nullable();
+            $table->decimal('subtotal_price', 10, 2);
+            $table->decimal('total_price', 10, 2);
             $table->enum('status', ['pending', 'processing', 'completed', 'delivered', 'cancelled'])->default('pending');
             $table->dateTime('created_at')->useCurrent();
             $table->dateTime('updated_at')->useCurrentOnUpdate()->nullable();

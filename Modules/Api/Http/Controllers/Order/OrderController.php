@@ -6,9 +6,13 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
 use Modules\Api\Http\Requests\Order\CreateOrderRequest;
 use Modules\Api\Http\Traits\Order\OrderTrait;
+use Modules\Api\Http\Traits\Payment\PaymentTrait;
+use Modules\Api\Http\Traits\Product\ProductTrait;
 
 class OrderController extends Controller
 {
+    use ProductTrait;
+    use PaymentTrait;
     use OrderTrait;
 
     /**
@@ -37,7 +41,7 @@ class OrderController extends Controller
 
     public function order(CreateOrderRequest $request)
     {
-        $order = $this->storeOrder($request->validated());
+        $order = $this->storeOrder($request);
         return $this->respondWithSuccessWithData(
             $order
         );
