@@ -42,9 +42,30 @@ class OrderController extends Controller
     public function order(CreateOrderRequest $request)
     {
         $order = $this->storeOrder($request);
-        return $this->respondWithSuccessWithData(
-            $order
-        );
+        if ($order) {
+            return $this->respondWithSuccessWithData(
+                $order
+            );
+        } else {
+            return $this->respondError(
+                "Something went wrong"
+            );
+        }
+
+    }
+
+    public function orderList()
+    {
+        $orders = $this->getUserOrderList();
+       if ($orders) {
+                return $this->respondWithSuccessWithData(
+                    $orders
+                );
+            } else {
+                return $this->respondError(
+                    "Something went wrong"
+                );
+            }
     }
 
 //

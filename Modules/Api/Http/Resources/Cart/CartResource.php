@@ -35,7 +35,6 @@ class CartResource extends JsonResource
             'image' => $this->product->image_url,
             'color' => $this->productColor->name,
             'color_image' => $this->productColor->image_url,
-
         ];
     }
 }

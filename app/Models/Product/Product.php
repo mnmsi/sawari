@@ -36,7 +36,7 @@
             'is_active' => 'boolean'
         ];
 
-        protected $appends = ['is_favorite'];
+        protected $appends = ['is_favorite','product_colors_id'];
 
 
         public function brand()
@@ -84,6 +84,11 @@
             } else {
                 return false;
             }
+        }
+
+        public function getProductColorsIdAttribute()
+        {
+            return $this->colors->pluck('id');
         }
 
     }

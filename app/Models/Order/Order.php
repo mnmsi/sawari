@@ -65,5 +65,15 @@ class Order extends BaseModel
         return $this->hasMany('App\Models\Order\OrderStatus');
     }
 
+    public function PaymentDetails()
+    {
+        return $this->hasMany('App\Models\PaymentDetails');
+    }
+
+    public function orderDetails()
+    {
+        return $this->hasMany('App\Models\Order\OrderDetails');
+    }
+
 }
 

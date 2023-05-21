@@ -55,6 +55,8 @@ Route::middleware('guest')->group(function () {
 // User Routes (Auth) or (User) Mode
 Route::middleware('auth:sanctum')->group(function () {
 
+    Route::post("sell/store", [SellBikeController::class, 'store']);
+
 //   shipping charge
 
 
@@ -108,7 +110,8 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('selected-product', 'getSelectedProduct');   // Cart Update Routes
     });
 
-    Route::post('make-order', [OrderController::class, 'order']); // Make Order Routes
+    Route::post('make-order', [OrderController::class, 'order']);
+    Route::get('order-list',[OrderController::class,'orderList']);// Make Order Routes
 });
 
 // Product Routes (Auth) or (Guest) Mode

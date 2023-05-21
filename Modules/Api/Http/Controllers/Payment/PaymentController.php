@@ -3,7 +3,11 @@
 namespace Modules\Api\Http\Controllers\Payment;
 
 use App\Library\SslCommerz\SslCommerzNotification;
+use App\Models\Order\Order;
+use App\Models\PaymentDetails;
 use DGvai\SSLCommerz\SSLCommerz;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class PaymentController
 {
@@ -41,13 +45,46 @@ class PaymentController
         $post_data['product_profile'] = "physical-goods";
 
         $sslc = new SslCommerzNotification();
-
         return $sslc->makePayment($post_data);
     }
 
-    public function success()
+    public function success(Request $request)
     {
-        return view('api::payment.success');
+        DB::beginTransaction();
+        try {
+            $payment = new PaymentDetails();
+            $payment->order_id = Order::where('transaction_id', $request->tran_id)->first()->id ?? null;
+            $payment->tran_id = $request->tran_id;
+            $payment->val_id = $request->val_id;
+            $payment->amount = $request->amount;
+            $payment->card_type = $request->card_type ? $request->card_type : null;
+            $payment->store_amount = $request->store_amount;
+            $payment->card_no = $request->card_no;
+            $payment->bank_tran_id = $request->bank_tran_id;
+            $payment->status = $request->status;
+            $payment->tran_date = $request->tran_date;
+            $payment->currency = $request->currency;
+            $payment->card_issuer = $request->card_issuer;
+            $payment->card_brand = $request->card_brand;
+            $payment->card_sub_brand = $request->card_sub_brand;
+            $payment->card_issuer_country = $request->card_issuer_country;
+            $payment->card_issuer_country_code = $request->card_issuer_country_code;
+            $payment->currency_type = $request->currency_type;
+            $payment->currency_amount = $request->currency_amount;
+            $payment->currency_rate = $request->currency_rate;
+            $payment->amount = $request->amount;
+            $payment->risk_title = $request->risk_title;
+            $payment->save();
+            if($request->status == 'VALID'){
+                DB::commit();
+                return redirect()->away('http://localhost:3000/');
+            }else{
+                return view('api::payment.failure');
+            }
+        } catch (\Exception $exception) {
+            DB::rollBack();
+            return $exception->getMessage();
+        }
     }
 
     public function failure()

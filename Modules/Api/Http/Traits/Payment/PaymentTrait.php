@@ -4,6 +4,7 @@ namespace Modules\Api\Http\Traits\Payment;
 
 use App\Library\SslCommerz\SslCommerzNotification;
 use App\Models\User\User;
+use Illuminate\Http\Request;
 
 trait PaymentTrait {
     public function processPayment($orderData)
@@ -16,12 +17,13 @@ trait PaymentTrait {
         $orderData['product_name'] = "Sawari Product";
         $orderData['product_category'] = "Ecommerce";
         $orderData['product_profile'] = "general";
-        $orderData['success_url'] = url('http://localhost:3000');
-        return $sslc->makePayment($orderData);
+        $orderData['success_url'] = "http://localhost:3000/payment/success";
+        return $sslc->makePayment($orderData, 'checkout', 'json');
+
     }
-    public function success()
+    public function success(Request $request)
     {
-        return view('api::success');
+        return view('api::payment.success');
     }
 
     public function failure()

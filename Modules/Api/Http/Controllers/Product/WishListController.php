@@ -5,6 +5,9 @@
     use App\Http\Controllers\Controller;
     use Illuminate\Http\Request;
     use Modules\Api\Http\Requests\Product\WishListRequest;
+    use Modules\Api\Http\Resources\Cart\CartResource;
+    use Modules\Api\Http\Resources\Product\BikeResource;
+    use Modules\Api\Http\Resources\WishList\WishListResource;
     use Modules\Api\Http\Traits\Product\WIshListTrait;
 
     class WishListController extends Controller
@@ -22,7 +25,7 @@
         public function list()
         {
             return $this->respondWithSuccessWithData(
-                $this->wishListList()
+                WishListResource::collection($this->wishListList()),
             );
         }
     }

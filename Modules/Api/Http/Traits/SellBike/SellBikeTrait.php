@@ -3,6 +3,7 @@
 namespace Modules\Api\Http\Traits\SellBike;
 use App\Models\Sell\BikeSellRequest;
 use App\Models\Sell\SellBike;
+use Auth;
 use Modules\Api\Http\Requests\Sell\SellBikeRequest;
 
 trait SellBikeTrait
@@ -25,7 +26,7 @@ trait SellBikeTrait
 //            dd($bike_images);
         $request->merge([
             'bike_image' => json_encode($bike_images),
-            'user_id' => auth()->user()->id,
+            'user_id' => Auth::id(),
         ]);
         return BikeSellRequest::create($request->all());
     }

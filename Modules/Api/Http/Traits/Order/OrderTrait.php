@@ -37,10 +37,13 @@ trait OrderTrait
             $cartIds = $data['cart_id'];
             $carts = Cart::whereIn('id', $cartIds)
                 ->select('id', 'product_id', 'product_color_id', 'price', 'quantity')->get();
-            $products = Product::whereIn('id',$carts->pluck('product_id'));
+            $products = Product::whereIn('id', $carts->pluck('product_id'))->with('colors')->get();
             $total_discountRate = $products->sum('discount_rate');
             $subtotal_price = $carts->sum('price') * $carts->sum('quantity');
-            $order = [
+            $carts->map(function ($value, $key) {
+                return $value['product_id'] == 1;
+            });
+            $orderData = [
                 'user_id' => Auth::id(),
                 'transaction_id' => uniqid(),
                 'delivery_option_id' => $data['delivery_option_id'],
@@ -53,33 +56,28 @@ trait OrderTrait
                 'total_price' => $subtotal_price + $data['shipping_amount'] ?? 0,
                 'status' => 1,
             ];
-            if ($data['payment_method_id'] == 2) {
-              $this->processPayment($order);
-            }
-//            $order = Order::create($orderData);
-
+            $order = Order::create($orderData);
             $orderDetails = [];
             foreach ($products as $product) {
                 $discountRate = $product->discount_rate;
-                $subtotal = $product->price * $product->quantity;
-
+                $subtotal = $product->price * count($products);
                 $orderDetails[] = [
                     'order_id' => $order->id,
-                    'product_id' => $product->product_id,
-                    'product_color_id' => $product->product_color_id,
+                    'product_id' => $product->id,
+                    'product_color_id' => collect($carts)->filter(function ($value, $key) use ($product) {
+                        return $value['product_id'] == $product->id;
+                    })->first()->product_color_id,
                     'price' => $product->price,
                     'discount_rate' => $discountRate,
                     'subtotal_price' => $subtotal,
-                    'quantity' => $product->quantity,
+                    'quantity' => count($products),
                     'total' => $subtotal + $data['shipping_amount'] ?? 0,
                 ];
-
-
                 if ($order) {
-                    Cart::whereIn('id', $cartIds)->delete();
                     OrderDetails::insert($orderDetails);
+                    Cart::whereIn('id', $cartIds)->delete();
                     if ($data['payment_method_id'] == 2) {
-                        if ($isProcessPayment = $this->processPayment($order)) {
+                        if ($isProcessPayment = $this->processPayment($orderData)) {
                             DB::commit();
                             return [
                                 'status' => true,
@@ -111,5 +109,16 @@ trait OrderTrait
             DB::rollBack();
             return $e->getMessage();
         }
+    }
+
+    public function getUserOrderList()
+    {
+        $orders = Order::where('user_id', Auth::id())
+            ->select('id', 'transaction_id', 'delivery_option_id', 'payment_method_id', 'user_address_id', 'showroom_id', 'shipping_amount', 'subtotal_price', 'discount_rate', 'total_price', 'status', 'created_at')
+            ->with(['orderDetails' => function ($query) {
+                $query->select('id', 'order_id', 'product_id', 'product_color_id', 'price', 'discount_rate', 'subtotal_price', 'quantity', 'total');
+            }])
+            ->get();
+        return $orders;
     }
 }
