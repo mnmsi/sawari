@@ -144,7 +144,7 @@ class Product extends Resource
                     return $v ? "Yes" : "No";
                 }),
 //              status
-            Select::make('Featured', 'is_featured')->options([
+            Select::make('Status', 'is_active')->options([
                 '1' => 'Yes',
                 '0' => 'No',
             ])->rules('required')
