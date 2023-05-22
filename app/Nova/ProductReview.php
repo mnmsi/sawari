@@ -3,26 +3,29 @@
 namespace App\Nova;
 
 use Illuminate\Http\Request;
+use Laravel\Nova\Fields\BelongsTo;
+use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\ID;
+use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
-class BodyType extends Resource
+class ProductReview extends Resource
 {
     /**
      * The model the resource corresponds to.
      *
-     * @var class-string<\App\Models\BodyType>
+     * @var class-string<\App\Models\ProductReview>
      */
-    public static $model = \App\Models\System\BikeBodyType::class;
+    public static $model = \App\Models\Product\ProductReview::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
      *
      * @var string
      */
-    public static $title = 'name';
-    public static $group = 'System';
+    public static $title = 'id';
+    public static $group = 'Product';
 
     /**
      * The columns that should be searched.
@@ -30,7 +33,7 @@ class BodyType extends Resource
      * @var array
      */
     public static $search = [
-        'name',
+        'id',
     ];
 
     /**
@@ -43,15 +46,44 @@ class BodyType extends Resource
     {
         return [
             ID::make()->sortable(),
-
-            Text::make('Name', 'name')
+//            user
+            BelongsTo::make('User', 'user','App\Nova\User')
+                ->rules('required')
+                ->noPeeking(),
+//            product
+            BelongsTo::make('Product', 'product','App\Nova\Product')
+                ->rules('required')
+                ->noPeeking(),
+//            review
+            Text::make('Text', 'review')
                 ->sortable()
                 ->rules('required', 'max:255')
                 ->withMeta([
                     'extraAttributes' => [
-                        'placeholder' => 'Enter name',
+                        'placeholder' => 'Enter review',
                     ],
                 ]),
+//            rating
+            Number::make('rate')
+                ->min(0)
+                ->max(5)
+                ->step('any')
+                ->rules('required')
+                ->withMeta([
+                    'extraAttributes' => [
+                        'placeholder' => 'Enter rate(1-5)',
+                    ],
+                ]),
+//            date
+            DateTime::make('Created At', 'created_at')
+                ->hideFromIndex()
+                ->default(now())
+                ->hideWhenUpdating(),
+
+            DateTime::make('Updated At', 'updated_at')
+                ->hideFromIndex()
+                ->hideWhenCreating()
+                ->default(now()),
         ];
     }
 

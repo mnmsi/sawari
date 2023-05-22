@@ -3,26 +3,29 @@
 namespace App\Nova;
 
 use Illuminate\Http\Request;
+use Laravel\Nova\Fields\BelongsTo;
+use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\ID;
+use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
-class BodyType extends Resource
+class ProductSpecification extends Resource
 {
     /**
      * The model the resource corresponds to.
      *
-     * @var class-string<\App\Models\BodyType>
+     * @var class-string<\App\Models\ProductSpecification>
      */
-    public static $model = \App\Models\System\BikeBodyType::class;
+    public static $model = \App\Models\Product\ProductSpecification::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
      *
      * @var string
      */
-    public static $title = 'name';
-    public static $group = 'System';
+    public static $title = 'title';
+    public static $group = 'Product';
 
     /**
      * The columns that should be searched.
@@ -30,7 +33,7 @@ class BodyType extends Resource
      * @var array
      */
     public static $search = [
-        'name',
+        'title',
     ];
 
     /**
@@ -43,15 +46,46 @@ class BodyType extends Resource
     {
         return [
             ID::make()->sortable(),
-
-            Text::make('Name', 'name')
+//            product
+            BelongsTo::make('Product', 'product','App\Nova\Product')
+                ->rules('required')
+                ->noPeeking(),
+//            name
+            Text::make('Title', 'title')
                 ->sortable()
                 ->rules('required', 'max:255')
                 ->withMeta([
                     'extraAttributes' => [
-                        'placeholder' => 'Enter name',
+                        'placeholder' => 'Enter title',
                     ],
                 ]),
+//            vale
+            Text::make('Value', 'value')
+                ->sortable()
+                ->rules('required', 'max:255')
+                ->withMeta([
+                    'extraAttributes' => [
+                        'placeholder' => 'Enter value',
+                    ],
+                ]),
+//            feature
+            Select::make('Feature', 'is_key_feature')->options([
+                '1' => 'Yes',
+                '0' => 'No',
+            ])->rules('required')
+                ->displayUsing(function ($v) {
+                    return $v ? "Yes" : "No";
+                }),
+//            date
+            DateTime::make('Created At', 'created_at')
+                ->hideFromIndex()
+                ->default(now())
+                ->hideWhenUpdating(),
+
+            DateTime::make('Updated At', 'updated_at')
+                ->hideFromIndex()
+                ->hideWhenCreating()
+                ->default(now()),
         ];
     }
 
