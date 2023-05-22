@@ -3,6 +3,7 @@
 namespace App\Models\Product;
 
 use App\Models\BaseModel;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Category extends BaseModel
 {
@@ -19,4 +20,9 @@ class Category extends BaseModel
         'is_popular' => 'boolean',
         'is_active'  => 'boolean'
     ];
+
+    public function brand(): HasOne
+    {
+        return $this->hasOne(Brand::class);
+    }
 }

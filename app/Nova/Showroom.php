@@ -2,24 +2,26 @@
 
 namespace App\Nova;
 
+use App\Models\System\Area;
+use App\Models\System\City;
+use App\Models\System\Country;
+use App\Models\System\Division;
 use Illuminate\Http\Request;
-use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Image;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
-use App\Models\Product\Category;
 
-class Brand extends Resource
+class Showroom extends Resource
 {
     /**
      * The model the resource corresponds to.
      *
-     * @var class-string<\App\Models\Brand>
+     * @var class-string<\App\Models\Showroom>
      */
-    public static $model = \App\Models\Product\Brand::class;
+    public static $model = \App\Models\System\Showroom::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
@@ -34,7 +36,7 @@ class Brand extends Resource
      * @var array
      */
     public static $search = [
-        'name',
+        'name', 'phone'
     ];
 
     /**
@@ -53,43 +55,71 @@ class Brand extends Resource
                 ->rules('required', 'max:255')
                 ->withMeta([
                     'extraAttributes' => [
-                        'placeholder' => 'Enter name',
+                        'placeholder' => 'Enter showroom name',
                     ],
                 ]),
 
-            Image::make('Icon', 'image_url')
+            Text::make('Phone', 'phone')
+                ->sortable()
+                ->rules('required', 'max:255')
+                ->withMeta([
+                    'extraAttributes' => [
+                        'placeholder' => 'Enter number',
+                    ],
+                ]),
+
+            Text::make('Address', 'address')
+                ->sortable()
+                ->rules('required', 'max:255')
+                ->withMeta([
+                    'extraAttributes' => [
+                        'placeholder' => 'Enter address',
+                    ],
+                ]),
+            //  country
+            Select::make('Country', 'country_id')->options(
+                Country::pluck('name', 'id')
+            )->rules('required')
+                ->displayUsingLabels(),
+//            division
+            Select::make('Division', 'division_id')->options(
+                Division::pluck('name', 'id')
+            )->rules('required')
+                ->displayUsingLabels(),
+//            city
+            Select::make('City', 'city_id')->options(
+                City::pluck('name', 'id')
+            )->rules('required')
+                ->displayUsingLabels(),
+//            area
+            Select::make('Area', 'area_id')->options(
+                Area::pluck('name', 'id')
+            )->rules('required')
+                ->displayUsingLabels(),
+//            postal code
+            Text::make('Postal code', 'postal_code')
+                ->sortable()
+                ->rules('required', 'max:255')
+                ->withMeta([
+                    'extraAttributes' => [
+                        'placeholder' => 'Enter code',
+                    ],
+                ]),
+//            image
+            Image::make('Icon', 'location_image_url')
                 ->disk('public')
                 ->nullable()
                 ->disableDownload(),
-
-            Select::make('Type', 'type')->options([
-                'both' => 'Both',
-                'bike' => 'Bike',
-                'accessory' => 'Accessory',
-            ])->rules('required'),
-
-            BelongsTo::make('Category', 'category')
-                ->noPeeking(),
-
-//            Select::make('Category', 'category_id')->options(
-//                Category::where('is_active', 1)->pluck('name', 'id')
-//            )->rules('required')
-//            ->displayUsingLabels(),
-
-            Select::make('Is popular', 'is_popular')->options([
-                '1' => 'Yes',
-                '0' => 'No',
-            ])->rules('required')
-                ->resolveUsing(function ($value) {
-                    if (!$value) {
-                        return 0;
-                    }
-                    return 1;
-                })
-                ->displayUsing(function ($v) {
-                    return $v ? "Popular" : "Unpopular";
-                }),
-
+//            phone
+            Text::make('Support number', 'support_number')
+                ->sortable()
+                ->rules('required', 'max:255')
+                ->withMeta([
+                    'extraAttributes' => [
+                        'placeholder' => 'Enter support number',
+                    ],
+                ]),
+//            status
             Select::make('Status', 'is_active')->options([
                 '1' => 'Yes',
                 '0' => 'No',
@@ -103,7 +133,7 @@ class Brand extends Resource
                 ->displayUsing(function ($v) {
                     return $v ? "Active" : "Inactive";
                 }),
-
+            //             date
             DateTime::make('Created At', 'created_at')
                 ->hideFromIndex()
                 ->default(now())
