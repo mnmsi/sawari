@@ -15,6 +15,7 @@ use Modules\Api\Http\Traits\Product\ProductTrait;
 
 trait OrderTrait
 {
+    use productTrait;
 
     public function getDeliveryOptions()
     {
@@ -118,13 +119,11 @@ trait OrderTrait
 
     public function buyNowProduct($request)
     {
-//        dd($request->all());
         try {
-//            get product where id = $request->product_id and color_id = $request->color_id
             $buyNowProduct = Product::where('id', $request->product_id)
                 ->whereHas('colors', function ($query) use ($request) {
                     $query->where('id', $request->product_color_id);
-                }) ->with(['colors' => function ($query) use ($request) {
+                })->with(['colors' => function ($query) use ($request) {
                     $query->where('id', $request->product_color_id);
                 }])->first();
             if ($buyNowProduct) {
@@ -135,6 +134,80 @@ trait OrderTrait
         } catch (\Exception $e) {
             return $e->getMessage();
         }
+    }
+
+    public function buyNowRequest($data)
+    {
+        DB::beginTransaction();
+        try {
+            $products = Product::where('id', $data->product_id)->first();
+            $total_discountRate = $products->discount_rate;
+            $subtotal_price = $this->calculateDiscountPrice($products->price, $products->discount_rate);
+            $orderData = [
+                'user_id' => Auth::id(),
+                'transaction_id' => uniqid(),
+                'delivery_option_id' => $data['delivery_option_id'],
+                'payment_method_id' => $data['payment_method_id'],
+                'user_address_id' => $data['user_address_id'] ?? null,
+                'showroom_id' => $data['showroom_id'] ?? null,
+                'shipping_amount' => $data['shipping_amount'] ?? 0,
+                'subtotal_price' => $subtotal_price,
+                'discount_rate' => $total_discountRate,
+                'total_price' => $subtotal_price + $data['shipping_amount'] ?? 0,
+                'status' => 1,
+            ];
+            $order = Order::create($orderData);
+            $orderDetails = [
+                'order_id' => $order->id,
+                'product_id' => $products->id,
+                'product_color_id' => $data['product_color_id'],
+                'price' => $products->price,
+                'discount_rate' => $total_discountRate,
+                'subtotal_price' => $subtotal_price,
+                'quantity' => 1,
+                'total' => $subtotal_price + $data['shipping_amount'] ?? 0,
+            ];
+            if ($order) {
+                OrderDetails::create($orderDetails);
+                if ($data['payment_method_id'] == 2) {
+                    if ($isProcessPayment = $this->processPayment($orderData)) {
+                        DB::commit();
+                        return [
+                            'status' => true,
+                            'message' => 'Payment Successful',
+                            'data' => json_decode($isProcessPayment)
+                        ];
+                    } else {
+                        return [
+                            'status' => false,
+                            'message' => 'Order Unsuccessful',
+                        ];
+                    }
+                } else {
+                    DB::commit();
+                    return [
+                        'status' => true,
+                        'message' => 'Payment Successful',
+                    ];
+                }
+            } else {
+                return [
+                    'status' => false,
+                    'message' => 'Order Unsuccessful',
+                ];
+            }
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return $e->getMessage();
+        }
+    }
+
+    public function buyNowProductPrice($request)
+    {
+        $buyNowProduct = $this->buyNowProduct($request);
+        $buyNowProductPrice = $buyNowProduct->price;
+        $buyNowProductDiscountRate = $buyNowProduct->discount_rate;
+        return $buyNowProductPrice - ($buyNowProductPrice * $buyNowProductDiscountRate / 100);
     }
 
 }

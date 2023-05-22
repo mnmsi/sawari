@@ -79,7 +79,10 @@ class OrderController extends Controller
         ]);
         $cart = $this->buyNowProduct($request);
         if ($cart) {
-            return new  OrderResource($cart);
+            return $this->respondWithSuccess([
+                'data' => [new OrderResource($cart)],
+                'total_price' => $this->buyNowProductPrice($request),
+            ]);
         } else {
             return $this->respondError(
                 "Something went wrong"
@@ -87,5 +90,21 @@ class OrderController extends Controller
         }
     }
 
-//
+    public function makeOrderFromBuyNow(Request $request)
+    {
+        $request->validate([
+            'product_id' => 'required|exists:products,id',
+            'product_color_id' => 'required|exists:product_colors,id',
+        ]);
+        $order = $this->buyNowRequest($request);
+        if ($order) {
+            return $this->respondWithSuccessWithData(
+                $order
+            );
+        } else {
+            return $this->respondError(
+                "Something went wrong!"
+            );
+        }
+    }
 }

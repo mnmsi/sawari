@@ -18,6 +18,7 @@ class OrderResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'price'=> $this->price,
+            'quantity' => 1,
             'total' => $this->calculateDiscountPrice($this->price,$this->discount_rate),
             'product_color_id' => $this->colors->first()->id,
             'discount_rate' => $this->discount_rate,
