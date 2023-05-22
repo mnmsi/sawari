@@ -113,12 +113,28 @@ trait OrderTrait
 
     public function getUserOrderList()
     {
-        $orders = Order::where('user_id', Auth::id())
-            ->select('id', 'transaction_id', 'delivery_option_id', 'payment_method_id', 'user_address_id', 'showroom_id', 'shipping_amount', 'subtotal_price', 'discount_rate', 'total_price', 'status', 'created_at')
-            ->with(['orderDetails' => function ($query) {
-                $query->select('id', 'order_id', 'product_id', 'product_color_id', 'price', 'discount_rate', 'subtotal_price', 'quantity', 'total');
-            }])
-            ->get();
-        return $orders;
+        return Order::where('user_id', Auth::id())->get();
     }
+
+    public function buyNowProduct($request)
+    {
+//        dd($request->all());
+        try {
+//            get product where id = $request->product_id and color_id = $request->color_id
+            $buyNowProduct = Product::where('id', $request->product_id)
+                ->whereHas('colors', function ($query) use ($request) {
+                    $query->where('id', $request->product_color_id);
+                }) ->with(['colors' => function ($query) use ($request) {
+                    $query->where('id', $request->product_color_id);
+                }])->first();
+            if ($buyNowProduct) {
+                return $buyNowProduct;
+            } else {
+                return false;
+            }
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
+    }
+
 }
