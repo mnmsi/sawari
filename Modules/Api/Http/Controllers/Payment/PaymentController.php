@@ -77,7 +77,7 @@ class PaymentController
             $payment->save();
             if($request->status == 'VALID'){
                 DB::commit();
-                return redirect()->away('http://localhost:3000/');
+                return redirect()->away('http://localhost:3000/success');
             }else{
                 return view('api::payment.failure');
             }
