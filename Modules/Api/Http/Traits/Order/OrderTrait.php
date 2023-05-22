@@ -47,6 +47,7 @@ trait OrderTrait
             $orderData = [
                 'user_id' => Auth::id(),
                 'transaction_id' => uniqid(),
+                'order_key' => uniqid(),
                 'delivery_option_id' => $data['delivery_option_id'],
                 'payment_method_id' => $data['payment_method_id'],
                 'user_address_id' => $data['user_address_id'],
@@ -146,6 +147,7 @@ trait OrderTrait
             $orderData = [
                 'user_id' => Auth::id(),
                 'transaction_id' => uniqid(),
+                'order_key' => uniqid(),
                 'delivery_option_id' => $data['delivery_option_id'],
                 'payment_method_id' => $data['payment_method_id'],
                 'user_address_id' => $data['user_address_id'] ?? null,

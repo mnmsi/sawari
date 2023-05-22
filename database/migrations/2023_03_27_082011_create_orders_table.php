@@ -18,6 +18,7 @@ return new class extends Migration {
             $table->unsignedBigInteger('user_address_id')->nullable();
             $table->unsignedBigInteger('showroom_id')->nullable();
             $table->string('transaction_id')->nullable();
+            $table->string('order_key')->nullable();
             $table->integer('discount_rate')->nullable();
             $table->integer('shipping_amount')->nullable();
             $table->decimal('subtotal_price', 10, 2);

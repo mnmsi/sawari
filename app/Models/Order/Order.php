@@ -15,6 +15,7 @@ class Order extends BaseModel
         'user_address_id',
         'showroom_id',
         'transaction_id',
+        'order_key',
         'price',
         'discount_rate',
         'shipping_amount',
