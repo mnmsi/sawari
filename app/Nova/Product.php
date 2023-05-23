@@ -102,7 +102,6 @@ class Product extends Resource
                 ->rules('required'),
 //            discount
             Number::make('Discount', 'discount_rate')
-                ->rules('required')
                 ->min(0)
                 ->step('any')
                 ->nullable(),

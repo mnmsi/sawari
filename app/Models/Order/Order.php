@@ -3,6 +3,7 @@
 namespace App\Models\Order;
 
 use App\Models\System\Showroom;
+use App\Models\User\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Models\BaseModel;
 
@@ -27,7 +28,7 @@ class Order extends BaseModel
 
     public function showRooms()
     {
-        return $this->hasMany(ShowRoom::class);
+        return $this->belongsTo(ShowRoom::class, 'showroom_id', 'id');
     }
 
     public function product()
@@ -42,7 +43,7 @@ class Order extends BaseModel
 
     public function user()
     {
-        return $this->belongsTo('App\Models\User');
+        return $this->belongsTo(User::class);
     }
 
     public function paymentMethod()
