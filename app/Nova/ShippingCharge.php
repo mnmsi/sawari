@@ -5,25 +5,26 @@ namespace App\Nova;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\ID;
-use Laravel\Nova\Fields\Image;
-use Laravel\Nova\Fields\Select;
+use Laravel\Nova\Fields\Number;
+use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
-class Banner extends Resource
+class ShippingCharge extends Resource
 {
     /**
      * The model the resource corresponds to.
      *
-     * @var class-string<\App\Models\System\Banner>
+     * @var class-string<\App\Models\ShippingCharge>
      */
-    public static $model = \App\Models\System\Banner::class;
+    public static $model = \App\Models\ShippingCharge::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
      *
      * @var string
      */
-    public static $title = 'page';
+    public static $title = 'title';
     public static $group = 'System';
 
     /**
@@ -32,7 +33,7 @@ class Banner extends Resource
      * @var array
      */
     public static $search = [
-        'id', 'page',
+        'title',
     ];
 
     /**
@@ -45,40 +46,37 @@ class Banner extends Resource
     {
         return [
             ID::make()->sortable(),
-//          page
-            Select::make('Display Page', 'page')->options([
-                'home' => 'Home',
-                'all-bikes' => 'All Bike',
-                'popular-brands' => 'Popular Brand',
-                'bike-accessories' => 'Bike Accessories',
-                'our-showrooms' => 'Our Showrooms',
-            ])->rules('required'),
-//            show on
-            Select::make('Page Place', 'show_on')->options([
-                'all' => 'All',
-                'top' => 'Top',
-                'bottom' => 'Bottom',
-            ])->rules('required'),
-//            image
-            Image::make('Image', 'image_url')
-                ->path('banner')
-                ->disk('public')
+//            title
+            Text::make('Title', 'title')
+                ->sortable()
+                ->rules('required', 'max:255')
+                ->creationRules('unique:App\Models\ShippingCharge,title')
+                ->updateRules('unique:App\Models\ShippingCharge,title,{{resourceId}}')
+                ->withMeta([
+                    'extraAttributes' => [
+                        'placeholder' => 'Enter title',
+                    ],
+                ]),
+//            name
+            Text::make('Name', 'name')
+                ->sortable()
+                ->rules('required', 'max:255')
+                ->withMeta([
+                    'extraAttributes' => [
+                        'placeholder' => 'Enter name',
+                    ],
+                ]),
+//            charge
+            Number::make('charge')
+                ->min(0)
+                ->step('any')
+                ->rules('required'),
+//            des
+            Textarea::make('Description', 'description')
+                ->sortable()
                 ->rules('required')
-                ->disableDownload(),
-//            status
-            Select::make('Status', 'is_active')->options([
-                '1' => 'Yes',
-                '0' => 'No',
-            ])->rules('required')
-                ->resolveUsing(function ($value) {
-                    if (!$value) {
-                        return 0;
-                    }
-                    return 1;
-                })
-                ->displayUsing(function ($v) {
-                    return $v ? "Active" : "Inactive";
-                }),
+                ->rows(2)
+                ->alwaysShow(),
 //            date
             DateTime::make('Created At', 'created_at')
                 ->hideFromIndex()

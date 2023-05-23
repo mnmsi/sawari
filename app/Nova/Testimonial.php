@@ -6,24 +6,27 @@ use Illuminate\Http\Request;
 use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Image;
+use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Select;
+use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
-class Banner extends Resource
+class Testimonial extends Resource
 {
     /**
      * The model the resource corresponds to.
      *
-     * @var class-string<\App\Models\System\Banner>
+     * @var class-string<\App\Models\System\Testimonial>
      */
-    public static $model = \App\Models\System\Banner::class;
+    public static $model = \App\Models\System\Testimonial::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
      *
      * @var string
      */
-    public static $title = 'page';
+    public static $title = 'name';
     public static $group = 'System';
 
     /**
@@ -32,39 +35,60 @@ class Banner extends Resource
      * @var array
      */
     public static $search = [
-        'id', 'page',
+        'name',
     ];
 
     /**
      * Get the fields displayed by the resource.
      *
-     * @param \Laravel\Nova\Http\Requests\NovaRequest $request
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @return array
      */
     public function fields(NovaRequest $request)
     {
         return [
             ID::make()->sortable(),
-//          page
-            Select::make('Display Page', 'page')->options([
-                'home' => 'Home',
-                'all-bikes' => 'All Bike',
-                'popular-brands' => 'Popular Brand',
-                'bike-accessories' => 'Bike Accessories',
-                'our-showrooms' => 'Our Showrooms',
-            ])->rules('required'),
-//            show on
-            Select::make('Page Place', 'show_on')->options([
-                'all' => 'All',
-                'top' => 'Top',
-                'bottom' => 'Bottom',
-            ])->rules('required'),
+//            name
+            Text::make('Name', 'name')
+                ->sortable()
+                ->rules('required', 'max:255')
+                ->withMeta([
+                    'extraAttributes' => [
+                        'placeholder' => 'Enter name',
+                    ],
+                ]),
 //            image
             Image::make('Image', 'image_url')
-                ->path('banner')
+                ->path('testimonial')
                 ->disk('public')
                 ->rules('required')
                 ->disableDownload(),
+//            address
+            Text::make('Address', 'address')
+                ->sortable()
+                ->rules('required', 'max:255')
+                ->withMeta([
+                    'extraAttributes' => [
+                        'placeholder' => 'Enter address',
+                    ],
+                ]),
+//            rating
+            Number::make('rate')
+                ->min(0)
+                ->max(5)
+                ->step('any')
+                ->rules('required')
+                ->withMeta([
+                    'extraAttributes' => [
+                        'placeholder' => 'Enter rate(1-5)',
+                    ],
+                ]),
+//            note
+            Textarea::make('Notes','note')
+                ->sortable()
+                ->rules('required')
+                ->rows(2)
+                ->alwaysShow(),
 //            status
             Select::make('Status', 'is_active')->options([
                 '1' => 'Yes',
@@ -95,7 +119,7 @@ class Banner extends Resource
     /**
      * Get the cards available for the request.
      *
-     * @param \Laravel\Nova\Http\Requests\NovaRequest $request
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @return array
      */
     public function cards(NovaRequest $request)
@@ -106,7 +130,7 @@ class Banner extends Resource
     /**
      * Get the filters available for the resource.
      *
-     * @param \Laravel\Nova\Http\Requests\NovaRequest $request
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @return array
      */
     public function filters(NovaRequest $request)
@@ -117,7 +141,7 @@ class Banner extends Resource
     /**
      * Get the lenses available for the resource.
      *
-     * @param \Laravel\Nova\Http\Requests\NovaRequest $request
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @return array
      */
     public function lenses(NovaRequest $request)
@@ -128,7 +152,7 @@ class Banner extends Resource
     /**
      * Get the actions available for the resource.
      *
-     * @param \Laravel\Nova\Http\Requests\NovaRequest $request
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @return array
      */
     public function actions(NovaRequest $request)
