@@ -29,6 +29,7 @@ class BikeSellRequest extends BaseModel
         'engine_condition',
         'accident_history',
         'bike_image',
+        'status',
         'created_at',
         'updated_at'
     ];
@@ -55,7 +56,7 @@ class BikeSellRequest extends BaseModel
 
     public function bike(): BelongsTo
     {
-        return $this->belongsTo(SellBike::class);
+        return $this->belongsTo(SellBike::class, 'bike_id', 'id');
     }
 
     public function getBikeImageAttribute($value)
@@ -64,7 +65,7 @@ class BikeSellRequest extends BaseModel
         $html = '';
 
         foreach ($images as $image) {
-            $image = asset('storage/'.$image);
+            $image = asset('storage/' . $image);
             $html .= "<img src='$image' alt='Image'>";
         }
 

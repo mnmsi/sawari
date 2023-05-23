@@ -154,7 +154,21 @@ class BikeSellRequest extends Resource
 //            image
             Text::make('Images', 'bike_image')
                 ->hideFromIndex()
+                ->hideWhenCreating()
+                ->hideWhenUpdating()
                 ->asHtml(),
+//            status
+            Select::make('Status', 'status')->options([
+                '0' => 'Pending',
+                '1' => 'Accepted',
+                '2' => 'Rejected',
+            ])->rules('required')
+                ->displayUsing(function ($v) {
+                    $text = "Pending";
+                    if($v == 1) $text = "Accepted";
+                    if($v == 2) $text = "Rejected";
+                    return $text;
+                }),
 
 //            date
             DateTime::make('Created At', 'created_at')
