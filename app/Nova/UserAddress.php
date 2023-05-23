@@ -2,20 +2,25 @@
 
 namespace App\Nova;
 
+use App\Models\System\City;
+use App\Models\System\Division;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\DateTime;
+use Laravel\Nova\Fields\FormData;
 use Laravel\Nova\Fields\ID;
+use Laravel\Nova\Fields\Select;
+use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
-class UserWishlist extends Resource
+class UserAddress extends Resource
 {
     /**
      * The model the resource corresponds to.
      *
-     * @var class-string<\App\Models\UserWishlist>
+     * @var class-string<\App\Models\User\UserAddress>
      */
-    public static $model = \App\Models\User\UserWishlist::class;
+    public static $model = \App\Models\User\UserAddress::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
@@ -48,10 +53,63 @@ class UserWishlist extends Resource
             BelongsTo::make('User', 'user')
                 ->rules('required')
                 ->noPeeking(),
-//            product
-            BelongsTo::make('Product', 'product','App\Nova\Product')
+//            name
+            Text::make('Name', 'name')
+                ->sortable()
+                ->rules('required', 'max:255')
+                ->withMeta([
+                    'extraAttributes' => [
+                        'placeholder' => 'Enter name',
+                    ],
+                ]),
+//            phone
+            Text::make('Phone', 'phone')
+                ->sortable()
+                ->rules('required', 'max:20')
+                ->withMeta([
+                    'extraAttributes' => [
+                        'placeholder' => 'Enter number',
+                    ],
+                ]),
+//            address
+            Text::make('Address', 'address')
+                ->sortable()
+                ->rules('required', 'max:255')
+                ->withMeta([
+                    'extraAttributes' => [
+                        'placeholder' => 'Enter address',
+                    ],
+                ]),
+//            division
+
+            BelongsTo::make('Division', 'division','App\Nova\Others\Division')
                 ->rules('required')
                 ->noPeeking(),
+
+//            city
+
+            BelongsTo::make('City', 'city','App\Nova\Others\City')
+                ->rules('required')
+                ->noPeeking(),
+
+//            area
+            BelongsTo::make('Area', 'area','App\Nova\Others\Area')
+                ->rules('required')
+                ->noPeeking(),
+//            default
+            Select::make('Default Address', 'is_default')->options([
+                '1' => 'Yes',
+                '0' => 'No',
+            ])->rules('required')
+                ->resolveUsing(function ($value) {
+                    if (!$value) {
+                        return 0;
+                    }
+                    return 1;
+                })
+                ->displayUsing(function ($v) {
+                    return $v ? "Yes" : "No";
+                }),
 //            date
             DateTime::make('Created At', 'created_at')
                 ->hideFromIndex()

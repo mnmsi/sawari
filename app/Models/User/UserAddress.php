@@ -34,7 +34,11 @@ class UserAddress extends BaseModel
 
     public function division()
     {
-        return $this->belongsTo(Division::class);
+        return $this->belongsTo(Division::class, 'division_id', 'id');
+    }
+    public function testDivision()
+    {
+        return $this->belongsToMany(Division::class, 'division_id', 'id');
     }
 
     public function city()

@@ -1,37 +1,37 @@
 <?php
 
-namespace App\Nova;
+namespace App\Nova\Others;
 
+use App\Nova\Resource;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
-use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\ID;
+use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
-class UserWishlist extends Resource
+class Division extends Resource
 {
     /**
      * The model the resource corresponds to.
      *
-     * @var class-string<\App\Models\UserWishlist>
+     * @var class-string<\App\Models\System\Division>
      */
-    public static $model = \App\Models\User\UserWishlist::class;
+    public static $model = \App\Models\System\Division::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
      *
      * @var string
      */
-    public static $title = 'id';
-    public static $group = 'User';
-
+    public static $title = 'name';
+    public static $displayInNavigation = false;
     /**
      * The columns that should be searched.
      *
      * @var array
      */
     public static $search = [
-        'id',
+        'name',
     ];
 
     /**
@@ -44,24 +44,19 @@ class UserWishlist extends Resource
     {
         return [
             ID::make()->sortable(),
-//            user
-            BelongsTo::make('User', 'user')
+//            country
+            BelongsTo::make('Country', 'country','App\Nova\Others\Country')
                 ->rules('required')
                 ->noPeeking(),
-//            product
-            BelongsTo::make('Product', 'product','App\Nova\Product')
-                ->rules('required')
-                ->noPeeking(),
-//            date
-            DateTime::make('Created At', 'created_at')
-                ->hideFromIndex()
-                ->default(now())
-                ->hideWhenUpdating(),
-
-            DateTime::make('Updated At', 'updated_at')
-                ->hideFromIndex()
-                ->hideWhenCreating()
-                ->default(now()),
+//            name
+            Text::make('Name', 'name')
+                ->sortable()
+                ->rules('required', 'max:255')
+                ->withMeta([
+                    'extraAttributes' => [
+                        'placeholder' => 'Enter name',
+                    ],
+                ]),
         ];
     }
 
