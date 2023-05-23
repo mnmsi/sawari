@@ -18,7 +18,7 @@ return new class extends Migration {
             $table->string('phone')->unique();
             $table->string('password');
             $table->timestamp('phone_verified_at')->nullable();
-            $table->date('dob')->nullable();
+            $table->date('date_of_birth')->nullable();
             $table->enum('gender', ['male', 'female', 'other'])->nullable();
             $table->string('avatar')->nullable();
             $table->rememberToken();

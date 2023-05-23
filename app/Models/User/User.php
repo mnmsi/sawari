@@ -30,7 +30,7 @@ class User extends Authenticatable
         'phone',
         'password',
         'phone_verified_at',
-        'dob',
+        'date_of_birth',
         'gender',
         'avatar',
         'remember_token',
@@ -58,7 +58,7 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
         'phone_verified_at' => 'datetime',
-        'dob'               => 'date',
+        'dob'               => 'immutable_date',
     ];
 
     protected $appends = [

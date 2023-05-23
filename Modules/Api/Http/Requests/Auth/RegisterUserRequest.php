@@ -38,7 +38,7 @@ class RegisterUserRequest extends FormRequest
             'phone' => 'required|string|unique:App\Models\User\User,phone',
             'otp' => 'required|numeric|digits:6',
             'email' => 'nullable | string | email | max:190 | unique:App\Models\User\User,email',
-            'dob' => 'nullable | date',
+            'date_of_birth' => 'nullable | date',
             'gender' => 'nullable | in:male,female,other',
             'avatar' => 'nullable | image | mimes:jpeg,png,jpg,gif,svg | max:2048',
             'password' => ['required', 'string', 'min:6'],

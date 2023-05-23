@@ -4,6 +4,8 @@ namespace App\Nova;
 
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rules;
+use Laravel\Nova\Fields\Date;
+use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\Gravatar;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Password;
@@ -48,22 +50,43 @@ class User extends Resource
     {
         return [
             ID::make()->sortable(),
-
-            Avatar::make('Avatar', 'avatar')
-                ->disableDownload(),
-
+//first name
             Text::make('First Name', 'first_name')
                 ->sortable()
                 ->rules('required', 'max:255'),
-
+//last name
             Text::make('Last Name', 'last_name')
                 ->sortable()
                 ->rules('required', 'max:255'),
-
+//            image
+            Avatar::make('Avatar', 'avatar')
+                ->path('user')
+                ->disk('public')
+                ->nullable()
+                ->disableDownload(),
+            //email
+            Text::make('Email')
+                ->sortable()
+                ->rules('required', 'email', 'max:254')
+                ->creationRules('unique:users,email')
+                ->updateRules('unique:users,email,{{resourceId}}'),
+//            phone
             Text::make('Phone', 'phone')
                 ->sortable()
-                ->rules('required', 'max:255'),
+                ->rules('required', 'max:255')
+                ->creationRules('unique:users,phone')
+                ->updateRules('unique:users,phone,{{resourceId}}'),
+//password
+            Password::make('Password')
+                ->onlyOnForms()
+                ->creationRules('required', Rules\Password::defaults())
+                ->updateRules('nullable', Rules\Password::defaults()),
 
+//            date of birth
+
+            Date::make('date', 'date_of_birth'),
+
+            // gender
             Select::make('Gender', 'gender')
                 ->options([
                     'male' => 'Male',
@@ -71,18 +94,17 @@ class User extends Resource
                     'other' => 'Other',
                 ])
                 ->sortable()
-                ->rules('required', 'max:255'),
+                ->nullable(),
+//            date
+            DateTime::make('Created At', 'created_at')
+                ->hideFromIndex()
+                ->default(now())
+                ->hideWhenUpdating(),
 
-            Text::make('Email')
-                ->sortable()
-                ->rules('required', 'email', 'max:254')
-                ->creationRules('unique:users,email')
-                ->updateRules('unique:users,email,{{resourceId}}'),
-
-            Password::make('Password')
-                ->onlyOnForms()
-                ->creationRules('required', Rules\Password::defaults())
-                ->updateRules('nullable', Rules\Password::defaults()),
+            DateTime::make('Updated At', 'updated_at')
+                ->hideFromIndex()
+                ->hideWhenCreating()
+                ->default(now()),
         ];
     }
 

@@ -25,7 +25,7 @@ class Order extends Resource
      *
      * @var string
      */
-    public static $title = 'id';
+    public static $title = 'transaction_id';
     public static $group = 'Orders';
 
     /**
@@ -34,13 +34,13 @@ class Order extends Resource
      * @var array
      */
     public static $search = [
-        'id',
+        'id', 'transaction_id',
     ];
 
     /**
      * Get the fields displayed by the resource.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @param \Laravel\Nova\Http\Requests\NovaRequest $request
      * @return array
      */
     public function fields(NovaRequest $request)
@@ -48,23 +48,23 @@ class Order extends Resource
         return [
             ID::make()->sortable(),
 //            user
-            BelongsTo::make('User', 'user','App\Nova\User')
+            BelongsTo::make('User', 'user', 'App\Nova\User')
                 ->rules('required')
                 ->noPeeking(),
 //            payment method
-            BelongsTo::make('Payment Method', 'paymentMethod','App\Nova\PaymentMethods')
+            BelongsTo::make('Payment Method', 'paymentMethod', 'App\Nova\PaymentMethods')
                 ->rules('required')
                 ->noPeeking(),
 //            delivery
-            BelongsTo::make('Delivery Type', 'deliveryOption','App\Nova\DeliveryOption')
+            BelongsTo::make('Delivery Type', 'deliveryOption', 'App\Nova\DeliveryOption')
                 ->rules('required')
                 ->noPeeking(),
 //            user address
-            BelongsTo::make('User address', 'userAddress','App\Nova\UserAddress')
+            BelongsTo::make('User address', 'userAddress', 'App\Nova\UserAddress')
                 ->nullable()
                 ->noPeeking(),
 //            showroom
-            BelongsTo::make('Showroom', 'showRooms','App\Nova\Showroom')
+            BelongsTo::make('Showroom', 'showRooms', 'App\Nova\Showroom')
                 ->nullable()
                 ->noPeeking(),
 //            transaction id
@@ -131,7 +131,7 @@ class Order extends Resource
     /**
      * Get the cards available for the request.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @param \Laravel\Nova\Http\Requests\NovaRequest $request
      * @return array
      */
     public function cards(NovaRequest $request)
@@ -142,7 +142,7 @@ class Order extends Resource
     /**
      * Get the filters available for the resource.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @param \Laravel\Nova\Http\Requests\NovaRequest $request
      * @return array
      */
     public function filters(NovaRequest $request)
@@ -153,7 +153,7 @@ class Order extends Resource
     /**
      * Get the lenses available for the resource.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @param \Laravel\Nova\Http\Requests\NovaRequest $request
      * @return array
      */
     public function lenses(NovaRequest $request)
@@ -164,7 +164,7 @@ class Order extends Resource
     /**
      * Get the actions available for the resource.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @param \Laravel\Nova\Http\Requests\NovaRequest $request
      * @return array
      */
     public function actions(NovaRequest $request)

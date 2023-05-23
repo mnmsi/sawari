@@ -29,7 +29,7 @@ class UserController extends Controller
     public function update(Request $request)
     {
         $user    = Auth::user();                                                                           // Get current user
-        $reqData = $request->only('first_name', 'last_name', 'email', 'phone', 'dob', 'gender', 'avatar'); // Get request data
+        $reqData = $request->only('first_name', 'last_name', 'email', 'phone', 'date_of_birth', 'gender', 'avatar'); // Get request data
 
         // Check if request has file
         if ($request->hasFile('avatar')) {
