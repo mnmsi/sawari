@@ -84,7 +84,7 @@ class User extends Resource
 
 //            date of birth
 
-            Date::make('date', 'date_of_birth'),
+            Date::make('Date of Birth', 'date_of_birth'),
 
             // gender
             Select::make('Gender', 'gender')
