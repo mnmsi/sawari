@@ -3,12 +3,11 @@
 namespace App\Models\Product;
 
 use App\Models\Sell\SellBike;
-use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use App\Models\BaseModel;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Brand extends BaseModel
 {
-    use CrudTrait;
 
     protected $fillable = [
         'name',
@@ -22,11 +21,16 @@ class Brand extends BaseModel
 
     protected $casts = [
         'is_popular' => 'boolean',
-        'is_active'  => 'boolean'
+        'is_active' => 'boolean'
     ];
 
     public function sellBike()
     {
         return $this->hasMany(SellBike::class);
+    }
+
+    public function category(): BelongsTo
+    {
+        return $this->belongsTo(Category::class, 'category_id', 'id');
     }
 }

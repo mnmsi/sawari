@@ -1,0 +1,135 @@
+<?php
+
+namespace App\Nova;
+
+use Illuminate\Http\Request;
+use Laravel\Nova\Fields\BelongsTo;
+use Laravel\Nova\Fields\DateTime;
+use Laravel\Nova\Fields\ID;
+use Laravel\Nova\Fields\Select;
+use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Http\Requests\NovaRequest;
+
+class ProductSpecification extends Resource
+{
+    /**
+     * The model the resource corresponds to.
+     *
+     * @var class-string<\App\Models\ProductSpecification>
+     */
+    public static $model = \App\Models\Product\ProductSpecification::class;
+
+    /**
+     * The single value that should be used to represent the resource when being displayed.
+     *
+     * @var string
+     */
+    public static $title = 'title';
+    public static $group = 'Product';
+
+    /**
+     * The columns that should be searched.
+     *
+     * @var array
+     */
+    public static $search = [
+        'title',
+    ];
+
+    /**
+     * Get the fields displayed by the resource.
+     *
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @return array
+     */
+    public function fields(NovaRequest $request)
+    {
+        return [
+            ID::make()->sortable(),
+//            product
+            BelongsTo::make('Product', 'product','App\Nova\Product')
+                ->rules('required')
+                ->noPeeking(),
+//            name
+            Text::make('Title', 'title')
+                ->sortable()
+                ->rules('required', 'max:255')
+                ->withMeta([
+                    'extraAttributes' => [
+                        'placeholder' => 'Enter title',
+                    ],
+                ]),
+//            vale
+            Text::make('Value', 'value')
+                ->sortable()
+                ->rules('required', 'max:255')
+                ->withMeta([
+                    'extraAttributes' => [
+                        'placeholder' => 'Enter value',
+                    ],
+                ]),
+//            feature
+            Select::make('Feature', 'is_key_feature')->options([
+                '1' => 'Yes',
+                '0' => 'No',
+            ])->rules('required')
+                ->displayUsing(function ($v) {
+                    return $v ? "Yes" : "No";
+                }),
+//            date
+            DateTime::make('Created At', 'created_at')
+                ->hideFromIndex()
+                ->default(now())
+                ->hideWhenUpdating(),
+
+            DateTime::make('Updated At', 'updated_at')
+                ->hideFromIndex()
+                ->hideWhenCreating()
+                ->default(now()),
+        ];
+    }
+
+    /**
+     * Get the cards available for the request.
+     *
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @return array
+     */
+    public function cards(NovaRequest $request)
+    {
+        return [];
+    }
+
+    /**
+     * Get the filters available for the resource.
+     *
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @return array
+     */
+    public function filters(NovaRequest $request)
+    {
+        return [];
+    }
+
+    /**
+     * Get the lenses available for the resource.
+     *
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @return array
+     */
+    public function lenses(NovaRequest $request)
+    {
+        return [];
+    }
+
+    /**
+     * Get the actions available for the resource.
+     *
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @return array
+     */
+    public function actions(NovaRequest $request)
+    {
+        return [];
+    }
+}
