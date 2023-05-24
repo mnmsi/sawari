@@ -8,6 +8,7 @@ use App\Models\Product\ProductReview;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Date;
@@ -58,7 +59,7 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
         'phone_verified_at' => 'datetime',
-        'dob'               => 'immutable_date',
+        'dob' => 'immutable_date',
     ];
 
     protected $appends = [
@@ -97,5 +98,10 @@ class User extends Authenticatable
     public function reviews()
     {
         return $this->hasMany(ProductReview::class);
+    }
+
+    public function user_role(): BelongsTo
+    {
+        return $this->belongsTo(UserRole::class, 'role_id', 'id');
     }
 }

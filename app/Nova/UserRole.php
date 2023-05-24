@@ -3,33 +3,27 @@
 namespace App\Nova;
 
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rules;
-use Laravel\Nova\Fields\BelongsTo;
-use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\DateTime;
-use Laravel\Nova\Fields\Gravatar;
 use Laravel\Nova\Fields\ID;
-use Laravel\Nova\Fields\Password;
+use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
-use Laravel\Nova\Fields\Select;
-use Laravel\Nova\Fields\Avatar;
 
-class User extends Resource
+class UserRole extends Resource
 {
     /**
      * The model the resource corresponds to.
      *
-     * @var class-string<\App\User>
+     * @var class-string<\App\Models\User\UserRole>
      */
-    public static $model = 'App\\Models\\User\\User';
+    public static $model = \App\Models\User\UserRole::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
      *
      * @var string
      */
-    public static $title = 'email';
+    public static $title = 'name';
     public static $group = 'User';
 
     /**
@@ -38,7 +32,7 @@ class User extends Resource
      * @var array
      */
     public static $search = [
-        'id', 'phone', 'email',
+        'id', 'name',
     ];
 
     /**
@@ -51,56 +45,24 @@ class User extends Resource
     {
         return [
             ID::make()->sortable(),
-//            role
-            BelongsTo::make('User role', 'user_role', 'App\Nova\UserRole')
-                ->rules('required')
-                ->noPeeking(),
-//first name
-            Text::make('First Name', 'first_name')
+//            name
+            Text::make('Name', 'name')
                 ->sortable()
                 ->rules('required', 'max:255'),
-//last name
-            Text::make('Last Name', 'last_name')
+//            slug
+            Text::make('Slug', 'slug')
                 ->sortable()
+                ->hideWhenCreating()
+                ->hideWhenUpdating()
                 ->rules('required', 'max:255'),
-//            image
-            Avatar::make('Avatar', 'avatar')
-                ->path('user')
-                ->disk('public')
-                ->nullable()
-                ->disableDownload(),
-            //email
-            Text::make('Email')
-                ->sortable()
-                ->rules('required', 'email', 'max:254')
-                ->creationRules('unique:users,email')
-                ->updateRules('unique:users,email,{{resourceId}}'),
-//            phone
-            Text::make('Phone', 'phone')
-                ->sortable()
-                ->rules('required', 'max:255')
-                ->creationRules('unique:users,phone')
-                ->updateRules('unique:users,phone,{{resourceId}}'),
-//password
-            Password::make('Password')
-                ->onlyOnForms()
-                ->creationRules('required', Rules\Password::defaults())
-                ->updateRules('nullable', Rules\Password::defaults()),
-
-//            date of birth
-
-            Date::make('Date of Birth', 'date_of_birth'),
-
-            // gender
-            Select::make('Gender', 'gender')
-                ->options([
-                    'male' => 'Male',
-                    'female' => 'Female',
-                    'other' => 'Other',
-                ])
-                ->sortable()
-                ->nullable(),
-//            date
+//            status
+            Select::make('Status', 'status')->options([
+                '1' => 'Yes',
+                '0' => 'No',
+            ])->rules('required')
+                ->displayUsing(function ($v) {
+                    return $v ? "Active" : "Inactive";
+                }),
             DateTime::make('Created At', 'created_at')
                 ->hideFromIndex()
                 ->default(now())
