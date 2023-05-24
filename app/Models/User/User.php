@@ -66,6 +66,10 @@ class User extends Authenticatable
         'name'
     ];
 
+    protected $with = [
+        'user_role'
+    ];
+
     public function name(): Attribute
     {
         return Attribute::make(

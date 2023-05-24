@@ -20,7 +20,7 @@ class User extends Resource
     /**
      * The model the resource corresponds to.
      *
-     * @var class-string<\App\User>
+     * @var class-string<\App\Models\User\User>
      */
     public static $model = 'App\\Models\\User\\User';
 
@@ -89,7 +89,8 @@ class User extends Resource
 
 //            date of birth
 
-            Date::make('Date of Birth', 'date_of_birth'),
+            Date::make('Date of Birth', 'date_of_birth')
+            ->nullable(),
 
             // gender
             Select::make('Gender', 'gender')
