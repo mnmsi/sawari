@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Nova\LoginController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,5 +15,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect('login.page');
 });
+Route::get('/admin-login',[LoginController::class,'loginPage'])->name('login.page');
+
+Route::post('login-check', [LoginController::class, 'loginCheck'])->name('admin-login-check');
