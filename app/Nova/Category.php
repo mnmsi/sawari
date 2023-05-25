@@ -16,7 +16,7 @@ class Category extends Resource
     /**
      * The model the resource corresponds to.
      *
-     * @var class-string<\App\Models\Category>
+     * @var class-string<\App\Models\Product\Category>
      */
     public static $model = 'App\\Models\\Product\\Category';
 

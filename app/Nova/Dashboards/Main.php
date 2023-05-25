@@ -2,7 +2,11 @@
 
 namespace App\Nova\Dashboards;
 
+use App\Nova\Metrics\BikeSellRequestPerDay;
+use App\Nova\Metrics\OrderPerDay;
 use App\Nova\Metrics\RegisteredUsers;
+use App\Nova\Metrics\ShowroomPerCity;
+use App\Nova\Metrics\TotalProduct;
 use Laravel\Nova\Cards\Help;
 use Laravel\Nova\Dashboards\Main as Dashboard;
 
@@ -17,6 +21,10 @@ class Main extends Dashboard
     {
         return [
             new RegisteredUsers(),
+            new TotalProduct(),
+            new OrderPerDay(),
+            new BikeSellRequestPerDay(),
+            new ShowroomPerCity(),
         ];
     }
 

@@ -70,12 +70,8 @@ class Brand extends Resource
             ])->rules('required'),
 
             BelongsTo::make('Category', 'category')
+                ->nullable()
                 ->noPeeking(),
-
-//            Select::make('Category', 'category_id')->options(
-//                Category::where('is_active', 1)->pluck('name', 'id')
-//            )->rules('required')
-//            ->displayUsingLabels(),
 
             Select::make('Is popular', 'is_popular')->options([
                 '1' => 'Yes',

@@ -81,21 +81,25 @@ class Showroom extends Resource
             Select::make('Country', 'country_id')->options(
                 Country::pluck('name', 'id')
             )->rules('required')
+                ->searchable()
                 ->displayUsingLabels(),
 //            division
             Select::make('Division', 'division_id')->options(
                 Division::pluck('name', 'id')
             )->rules('required')
+                ->searchable()
                 ->displayUsingLabels(),
 //            city
             Select::make('City', 'city_id')->options(
                 City::pluck('name', 'id')
             )->rules('required')
+                ->searchable()
                 ->displayUsingLabels(),
 //            area
             Select::make('Area', 'area_id')->options(
                 Area::pluck('name', 'id')
             )->rules('required')
+                ->searchable()
                 ->displayUsingLabels(),
 //            postal code
             Text::make('Postal code', 'postal_code')
@@ -107,7 +111,8 @@ class Showroom extends Resource
                     ],
                 ]),
 //            image
-            Image::make('Icon', 'location_image_url')
+            Image::make('Google Map Image', 'location_image_url')
+                ->help("*For better view use image height=225, width=500")
                 ->disk('public')
                 ->nullable()
                 ->disableDownload(),
