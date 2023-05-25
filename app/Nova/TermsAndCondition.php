@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Textarea;
+use Laravel\Nova\Fields\Trix;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 class TermsAndCondition extends Resource
@@ -44,7 +45,7 @@ class TermsAndCondition extends Resource
         return [
             ID::make()->sortable(),
 
-            Textarea::make('Terms condition html','terms_conditions')
+            Trix::make('Terms condition html','terms_conditions')
                 ->sortable()
                 ->rules('required')
                 ->alwaysShow(),

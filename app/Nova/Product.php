@@ -56,13 +56,16 @@ class Product extends Resource
             Image::make('Image', 'image_url')
                 ->path('product_image')
                 ->disk('public')
-                ->rules('required')
+                ->creationRules('required')
+                ->updateRules('nullable')
+                ->help("*For better view pleas use image height=200,width=282")
                 ->disableDownload(),
 //            badge
             Image::make('Badge Image', 'badge_url')
                 ->path('product_badge')
                 ->disk('public')
                 ->nullable()
+                ->help("*For better view pleas use image height=52,width=52")
                 ->disableDownload(),
 //            bike body type
             BelongsTo::make('Body Type', 'bodyType')
@@ -106,14 +109,14 @@ class Product extends Resource
                 ->step('any')
                 ->nullable(),
 //            shipping charge
-            Number::make('Shipping charge', 'shipping_charge')
-                ->min(0)
-                ->step('any')
-                ->rules('required'),
+//            Number::make('Shipping charge', 'shipping_charge')
+//                ->min(0)
+//                ->step('any')
+//                ->rules('required'),
 //            total stock
-            Number::make('Total stock', 'total_stock')
-                ->min(0)
-                ->rules('required'),
+//            Number::make('Total stock', 'total_stock')
+//                ->min(0)
+//                ->rules('required'),
 //            used or not
             Select::make('Is Used', 'is_used')->options([
                 '1' => 'Yes',
@@ -157,13 +160,13 @@ class Product extends Resource
                     return $v ? "Active" : "Inactive";
                 }),
 //              short description
-            Textarea::make('Short description','short_description')
+            Textarea::make('Short description', 'short_description')
                 ->sortable()
                 ->nullable()
                 ->rows(2)
                 ->alwaysShow(),
 //            description
-            Textarea::make('Description','description')
+            Textarea::make('Description', 'description')
                 ->sortable()
                 ->rules('required')
                 ->rows(4)

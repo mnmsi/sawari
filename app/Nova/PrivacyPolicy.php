@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Textarea;
+use Laravel\Nova\Fields\Trix;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 class PrivacyPolicy extends Resource
@@ -48,7 +49,7 @@ class PrivacyPolicy extends Resource
         return [
             ID::make()->sortable(),
 
-            Textarea::make('Policy html','privacy_policy')
+            Trix::make('Policy html','privacy_policy')
                 ->sortable()
                 ->rules('required')
                 ->alwaysShow(),
