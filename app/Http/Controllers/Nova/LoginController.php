@@ -17,6 +17,7 @@ class LoginController extends \Laravel\Nova\Http\Controllers\LoginController
 
     public function loginCheck(Request $request)
     {
+//        dd($request->all());
         $request->validate([
             'user_identity' => 'required|string',
             'password' => 'required',
