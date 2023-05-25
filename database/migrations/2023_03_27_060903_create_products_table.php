@@ -20,8 +20,8 @@ return new class extends Migration {
             $table->string('product_code')->unique();
             $table->double('price', 10, 2, true);
             $table->integer('discount_rate')->default(0);
-            $table->integer('shipping_charge');
-            $table->integer('total_stock');
+            $table->integer('shipping_charge')->nullable();
+            $table->integer('total_stock')->nullable();
             $table->tinyInteger('is_used')->default(0)->comment('0: New, 1: Used');
             $table->tinyInteger('is_featured')->default(0)->comment('0: No, 1: Yes');
             $table->tinyInteger('is_active')->default(1)->comment('0: Inactive, 1: Active');
