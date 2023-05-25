@@ -19,9 +19,10 @@ class AccessoryResource extends JsonResource
         return [
             'id'            => $this->id,
             'name'          => $this->name,
+            'slug'          => $this->slug,
             'price'         => $this->price,
             'discount_rate' => $this->discount_rate,
-            'image_url'     => $this->image_url,
+            'image_url'     => asset('storage/' . $this->image_url),
         ];
     }
 }
