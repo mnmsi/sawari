@@ -7,6 +7,7 @@ use App\Models\User\UserWishlist;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Models\BaseModel;
 use Illuminate\Support\Facades\Auth;
+use Str;
 
 class Product extends BaseModel
 {
@@ -36,12 +37,12 @@ class Product extends BaseModel
         'is_active' => 'boolean'
     ];
 
-    public static function boot()
+    protected static function boot()
     {
-        parent::boot();
-        static::creating(function ($model) {
-            $model->slug = str_slug($model->name);
-        });
+       parent::boot();
+       static::creating(function ($model){
+           $model->slug = Str::slug($model->name);
+       });
     }
 
     protected $appends = ['is_favorite', 'product_colors_id'];
