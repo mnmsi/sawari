@@ -2,24 +2,23 @@
 
 namespace App\Nova\Metrics;
 
-use App\Models\User\User;
+use App\Models\Product\Product;
 use Laravel\Nova\Http\Requests\NovaRequest;
-use Laravel\Nova\Metrics\Value;
+use Laravel\Nova\Metrics\Trend;
 use Laravel\Nova\Nova;
 
-class RegisteredUsers extends Value
+class TotalProduct extends Trend
 {
-    public $name = "Total User";
-
     /**
      * Calculate the value of the metric.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @param \Laravel\Nova\Http\Requests\NovaRequest $request
      * @return mixed
      */
     public function calculate(NovaRequest $request)
     {
-        return $this->count($request, User::class);
+        return $this->countByDays($request, Product::class)
+            ->showSumValue();
     }
 
     /**
@@ -32,11 +31,7 @@ class RegisteredUsers extends Value
         return [
             30 => Nova::__('30 Days'),
             60 => Nova::__('60 Days'),
-            365 => Nova::__('365 Days'),
-            'TODAY' => Nova::__('Today'),
-            'MTD' => Nova::__('Month To Date'),
-            'QTD' => Nova::__('Quarter To Date'),
-            'YTD' => Nova::__('Year To Date'),
+            90 => Nova::__('90 Days'),
         ];
     }
 
@@ -48,5 +43,15 @@ class RegisteredUsers extends Value
     public function cacheFor()
     {
         // return now()->addMinutes(5);
+    }
+
+    /**
+     * Get the URI key for the metric.
+     *
+     * @return string
+     */
+    public function uriKey()
+    {
+        return 'total-product';
     }
 }
