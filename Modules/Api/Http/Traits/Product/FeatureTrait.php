@@ -14,7 +14,7 @@ trait FeatureTrait
         // Featured New Bike Product
         return Product::where('is_active', 1)
                       ->where('type', 'bike')
-                      ->where('is_used', 1)
+                      ->where('is_used', 0)
                       ->where('is_featured', 1)
                       ->inRandomOrder()
                       ->take(4)
@@ -29,7 +29,7 @@ trait FeatureTrait
         // Featured Used Bike Product
         return Product::where('is_active', 1)
                       ->where('type', 'bike')
-                      ->where('is_used', 0)
+                      ->where('is_used', 1)
                       ->where('is_featured', 1)
                       ->inRandomOrder()
                       ->take(4)
