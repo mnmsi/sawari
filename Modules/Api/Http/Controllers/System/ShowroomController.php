@@ -12,7 +12,7 @@ class ShowroomController extends Controller
     {
         // Get all active showrooms
         $showrooms = Showroom::where('is_active', 1)
-                                   ->get();
+            ->get();
 
         // Return response with showrooms
         return $this->respondWithSuccessWithData(ShowroomResource::collection($showrooms));

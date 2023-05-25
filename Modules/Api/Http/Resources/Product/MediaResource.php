@@ -20,8 +20,8 @@ class MediaResource extends JsonResource
             'id'            => $this->id,
             'color'         => $this->color->name,
             'type'          => $this->type,
-            'url'           => $this->url,
-            'thumbnail_url' => $this->thumbnail_url,
+            'url'           => asset('storage/' . $this->url),
+            'thumbnail_url' => asset('storage/' . $this->thumbnail_url),
         ];
     }
 }

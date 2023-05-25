@@ -25,7 +25,7 @@ class ShowroomResource extends JsonResource
             'city_id'            => $this->city->name,
             'area_id'            => $this->area->name,
             'postal_code'        => $this->postal_code,
-            'location_image_url' => $this->location_image_url,
+            'location_image_url' => asset('storage/' . $this->location_image_url),
             'support_number'     => $this->support_number,
         ];
     }

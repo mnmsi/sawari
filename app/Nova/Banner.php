@@ -63,7 +63,8 @@ class Banner extends Resource
             Image::make('Image', 'image_url')
                 ->path('banner')
                 ->disk('public')
-                ->rules('required')
+                ->creationRules('required')
+                ->updateRules('nullable')
                 ->disableDownload(),
 //            status
             Select::make('Status', 'is_active')->options([

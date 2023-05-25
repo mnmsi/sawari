@@ -17,7 +17,7 @@ class BannerResource extends JsonResource
         return [
             'page'      => $this->page,
             'show_on'   => $this->show_on,
-            'image_url' => $this->image_url,
+            'image_url' => asset('storage/' . $this->image_url),
         ];
     }
 }
