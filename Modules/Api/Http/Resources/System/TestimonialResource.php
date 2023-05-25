@@ -20,7 +20,7 @@ class TestimonialResource extends JsonResource
             'address'   => $this->address,
             'note'      => $this->note,
             'rate'      => $this->rate,
-            'image_url' => $this->image_url,
+            'image_url' => asset('storage/' . $this->image_url),
         ];
     }
 }
