@@ -2,6 +2,7 @@
 
 namespace App\Nova;
 
+use App\Nova\Filters\BannerStatusFilter;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\ID;
@@ -84,11 +85,13 @@ class Banner extends Resource
             DateTime::make('Created At', 'created_at')
                 ->hideFromIndex()
                 ->default(now())
+                ->hideWhenCreating()
                 ->hideWhenUpdating(),
 
             DateTime::make('Updated At', 'updated_at')
                 ->hideFromIndex()
                 ->hideWhenCreating()
+                ->hideWhenUpdating()
                 ->default(now()),
         ];
     }
@@ -112,7 +115,9 @@ class Banner extends Resource
      */
     public function filters(NovaRequest $request)
     {
-        return [];
+        return [
+            new BannerStatusFilter,
+        ];
     }
 
     /**

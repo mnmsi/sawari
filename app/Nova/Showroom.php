@@ -6,6 +6,7 @@ use App\Models\System\Area;
 use App\Models\System\City;
 use App\Models\System\Country;
 use App\Models\System\Division;
+use App\Nova\Filters\ShowroomStatusFilter;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\ID;
@@ -143,11 +144,13 @@ class Showroom extends Resource
             DateTime::make('Created At', 'created_at')
                 ->hideFromIndex()
                 ->default(now())
+                ->hideWhenCreating()
                 ->hideWhenUpdating(),
 
             DateTime::make('Updated At', 'updated_at')
                 ->hideFromIndex()
                 ->hideWhenCreating()
+                ->hideWhenUpdating()
                 ->default(now()),
         ];
     }
@@ -171,7 +174,9 @@ class Showroom extends Resource
      */
     public function filters(NovaRequest $request)
     {
-        return [];
+        return [
+            new ShowroomStatusFilter,
+        ];
     }
 
     /**

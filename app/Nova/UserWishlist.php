@@ -37,7 +37,7 @@ class UserWishlist extends Resource
     /**
      * Get the fields displayed by the resource.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @param NovaRequest $request
      * @return array
      */
     public function fields(NovaRequest $request)
@@ -56,11 +56,13 @@ class UserWishlist extends Resource
             DateTime::make('Created At', 'created_at')
                 ->hideFromIndex()
                 ->default(now())
+                ->hideWhenCreating()
                 ->hideWhenUpdating(),
 
             DateTime::make('Updated At', 'updated_at')
                 ->hideFromIndex()
                 ->hideWhenCreating()
+                ->hideWhenUpdating()
                 ->default(now()),
         ];
     }
@@ -68,7 +70,7 @@ class UserWishlist extends Resource
     /**
      * Get the cards available for the request.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @param NovaRequest $request
      * @return array
      */
     public function cards(NovaRequest $request)
@@ -79,7 +81,7 @@ class UserWishlist extends Resource
     /**
      * Get the filters available for the resource.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @param NovaRequest $request
      * @return array
      */
     public function filters(NovaRequest $request)
@@ -90,7 +92,7 @@ class UserWishlist extends Resource
     /**
      * Get the lenses available for the resource.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @param NovaRequest $request
      * @return array
      */
     public function lenses(NovaRequest $request)
@@ -101,11 +103,16 @@ class UserWishlist extends Resource
     /**
      * Get the actions available for the resource.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @param NovaRequest $request
      * @return array
      */
     public function actions(NovaRequest $request)
     {
         return [];
+    }
+
+    public static function authorizedToCreate(Request $request): bool
+    {
+        return false;
     }
 }

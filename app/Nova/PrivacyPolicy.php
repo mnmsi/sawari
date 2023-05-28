@@ -56,10 +56,12 @@ class PrivacyPolicy extends Resource
 
             DateTime::make('Created At', 'created_at')
                 ->default(now())
+                ->hideWhenCreating()
                 ->hideWhenUpdating(),
 
             DateTime::make('Updated At', 'updated_at')
                 ->hideWhenCreating()
+                ->hideWhenUpdating()
                 ->default(now()),
         ];
     }

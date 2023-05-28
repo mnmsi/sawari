@@ -2,6 +2,7 @@
 
 namespace App\Nova;
 
+use App\Nova\Filters\OrderStatusFilter;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\DateTime;
@@ -118,11 +119,13 @@ class Order extends Resource
             DateTime::make('Created At', 'created_at')
                 ->hideFromIndex()
                 ->default(now())
+                ->hideWhenCreating()
                 ->hideWhenUpdating(),
 
             DateTime::make('Updated At', 'updated_at')
                 ->hideFromIndex()
                 ->hideWhenCreating()
+                ->hideWhenUpdating()
                 ->default(now()),
 
         ];
@@ -147,7 +150,9 @@ class Order extends Resource
      */
     public function filters(NovaRequest $request)
     {
-        return [];
+        return [
+            new OrderStatusFilter,
+        ];
     }
 
     /**

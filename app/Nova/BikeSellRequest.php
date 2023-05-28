@@ -2,6 +2,7 @@
 
 namespace App\Nova;
 
+use App\Nova\Filters\BikeSellStatusFilter;
 use Illuminate\Http\Request;
 use Laravel\Nova\Exceptions\HelperNotSupported;
 use Laravel\Nova\Fields\BelongsTo;
@@ -174,11 +175,13 @@ class BikeSellRequest extends Resource
             DateTime::make('Created At', 'created_at')
                 ->hideFromIndex()
                 ->default(now())
+                ->hideWhenCreating()
                 ->hideWhenUpdating(),
 
             DateTime::make('Updated At', 'updated_at')
                 ->hideFromIndex()
                 ->hideWhenCreating()
+                ->hideWhenUpdating()
                 ->default(now()),
 
         ];
@@ -203,7 +206,9 @@ class BikeSellRequest extends Resource
      */
     public function filters(NovaRequest $request)
     {
-        return [];
+        return [
+            new BikeSellStatusFilter,
+        ];
     }
 
     /**
