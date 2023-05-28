@@ -5,6 +5,7 @@ namespace App\Nova;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\DateTime;
+use Laravel\Nova\Fields\FormData;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
@@ -15,7 +16,7 @@ class ProductMedia extends Resource
     /**
      * The model the resource corresponds to.
      *
-     * @var class-string<\App\Models\ProductMedia>
+     * @var class-string<\App\Models\Product\ProductMedia>
      */
     public static $model = \App\Models\Product\ProductMedia::class;
 
@@ -51,9 +52,11 @@ class ProductMedia extends Resource
                 ->rules('required')
                 ->noPeeking(),
 //            color
+
             BelongsTo::make('Color', 'color','App\Nova\ProductColor')
                 ->rules('required')
                 ->noPeeking(),
+
 //            type
             Select::make('Type', 'type')->options([
                 'image' => 'Image',

@@ -7,7 +7,7 @@ use App\Models\User\UserWishlist;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Models\BaseModel;
 use Illuminate\Support\Facades\Auth;
-use Str;
+use Illuminate\Support\Str;
 
 class Product extends BaseModel
 {
