@@ -5,6 +5,7 @@ namespace App\Nova;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\DateTime;
+use Laravel\Nova\Fields\FormData;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Image;
 use Laravel\Nova\Fields\Select;
@@ -58,8 +59,9 @@ class Brand extends Resource
                     ],
                 ]),
 
-            Image::make('Icon', 'image_url')
+            Image::make('Image', 'image_url')
                 ->disk('public')
+                ->path('brand')
                 ->nullable()
                 ->disableDownload(),
 
@@ -70,7 +72,16 @@ class Brand extends Resource
             ])->rules('required'),
 
             BelongsTo::make('Category', 'category')
-                ->nullable()
+                ->dependsOn(['type'],function (BelongsTo $field, NovaRequest $request, FormData $formData){
+                    if ($formData->type == "both" || $formData->type == "accessory") {
+                        $field
+                            ->rules('required');
+                    } else {
+                        $field
+                            ->hide()
+                            ->nullable();
+                    }
+                })
                 ->noPeeking(),
 
             Select::make('Is popular', 'is_popular')->options([
@@ -92,7 +103,7 @@ class Brand extends Resource
                 '0' => 'No',
             ])->rules('required')
                 ->resolveUsing(function ($value) {
-                    if (!$value) {
+                    if ($value === false) {
                         return 0;
                     }
                     return 1;
@@ -104,11 +115,13 @@ class Brand extends Resource
             DateTime::make('Created At', 'created_at')
                 ->hideFromIndex()
                 ->default(now())
+                ->hideWhenCreating()
                 ->hideWhenUpdating(),
 
             DateTime::make('Updated At', 'updated_at')
                 ->hideFromIndex()
                 ->hideWhenCreating()
+                ->hideWhenUpdating()
                 ->default(now()),
         ];
     }
