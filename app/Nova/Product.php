@@ -5,12 +5,14 @@ namespace App\Nova;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\DateTime;
+use Laravel\Nova\Fields\FormData;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Image;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Textarea;
+use Laravel\Nova\Fields\Trix;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 class Product extends Resource
@@ -67,18 +69,40 @@ class Product extends Resource
                 ->nullable()
                 ->help("*For better view pleas use image height=52,width=52")
                 ->disableDownload(),
-//            bike body type
-            BelongsTo::make('Body Type', 'bodyType')
-                ->nullable()
-                ->noPeeking(),
-//              type
+            //              type
             Select::make('Type', 'type')->options([
                 'bike' => 'Bike',
                 'accessory' => 'Accessory',
             ])->rules('required'),
+
+//            bike body type
+            BelongsTo::make('Body Type', 'bodyType')
+                ->dependsOn(['type'], function (BelongsTo $field, NovaRequest $request, FormData $formData) {
+                    if ($formData->type == "bike") {
+                        $field
+                            ->rules('required');
+                    } else {
+                        $field
+                            ->hideWhenCreating()
+                            ->hideWhenUpdating()
+                            ->hide()
+                            ->nullable();
+                    }
+                })
+                ->noPeeking(),
+
 //            category
             BelongsTo::make('Category', 'category')
-                ->nullable()
+                ->dependsOn(['type'], function (BelongsTo $field, NovaRequest $request, FormData $formData) {
+                    if ($formData->type == "accessory") {
+                        $field
+                            ->rules('required');
+                    } else {
+                        $field
+                            ->hide()
+                            ->nullable();
+                    }
+                })
                 ->noPeeking(),
 //            name
             Text::make('Name', 'name')
@@ -105,6 +129,7 @@ class Product extends Resource
                 ->rules('required'),
 //            discount
             Number::make('Discount', 'discount_rate')
+                ->default(0)
                 ->min(0)
                 ->step('any')
                 ->nullable(),
@@ -166,20 +191,21 @@ class Product extends Resource
                 ->rows(2)
                 ->alwaysShow(),
 //            description
-            Textarea::make('Description', 'description')
+            Trix::make('Description', 'description')
                 ->sortable()
                 ->rules('required')
-                ->rows(4)
                 ->alwaysShow(),
 //            date
             DateTime::make('Created At', 'created_at')
                 ->hideFromIndex()
                 ->default(now())
+                ->hideWhenCreating()
                 ->hideWhenUpdating(),
 
             DateTime::make('Updated At', 'updated_at')
                 ->hideFromIndex()
                 ->hideWhenCreating()
+                ->hideWhenUpdating()
                 ->default(now()),
         ];
     }

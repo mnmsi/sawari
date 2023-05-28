@@ -10,6 +10,7 @@ use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Webparking\BelongsToDependency\BelongsToDependency;
 
 class ProductMedia extends Resource
 {
@@ -40,7 +41,7 @@ class ProductMedia extends Resource
     /**
      * Get the fields displayed by the resource.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @param \Laravel\Nova\Http\Requests\NovaRequest $request
      * @return array
      */
     public function fields(NovaRequest $request)
@@ -56,6 +57,18 @@ class ProductMedia extends Resource
             BelongsTo::make('Color', 'color','App\Nova\ProductColor')
                 ->rules('required')
                 ->noPeeking(),
+
+//            BelongsTo::make('Color', 'color', 'App\Nova\ProductColor')
+//                ->dependsOn(['product'], function (BelongsTo $field, NovaRequest $request, FormData $formData) {
+//                    if ($formData->product) {
+//                        $field
+//                            ->show()
+//                            ->rules('required');
+//                    } else {
+//                        $field
+//                            ->hide();
+//                    }
+//                }),
 
 //            type
             Select::make('Type', 'type')->options([
@@ -96,7 +109,7 @@ class ProductMedia extends Resource
     /**
      * Get the cards available for the request.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @param \Laravel\Nova\Http\Requests\NovaRequest $request
      * @return array
      */
     public function cards(NovaRequest $request)
@@ -107,7 +120,7 @@ class ProductMedia extends Resource
     /**
      * Get the filters available for the resource.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @param \Laravel\Nova\Http\Requests\NovaRequest $request
      * @return array
      */
     public function filters(NovaRequest $request)
@@ -118,7 +131,7 @@ class ProductMedia extends Resource
     /**
      * Get the lenses available for the resource.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @param \Laravel\Nova\Http\Requests\NovaRequest $request
      * @return array
      */
     public function lenses(NovaRequest $request)
@@ -129,7 +142,7 @@ class ProductMedia extends Resource
     /**
      * Get the actions available for the resource.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @param \Laravel\Nova\Http\Requests\NovaRequest $request
      * @return array
      */
     public function actions(NovaRequest $request)
