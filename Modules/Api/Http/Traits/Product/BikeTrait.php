@@ -94,7 +94,7 @@ trait BikeTrait
         return Product::with('brand', 'bodyType', 'category', 'colors', 'media', 'specifications','wishlists')
             ->where('type', 'bike')
             ->where('is_active', 1)
-            ->where('name', $name)
+            ->where('slug', $name)
             ->first();
     }
 

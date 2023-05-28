@@ -22,6 +22,7 @@
             return [
                 'id' => $this->id,
                 'name' => $this->name,
+                'slug' => $this->slug,
                 'product_code' => $this->product_code,
                 'price' => $this->price,
                 'discount_rate' => $this->discount_rate,

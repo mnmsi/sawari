@@ -22,6 +22,7 @@ class BikeResource extends JsonResource
         return [
             'id'                   => $this->id,
             'name'                 => $this->name,
+            'slug'                 => $this->slug,
             'price'                => $this->price,
             'discount_rate'        => $this->discount_rate,
             'price_after_discount' => $this->calculateDiscountPrice($this->price, $this->discount_rate),

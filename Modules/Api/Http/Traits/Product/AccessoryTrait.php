@@ -79,7 +79,7 @@ trait AccessoryTrait
         return Product::with('brand', 'bodyType', 'category', 'colors', 'media', 'specifications')
             ->where('type', 'accessory')
             ->where('is_active', 1)
-            ->where('name', $name)
+            ->where('slug', $name)
             ->first();
     }
 
