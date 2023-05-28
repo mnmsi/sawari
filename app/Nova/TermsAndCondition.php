@@ -2,6 +2,7 @@
 
 namespace App\Nova;
 
+use App\Models\System\TermsCondition;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\ID;
@@ -14,16 +15,20 @@ class TermsAndCondition extends Resource
     /**
      * The model the resource corresponds to.
      *
-     * @var class-string<\App\Models\TermsAndCondition>
+     * @var class-string<TermsCondition>
      */
-    public static $model = \App\Models\System\TermsCondition::class;
+    public static $model = TermsCondition::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
      *
      * @var string
      */
-    public static $title = 'terms_conditions';
+    public static $title = 'id';
+
+    public static $showColumnBorders = true;
+
+    public static $clickAction = 'edit';
 
     /**
      * The columns that should be searched.
@@ -31,13 +36,13 @@ class TermsAndCondition extends Resource
      * @var array
      */
     public static $search = [
-        'terms_conditions',
+        'id', 'terms_conditions',
     ];
 
     /**
      * Get the fields displayed by the resource.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @param NovaRequest $request
      * @return array
      */
     public function fields(NovaRequest $request)
@@ -45,7 +50,7 @@ class TermsAndCondition extends Resource
         return [
             ID::make()->sortable(),
 
-            Trix::make('Terms condition html','terms_conditions')
+            Trix::make('Terms condition html', 'terms_conditions')
                 ->sortable()
                 ->rules('required')
                 ->alwaysShow(),
@@ -63,7 +68,7 @@ class TermsAndCondition extends Resource
     /**
      * Get the cards available for the request.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @param NovaRequest $request
      * @return array
      */
     public function cards(NovaRequest $request)
@@ -74,7 +79,7 @@ class TermsAndCondition extends Resource
     /**
      * Get the filters available for the resource.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @param NovaRequest $request
      * @return array
      */
     public function filters(NovaRequest $request)
@@ -85,7 +90,7 @@ class TermsAndCondition extends Resource
     /**
      * Get the lenses available for the resource.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @param NovaRequest $request
      * @return array
      */
     public function lenses(NovaRequest $request)
@@ -96,7 +101,7 @@ class TermsAndCondition extends Resource
     /**
      * Get the actions available for the resource.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @param NovaRequest $request
      * @return array
      */
     public function actions(NovaRequest $request)

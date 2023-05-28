@@ -15,7 +15,7 @@ class ProductReview extends Resource
     /**
      * The model the resource corresponds to.
      *
-     * @var class-string<\App\Models\ProductReview>
+     * @var class-string<\App\Models\Product\ProductReview>
      */
     public static $model = \App\Models\Product\ProductReview::class;
 
@@ -129,5 +129,10 @@ class ProductReview extends Resource
     public function actions(NovaRequest $request)
     {
         return [];
+    }
+
+    public static function authorizedToCreate(Request $request): bool
+    {
+        return false;
     }
 }
