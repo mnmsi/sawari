@@ -133,15 +133,6 @@ class Product extends Resource
                 ->min(0)
                 ->step('any')
                 ->nullable(),
-//            shipping charge
-//            Number::make('Shipping charge', 'shipping_charge')
-//                ->min(0)
-//                ->step('any')
-//                ->rules('required'),
-//            total stock
-//            Number::make('Total stock', 'total_stock')
-//                ->min(0)
-//                ->rules('required'),
 //            used or not
             Select::make('Is Used', 'is_used')->options([
                 '1' => 'Yes',
