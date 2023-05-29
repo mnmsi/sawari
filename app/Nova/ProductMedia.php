@@ -2,6 +2,7 @@
 
 namespace App\Nova;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Attachments\Attachment;
 use Laravel\Nova\Fields\BelongsTo;
@@ -59,19 +60,12 @@ class ProductMedia extends Resource
 
             BelongsTo::make('Color', 'color', 'App\Nova\ProductColor')
                 ->rules('required')
+                ->dependsOn(['product'], function (BelongsTo $field, NovaRequest $request, FormData $formData) {
+                    $field->relatableQueryUsing(function (NovaRequest $request, Builder $query) use ($formData) {
+                        $query->where('product_id', $formData->product);
+                    });
+                })
                 ->noPeeking(),
-
-//            BelongsTo::make('Color', 'color', 'App\Nova\ProductColor')
-//                ->dependsOn(['product'], function (BelongsTo $field, NovaRequest $request, FormData $formData) {
-//                    if ($formData->product) {
-//                        $field
-//                            ->show()
-//                            ->rules('required');
-//                    } else {
-//                        $field
-//                            ->hide();
-//                    }
-//                }),
 
 //            type
             Select::make('Type', 'type')->options([
@@ -100,7 +94,7 @@ class ProductMedia extends Resource
                 })
                 ->withMeta([
                     'extraAttributes' => [
-                        'placeholder' => 'Enter active url',
+                        'placeholder' => 'Enter url',
                     ],
                 ]),
 //            thumb url
