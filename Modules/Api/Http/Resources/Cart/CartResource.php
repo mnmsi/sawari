@@ -37,9 +37,9 @@ class CartResource extends JsonResource
             'discount_rate' => $this->product->discount_rate,
             'price_after_discount' => $this->calculateDiscountPrice($this->product->price,$this->product->discount_rate),
             'total_stock' => $this->productColor->stock,
-            'image' => asset('storage/'.$this->product->image),
+            'image' => asset('storage/'.$this->product->image_url),
             'color' => $this->productColor->name,
-            'color_image' => asset('storage/'.$this->productColor->image),
+            'color_image' => asset('storage/'.$this->productColor->image_url),
         ];
     }
 }
