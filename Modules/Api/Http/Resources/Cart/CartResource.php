@@ -18,11 +18,6 @@ class CartResource extends JsonResource
      */
     public function toArray($request): array
     {
-
-        if (empty($this->product)) {
-            dd($this);
-        }
-
         return [
             'id' => $this->id,
             'quantity' => $this->quantity,
