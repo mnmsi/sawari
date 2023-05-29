@@ -17,7 +17,6 @@ trait PaymentTrait {
         $orderData['product_name'] = "Sawari Product";
         $orderData['product_category'] = "Ecommerce";
         $orderData['product_profile'] = "general";
-        $orderData['success_url'] = "http://localhost:3000/payment/success";
         return $sslc->makePayment($orderData, 'checkout', 'json');
 
     }
