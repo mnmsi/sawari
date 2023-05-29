@@ -24,6 +24,7 @@
                 'name' => $this->name,
                 'slug' => $this->slug,
                 'product_code' => $this->product_code,
+                'image' => asset('storage/' . $this->image_url),
                 'price' => $this->price,
                 'discount_rate' => $this->discount_rate,
                 'price_after_discount' => $this->calculateDiscountPrice($this->price, $this->discount_rate),
