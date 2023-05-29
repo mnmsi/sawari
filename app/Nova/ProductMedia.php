@@ -106,8 +106,8 @@ class ProductMedia extends Resource
                 ->path('media')
                 ->disk('public')
                 ->dependsOn(['type'], function (Image $field, NovaRequest $request, FormData $formData) {
-                    if ($formData->type === "video") {
-                        $field->nullable();
+                    if ($formData->type === "video" || $formData->type === "youtube") {
+                        $field->rules('required');
                     } else {
                         $field
                             ->nullable()

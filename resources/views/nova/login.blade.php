@@ -22,25 +22,39 @@
         </div>
         <h4 class="modal-title">Welcome Back!</h4>
         <hr/>
-        {{--        <div class="form-group">--}}
-        {{--            <label for="email">--}}
-        {{--                Enter Email:--}}
-        {{--            </label>--}}
-        {{--            <input type="text" id="email" name="email" class="form-control" placeholder="Username" required="required">--}}
-        {{--        </div>--}}
         <div class="form-group">
-            <label for="user_identity">
-                Enter Phone/Email:
+            <label for="loginDropdown">
+                Select login method:
             </label>
-            <input type="text" id="user_identity" value="{{old('user_identity')}}" name="user_identity" class="form-control"
-                   placeholder="Enter (phone/email)" required="required">
+            <select class="form-control" id="loginDropdown" required>
+                <option selected disabled>Please choose</option>
+                <option value="email">Email</option>
+                <option value="phone">Phone</option>
+            </select>
         </div>
+        <div class="form-group" id="phoneContainer" style="display: none;">
+            <label for="phone">Enter your number:</label>
+            <input class="form-control" name="phone" placeholder="Enter number" type="text" id="phone">
+        </div>
+
+        <div class="form-group" id="emailContainer" style="display: none;">
+            <label for="email">Enter your email:</label>
+            <input class="form-control" placeholder="Enter email" name="email"  type="email" id="email">
+        </div>
+{{--        <div class="form-group">--}}
+{{--            <label for="user_identity">--}}
+{{--                Enter Phone/Email:--}}
+{{--            </label>--}}
+{{--            <input type="text" id="user_identity" value="{{old('user_identity')}}" name="user_identity"--}}
+{{--                   class="form-control"--}}
+{{--                   placeholder="Enter (phone/email)" required="required">--}}
+{{--        </div>--}}
         <div class="form-group">
             <label for="password">
                 Enter Password:
             </label>
             <input type="password" id="password" value="{{old('password')}}" name="password" class="form-control"
-                   placeholder="Password"
+                   placeholder="Enter Password"
                    required="required">
         </div>
         @if ($errors->any())
@@ -56,6 +70,22 @@
     </form>
 </div>
 </body>
+<script>
+    $(document).ready(function () {
+        $('#loginDropdown').change(function() {
+            let selectedOption = $(this).val();
+
+            if (selectedOption === 'phone') {
+                $('#phoneContainer').show();
+                $('#phone').val("880").disabled();
+                $('#emailContainer').hide();
+            } else if (selectedOption === 'email') {
+                $('#phoneContainer').hide();
+                $('#emailContainer').show();
+            }
+        });
+    });
+</script>
 </html>
 
 

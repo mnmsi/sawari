@@ -17,13 +17,13 @@ class LoginController extends \Laravel\Nova\Http\Controllers\LoginController
 
     public function loginCheck(Request $request)
     {
-//        dd($request->all());
         $request->validate([
-            'user_identity' => 'required|string',
+            'email' => 'nullable|email|exists:App\Models\User\User,email',
+            'phone' => 'nullable|string|exists:App\Models\User\User,phone',
             'password' => 'required',
         ]);
 
-        $login = $request->user_identity;
+        $login = $request->email ?? $request->phone;
         $fieldType = filter_var($login, FILTER_VALIDATE_EMAIL) ? 'email' : 'phone';
 
         $credentials = [
