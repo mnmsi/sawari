@@ -4,6 +4,7 @@ namespace App\Models\Product;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Models\BaseModel;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class ProductMedia extends BaseModel
 {
@@ -25,5 +26,13 @@ class ProductMedia extends BaseModel
     public function color()
     {
         return $this->belongsTo(ProductColor::class, 'product_color_id', 'id');
+    }
+
+    public function getURLAttribute($value)
+    {
+        if ($value) {
+            return asset('storage/' . $value);
+        }
+        return $value;
     }
 }

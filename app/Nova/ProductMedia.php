@@ -3,10 +3,13 @@
 namespace App\Nova;
 
 use Illuminate\Http\Request;
+use Laravel\Nova\Fields\Attachments\Attachment;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\DateTime;
+use Laravel\Nova\Fields\File;
 use Laravel\Nova\Fields\FormData;
 use Laravel\Nova\Fields\ID;
+use Laravel\Nova\Fields\Image;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
@@ -74,25 +77,41 @@ class ProductMedia extends Resource
             Select::make('Type', 'type')->options([
                 'image' => 'Image',
                 'video' => 'Video',
+                'youtube' => 'Youtube',
             ])->rules('required'),
 //            url
-            Text::make('Url', 'url')
-                ->sortable()
-                ->rules('required', 'max:255')
-                ->withMeta([
-                    'extraAttributes' => [
-                        'placeholder' => 'Enter active url',
-                    ],
-                ]),
+        File::make('Url', 'url')
+            ->path('media')
+            ->disk('public')
+            ->disableDownload(),
+//            Text::make('Url', 'url')
+//                ->sortable()
+//                ->rules('required', 'max:255')
+//                ->withMeta([
+//                    'extraAttributes' => [
+//                        'placeholder' => 'Enter active url',
+//                    ],
+//                ]),
 //            thumb url
-            Text::make('Thumb url', 'thumbnail_url')
-                ->sortable()
-                ->nullable()
+            Image::make('Thumb url', 'thumbnail_url')
+                ->path('media')
+                ->disk('public')
+                ->dependsOn(['type'],function (Image $field, NovaRequest $request, FormData $formData){
+                    if($formData->type === "video"){
+                        $field->nullable();
+                    } else {
+                        $field
+                            ->nullable()
+                            ->hide();
+                    }
+                })
                 ->withMeta([
                     'extraAttributes' => [
                         'placeholder' => 'Enter thumb url(optional)',
                     ],
-                ]),
+                ])
+                ->help("*Optional upload video thumb image.")
+                ->disableDownload(),
 //            date
             DateTime::make('Created At', 'created_at')
                 ->hideFromIndex()
