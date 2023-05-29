@@ -10,6 +10,7 @@ use Laravel\Nova\Fields\Image;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Laravel\Nova\Query\Search\SearchableRelation;
 
 class ProductColor extends Resource
 {
@@ -136,4 +137,12 @@ class ProductColor extends Resource
 //    {
 //        return $query->where('type', 'bike');
 //    }
+
+    public static function searchableColumns()
+    {
+        return [
+            'id',
+            new SearchableRelation('product', 'name'),
+        ];
+    }
 }

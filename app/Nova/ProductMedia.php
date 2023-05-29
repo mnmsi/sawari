@@ -14,6 +14,7 @@ use Laravel\Nova\Fields\Image;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Laravel\Nova\Query\Search\SearchableRelation;
 
 class ProductMedia extends Resource
 {
@@ -177,5 +178,14 @@ class ProductMedia extends Resource
     public function actions(NovaRequest $request)
     {
         return [];
+    }
+
+    public static function searchableColumns()
+    {
+        return [
+            'id',
+            new SearchableRelation('product', 'name'),
+            new SearchableRelation('color', 'name'),
+        ];
     }
 }

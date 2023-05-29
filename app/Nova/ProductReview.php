@@ -9,6 +9,7 @@ use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Laravel\Nova\Query\Search\SearchableRelation;
 
 class ProductReview extends Resource
 {
@@ -136,5 +137,14 @@ class ProductReview extends Resource
     public static function authorizedToCreate(Request $request): bool
     {
         return false;
+    }
+
+    public static function searchableColumns()
+    {
+        return [
+            'id',
+            new SearchableRelation('product', 'name'),
+            new SearchableRelation('user', 'email'),
+        ];
     }
 }

@@ -9,6 +9,7 @@ use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Laravel\Nova\Query\Search\SearchableRelation;
 
 class PaymentDetails extends Resource
 {
@@ -203,5 +204,13 @@ class PaymentDetails extends Resource
     public function actions(NovaRequest $request)
     {
         return [];
+    }
+
+    public static function searchableColumns()
+    {
+        return [
+            'id',
+            new SearchableRelation('order', 'transaction_id'),
+        ];
     }
 }
