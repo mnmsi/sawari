@@ -24,9 +24,9 @@ class OrderResource extends JsonResource
             'discount_rate' => $this->discount_rate,
             'price_after_discount' => $this->calculateDiscountPrice($this->price,$this->discount_rate),
             'total_stock' => $this->colors->first()->stock,
-            'image' => asset('storage/'.$this->image),
+            'image' => asset('storage/'.$this->image_url),
             'color' => $this->colors->first()->name,
-            'color_image' => asset('storage/'.$this->colors->first()->image),
+            'color_image' => asset('storage/'.$this->colors->first()->image_url),
         ];
     }
 }
