@@ -46,6 +46,8 @@
             // Get bike details
             $bikeDetails = $this->getBikeDetails($name);
 
+//            dd($bikeDetails->toArray());
+
             // Check if bike details is empty
             if (empty($bikeDetails)) {
                 return $this->respondNotFound("Not Found");

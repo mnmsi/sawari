@@ -95,7 +95,7 @@ trait CartTrait
      */
     public function getSelectedCartProduct()
     {
-        return Cart::where('user_id', auth()->id())->where('status', '1')->get();
+        return Cart::where('user_id', auth()->id())->with('product')->where('status', '1')->get();
     }
 
 
