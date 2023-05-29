@@ -16,12 +16,15 @@ class MediaResource extends JsonResource
      */
     public function toArray($request)
     {
+        if ($this->type == 'youtube') {
+            $this->type = 'video';
+        }
         return [
-            'id'            => $this->id,
-            'color'         => $this->color->name,
-            'type'          => $this->type,
-            'url'           => asset('storage/' . $this->url),
-            'thumbnail_url' => asset('storage/' . $this->thumbnail_url),
+            'id' => $this->id,
+            'color' => $this->color->name,
+            'type' => $this->type,
+            'url' => $this->url,
+            'thumbnail_url' => $this->thumbnail_url ?? $this->url,
         ];
     }
 }

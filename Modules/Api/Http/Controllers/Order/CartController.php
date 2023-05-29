@@ -20,7 +20,7 @@ class CartController extends Controller
      */
     public function carts()
     {
-        $carts = $this->getCartedData(); // Get carted data
+        $carts = $this->getCartedData();
         return $this->respondWithSuccess([
             'data' => CartResource::collection($carts),
             'total_price' => $this->getTotalPrice(),
