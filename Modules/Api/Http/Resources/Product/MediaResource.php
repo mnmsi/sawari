@@ -27,7 +27,7 @@ class MediaResource extends JsonResource
             'color' => $this->color->name,
             'type' => $this->type,
             'url' => $this->url,
-            'thumbnail_url' => $this->thumbnail_url ?? $this->url,
+            'thumbnail_url' => asset('storage/'.$this->thumbnail_url) ?? $this->url,
         ];
     }
 }
