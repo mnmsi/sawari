@@ -3,6 +3,7 @@
 namespace App\Nova;
 
 use App\Nova\Filters\UserRoleFilter;
+use App\Nova\Metrics\RegisteredUsers;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rules;
 use Laravel\Nova\Fields\BelongsTo;
@@ -125,7 +126,9 @@ class User extends Resource
      */
     public function cards(NovaRequest $request)
     {
-        return [];
+        return [
+            new RegisteredUsers,
+        ];
     }
 
     /**

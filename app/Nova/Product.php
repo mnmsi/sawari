@@ -3,6 +3,7 @@
 namespace App\Nova;
 
 use App\Nova\Filters\ProductStatusFilter;
+use App\Nova\Metrics\TotalProduct;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\DateTime;
@@ -210,7 +211,9 @@ class Product extends Resource
      */
     public function cards(NovaRequest $request)
     {
-        return [];
+        return [
+            new TotalProduct,
+        ];
     }
 
     /**

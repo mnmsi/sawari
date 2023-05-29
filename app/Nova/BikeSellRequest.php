@@ -3,6 +3,7 @@
 namespace App\Nova;
 
 use App\Nova\Filters\BikeSellStatusFilter;
+use App\Nova\Metrics\BikeSellRequestPerDay;
 use Illuminate\Http\Request;
 use Laravel\Nova\Exceptions\HelperNotSupported;
 use Laravel\Nova\Fields\BelongsTo;
@@ -57,10 +58,12 @@ class BikeSellRequest extends Resource
 //            city
             BelongsTo::make('City', 'city','App\Nova\Others\City')
                 ->rules('required')
+                ->searchable()
                 ->noPeeking(),
 //            area
             BelongsTo::make('Area', 'area','App\Nova\Others\Area')
                 ->rules('required')
+                ->searchable()
                 ->noPeeking(),
 //            brand
             BelongsTo::make('Bike Brand', 'brand','App\Nova\Brand')
@@ -195,7 +198,9 @@ class BikeSellRequest extends Resource
      */
     public function cards(NovaRequest $request)
     {
-        return [];
+        return [
+            new BikeSellRequestPerDay,
+        ];
     }
 
     /**

@@ -110,4 +110,9 @@ class TermsAndCondition extends Resource
     {
         return [];
     }
+
+    public static function searchable()
+    {
+        return false;
+    }
 }
