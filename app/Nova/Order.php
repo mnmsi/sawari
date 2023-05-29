@@ -3,6 +3,7 @@
 namespace App\Nova;
 
 use App\Nova\Filters\OrderStatusFilter;
+use App\Nova\Metrics\OrderPerDay;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\DateTime;
@@ -139,7 +140,9 @@ class Order extends Resource
      */
     public function cards(NovaRequest $request)
     {
-        return [];
+        return [
+            new OrderPerDay,
+        ];
     }
 
     /**

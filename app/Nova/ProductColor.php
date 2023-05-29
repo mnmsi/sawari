@@ -132,8 +132,8 @@ class ProductColor extends Resource
         return [];
     }
 
-    public static function relatableProducts(NovaRequest $request, $query)
-    {
-        return $query->where('type', 'bike');
-    }
+//    public static function relatableProducts(NovaRequest $request, $query)
+//    {
+//        return $query->where('type', 'bike');
+//    }
 }

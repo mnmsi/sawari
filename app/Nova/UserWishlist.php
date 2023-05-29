@@ -115,4 +115,9 @@ class UserWishlist extends Resource
     {
         return false;
     }
+
+    public static function searchable()
+    {
+        return false;
+    }
 }

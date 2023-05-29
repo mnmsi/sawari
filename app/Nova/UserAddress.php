@@ -84,17 +84,20 @@ class UserAddress extends Resource
 
             BelongsTo::make('Division', 'division','App\Nova\Others\Division')
                 ->rules('required')
+                ->searchable()
                 ->noPeeking(),
 
 //            city
 
             BelongsTo::make('City', 'city','App\Nova\Others\City')
                 ->rules('required')
+                ->searchable()
                 ->noPeeking(),
 
 //            area
             BelongsTo::make('Area', 'area','App\Nova\Others\Area')
                 ->rules('required')
+                ->searchable()
                 ->noPeeking(),
 //            default
             Select::make('Default Address', 'is_default')->options([
