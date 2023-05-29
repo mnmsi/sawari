@@ -76,6 +76,7 @@ class ProductMedia extends Resource
 //            url
             Text::make('Url', 'url')
                 ->sortable()
+                ->hideFromDetail()
                 ->dependsOn(['type'], function (Text $field, NovaRequest $request, FormData $formData) {
                     if ($formData->type != "youtube") {
                         $field->nullable()
