@@ -7,6 +7,7 @@ use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Laravel\Nova\Query\Search\SearchableRelation;
 
 class UserWishlist extends Resource
 {
@@ -49,7 +50,7 @@ class UserWishlist extends Resource
                 ->rules('required')
                 ->noPeeking(),
 //            product
-            BelongsTo::make('Product', 'product','App\Nova\Product')
+            BelongsTo::make('Product', 'product', 'App\Nova\Product')
                 ->rules('required')
                 ->noPeeking(),
 //            date

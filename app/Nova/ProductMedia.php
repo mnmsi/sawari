@@ -14,7 +14,6 @@ use Laravel\Nova\Fields\Image;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
-use Webparking\BelongsToDependency\BelongsToDependency;
 
 class ProductMedia extends Resource
 {

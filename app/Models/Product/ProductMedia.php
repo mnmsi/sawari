@@ -39,11 +39,11 @@ class ProductMedia extends BaseModel
         }
         return $value;
     }
-    public function getThumbnailURLAttribute($value)
-    {
-        if ($value) {
-            return asset('storage/' . $value);
-        }
-        return $value;
-    }
+//    public function getThumbnailURLAttribute($value)
+//    {
+//        if ($value) {
+//            return asset('storage/' . $value);
+//        }
+//        return $value;
+//    }
 }
