@@ -14,7 +14,7 @@ return new class extends Migration {
             $table->id();
             $table->unsignedBigInteger('product_id');
             $table->unsignedBigInteger('product_color_id');
-            $table->enum('type', ['image', 'video']);
+            $table->enum('type', ['image', 'video', 'youtube']);
             $table->string('url');
             $table->string('thumbnail_url')->nullable();
             $table->dateTime('created_at')->useCurrent();

@@ -57,7 +57,7 @@ class ProductMedia extends Resource
                 ->noPeeking(),
 //            color
 
-            BelongsTo::make('Color', 'color','App\Nova\ProductColor')
+            BelongsTo::make('Color', 'color', 'App\Nova\ProductColor')
                 ->rules('required')
                 ->noPeeking(),
 
@@ -80,24 +80,35 @@ class ProductMedia extends Resource
                 'youtube' => 'Youtube',
             ])->rules('required'),
 //            url
-        File::make('Url', 'url')
-            ->path('media')
-            ->disk('public')
-            ->disableDownload(),
-//            Text::make('Url', 'url')
-//                ->sortable()
-//                ->rules('required', 'max:255')
-//                ->withMeta([
-//                    'extraAttributes' => [
-//                        'placeholder' => 'Enter active url',
-//                    ],
-//                ]),
+            File::make('Url', 'url')
+                ->path('media')
+                ->disk('public')
+                ->dependsOn(['type'], function (File $field, NovaRequest $request, FormData $formData) {
+                    if ($formData->type == "youtube") {
+                        $field->hide();
+                    }
+                })
+                ->disableDownload(),
+            Text::make('Url', 'url')
+                ->sortable()
+                ->dependsOn(['type'], function (Text $field, NovaRequest $request, FormData $formData) {
+                    if ($formData->type != "youtube") {
+                        $field->hide();
+                    } else {
+                        $field->rules('required', 'max:255');
+                    }
+                })
+                ->withMeta([
+                    'extraAttributes' => [
+                        'placeholder' => 'Enter active url',
+                    ],
+                ]),
 //            thumb url
             Image::make('Thumb url', 'thumbnail_url')
                 ->path('media')
                 ->disk('public')
-                ->dependsOn(['type'],function (Image $field, NovaRequest $request, FormData $formData){
-                    if($formData->type === "video"){
+                ->dependsOn(['type'], function (Image $field, NovaRequest $request, FormData $formData) {
+                    if ($formData->type === "video") {
                         $field->nullable();
                     } else {
                         $field

@@ -31,6 +31,10 @@ class ProductMedia extends BaseModel
     public function getURLAttribute($value)
     {
         if ($value) {
+            if(filter_var($value, FILTER_VALIDATE_URL) !== false)
+            {
+                return $value;
+            }
             return asset('storage/' . $value);
         }
         return $value;
