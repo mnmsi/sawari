@@ -74,20 +74,12 @@ class ProductMedia extends Resource
                 'youtube' => 'Youtube',
             ])->rules('required'),
 //            url
-            File::make('Url', 'url')
-                ->path('media')
-                ->disk('public')
-                ->dependsOn(['type'], function (File $field, NovaRequest $request, FormData $formData) {
-                    if ($formData->type == "youtube") {
-                        $field->hide();
-                    }
-                })
-                ->disableDownload(),
             Text::make('Url', 'url')
                 ->sortable()
                 ->dependsOn(['type'], function (Text $field, NovaRequest $request, FormData $formData) {
                     if ($formData->type != "youtube") {
-                        $field->hide();
+                        $field->nullable()
+                            ->hide();
                     } else {
                         $field->rules('required', 'max:255');
                     }
@@ -97,6 +89,17 @@ class ProductMedia extends Resource
                         'placeholder' => 'Enter url',
                     ],
                 ]),
+
+            File::make('Url', 'url')
+                ->path('media')
+                ->disk('public')
+                ->dependsOn(['type'], function (File $field, NovaRequest $request, FormData $formData) {
+                    if ($formData->type == "youtube") {
+                        $field->nullable()
+                            ->hide();
+                    }
+                })
+                ->disableDownload(),
 //            thumb url
             Image::make('Thumb url', 'thumbnail_url')
                 ->path('media')
