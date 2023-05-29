@@ -41,14 +41,6 @@
             <label for="email">Enter your email:</label>
             <input class="form-control" placeholder="Enter email" name="email"  type="email" id="email">
         </div>
-{{--        <div class="form-group">--}}
-{{--            <label for="user_identity">--}}
-{{--                Enter Phone/Email:--}}
-{{--            </label>--}}
-{{--            <input type="text" id="user_identity" value="{{old('user_identity')}}" name="user_identity"--}}
-{{--                   class="form-control"--}}
-{{--                   placeholder="Enter (phone/email)" required="required">--}}
-{{--        </div>--}}
         <div class="form-group">
             <label for="password">
                 Enter Password:
@@ -77,7 +69,7 @@
 
             if (selectedOption === 'phone') {
                 $('#phoneContainer').show();
-                $('#phone').val("880").disabled();
+                $('#phone').val("880");
                 $('#emailContainer').hide();
             } else if (selectedOption === 'email') {
                 $('#phoneContainer').hide();
