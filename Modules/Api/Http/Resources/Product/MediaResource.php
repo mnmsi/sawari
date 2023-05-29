@@ -19,6 +19,9 @@ class MediaResource extends JsonResource
         if ($this->type == 'youtube') {
             $this->type = 'video';
         }
+        if(empty($this->thumbnail_url)){
+            $this->thumbnail_url = $this->url;
+        }
         return [
             'id' => $this->id,
             'color' => $this->color->name,
