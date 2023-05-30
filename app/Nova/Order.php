@@ -118,7 +118,6 @@ class Order extends Resource
             ])->rules('required'),
 //            date
             DateTime::make('Created At', 'created_at')
-                ->hideFromIndex()
                 ->default(now())
                 ->hideWhenCreating()
                 ->hideWhenUpdating(),
