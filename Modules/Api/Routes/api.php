@@ -17,6 +17,7 @@ use Modules\Api\Http\Controllers\Product\WishListController;
 use Modules\Api\Http\Controllers\SellBike\SellBikeController;
 use Modules\Api\Http\Controllers\System\BannerController;
 use Modules\Api\Http\Controllers\System\ColorController;
+use Modules\Api\Http\Controllers\System\HomePageSectionController;
 use Modules\Api\Http\Controllers\System\PrivacyPolicyController;
 use Modules\Api\Http\Controllers\System\SeoSettingController;
 use Modules\Api\Http\Controllers\System\ShowroomController;
@@ -42,8 +43,9 @@ Route::post('verify-otp', [OtpController::class, 'verifyOtp']); // Verify OTP Ro
 // System Routes (Public) or (Guest) Mode
 Route::middleware('guest')->group(function () {
 
-    Route::get('site-settings', [SiteSettingController::class,'siteSettings']);
-    Route::get('seo-settings', [SeoSettingController::class,'seoSettings']);
+    Route::get('site-settings', [SiteSettingController::class, 'siteSettings']);
+    Route::get('seo-settings', [SeoSettingController::class, 'seoSettings']);
+    Route::get('home-page-sections', [HomePageSectionController::class, 'homePageSections']);
 
     Route::get('banners', [BannerController::class, 'banners']);                // Banner Routes
     Route::get('testimonials', [TestimonialController::class, 'testimonials']); // Testimonial Routes
