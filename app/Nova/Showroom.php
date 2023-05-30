@@ -2,15 +2,11 @@
 
 namespace App\Nova;
 
-use App\Models\System\Area;
-use App\Models\System\City;
-use App\Models\System\Country;
-use App\Models\System\Division;
 use App\Nova\Filters\ShowroomStatusFilter;
-use Illuminate\Http\Request;
+use Laravel\Nova\Exceptions\HelperNotSupported;
+use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\ID;
-use Laravel\Nova\Fields\Image;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
@@ -20,7 +16,7 @@ class Showroom extends Resource
     /**
      * The model the resource corresponds to.
      *
-     * @var class-string<\App\Models\Showroom>
+     * @var class-string<\App\Models\System\Showroom>
      */
     public static $model = \App\Models\System\Showroom::class;
 
@@ -44,8 +40,9 @@ class Showroom extends Resource
     /**
      * Get the fields displayed by the resource.
      *
-     * @param \Laravel\Nova\Http\Requests\NovaRequest $request
+     * @param NovaRequest $request
      * @return array
+     * @throws HelperNotSupported
      */
     public function fields(NovaRequest $request)
     {
@@ -79,29 +76,21 @@ class Showroom extends Resource
                     ],
                 ]),
             //  country
-            Select::make('Country', 'country_id')->options(
-                Country::pluck('name', 'id')
-            )->rules('required')
+            BelongsTo::make('Country', 'country', 'App\Nova\Others\Country')
                 ->searchable()
-                ->displayUsingLabels(),
+                ->rules('required'),
 //            division
-            Select::make('Division', 'division_id')->options(
-                Division::pluck('name', 'id')
-            )->rules('required')
+            BelongsTo::make('Division', 'division', 'App\Nova\Others\Division')
                 ->searchable()
-                ->displayUsingLabels(),
+                ->rules('required'),
 //            city
-            Select::make('City', 'city_id')->options(
-                City::pluck('name', 'id')
-            )->rules('required')
+            BelongsTo::make('City', 'city', 'App\Nova\Others\City')
                 ->searchable()
-                ->displayUsingLabels(),
+                ->rules('required'),
 //            area
-            Select::make('Area', 'area_id')->options(
-                Area::pluck('name', 'id')
-            )->rules('required')
+            BelongsTo::make('Area', 'area', 'App\Nova\Others\Area')
                 ->searchable()
-                ->displayUsingLabels(),
+                ->rules('required'),
 //            postal code
             Text::make('Postal code', 'postal_code')
                 ->sortable()
@@ -112,11 +101,12 @@ class Showroom extends Resource
                     ],
                 ]),
 //            image
-            Image::make('Google Map Image', 'location_image_url')
-                ->help("*For better view use image height=225, width=500")
-                ->disk('public')
+
+            Text::make('Google Map Image', 'location_image_url')
+                ->help("*use google map shareable iframe link")
                 ->nullable()
-                ->disableDownload(),
+                ->hideFromIndex()
+                ->asHtml(),
 //            phone
             Text::make('Support number', 'support_number')
                 ->sortable()
@@ -158,7 +148,7 @@ class Showroom extends Resource
     /**
      * Get the cards available for the request.
      *
-     * @param \Laravel\Nova\Http\Requests\NovaRequest $request
+     * @param NovaRequest $request
      * @return array
      */
     public function cards(NovaRequest $request)
@@ -169,7 +159,7 @@ class Showroom extends Resource
     /**
      * Get the filters available for the resource.
      *
-     * @param \Laravel\Nova\Http\Requests\NovaRequest $request
+     * @param NovaRequest $request
      * @return array
      */
     public function filters(NovaRequest $request)
@@ -182,7 +172,7 @@ class Showroom extends Resource
     /**
      * Get the lenses available for the resource.
      *
-     * @param \Laravel\Nova\Http\Requests\NovaRequest $request
+     * @param NovaRequest $request
      * @return array
      */
     public function lenses(NovaRequest $request)
@@ -193,11 +183,25 @@ class Showroom extends Resource
     /**
      * Get the actions available for the resource.
      *
-     * @param \Laravel\Nova\Http\Requests\NovaRequest $request
+     * @param NovaRequest $request
      * @return array
      */
     public function actions(NovaRequest $request)
     {
         return [];
     }
+
+    /**
+     * @throws HelperNotSupported
+     */
+//    public function detailFields(Request $request)
+//    {
+//        $iframeUrl = $this->location_image_url; // Assuming your model has a field named 'iframe_url' containing the URL
+//
+//        return [
+//            Text::make('Google Map Image', 'location_image_url')->asHtml(function () use ($iframeUrl) {
+//                return '<iframe src="' . $iframeUrl . '" frameborder="0"></iframe>';
+//            }),
+//        ];
+//    }
 }
