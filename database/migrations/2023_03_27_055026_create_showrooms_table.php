@@ -20,7 +20,7 @@ return new class extends Migration {
             $table->unsignedBigInteger('city_id');
             $table->unsignedBigInteger('area_id');
             $table->string('postal_code', 10);
-            $table->string('location_image_url');
+            $table->longText('location_image_url');
             $table->string('support_number')->nullable();
             $table->tinyInteger('is_active')->default(1)->comment('0: Inactive, 1: Active');
             $table->dateTime('created_at')->useCurrent();
