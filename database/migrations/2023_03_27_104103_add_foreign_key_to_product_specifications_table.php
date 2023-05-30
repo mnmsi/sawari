@@ -14,7 +14,8 @@ return new class extends Migration
         Schema::table('product_specifications', function (Blueprint $table) {
             $table->foreign('product_id')
                 ->references('id')
-                ->on('products');
+                ->on('products')
+                ->cascadeOnDelete();
         });
     }
 
