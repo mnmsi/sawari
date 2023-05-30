@@ -26,6 +26,8 @@ class UserRole extends Resource
     public static $title = 'name';
     public static $group = 'User';
 
+    public static $displayInNavigation = false;
+
     /**
      * The columns that should be searched.
      *

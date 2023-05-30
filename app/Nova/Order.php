@@ -4,6 +4,7 @@ namespace App\Nova;
 
 use App\Nova\Filters\OrderStatusFilter;
 use App\Nova\Metrics\OrderPerDay;
+use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\ID;
@@ -188,5 +189,10 @@ class Order extends Resource
             new SearchableRelation('deliveryOption', 'name'),
             new SearchableRelation('showRooms', 'name'),
         ];
+    }
+
+    public static function authorizedToCreate(Request $request): bool
+    {
+        return false;
     }
 }
