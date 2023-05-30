@@ -2,6 +2,7 @@
 
 namespace App\Nova;
 
+use App\Nova\Filters\OrderByDateFilter;
 use App\Nova\Filters\OrderStatusFilter;
 use App\Nova\Metrics\OrderPerDay;
 use Illuminate\Http\Request;
@@ -154,6 +155,7 @@ class Order extends Resource
     {
         return [
             new OrderStatusFilter,
+            new OrderByDateFilter,
         ];
     }
 
