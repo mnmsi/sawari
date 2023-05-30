@@ -7,5 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class HomePageSection extends Model
 {
-    use HasFactory;
+    public function homePageSection()
+    {
+        return $this->hasMany(HpsProduct::class, 'hps_section_id', 'id');
+    }
 }

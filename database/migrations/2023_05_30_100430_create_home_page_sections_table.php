@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('section_title');
             $table->string('section_subtitle');
-            $table->string('section_order');
+            $table->integer('section_order');
             $table->dateTime('created_at')->useCurrent();
             $table->dateTime('updated_at')->useCurrentOnUpdate()->nullable();
         });
