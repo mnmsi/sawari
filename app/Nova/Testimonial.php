@@ -75,16 +75,16 @@ class Testimonial extends Resource
                     ],
                 ]),
 //            rating
-            Number::make('rate')
-                ->min(0)
-                ->max(5)
-                ->step('any')
-                ->rules('required')
-                ->withMeta([
-                    'extraAttributes' => [
-                        'placeholder' => 'Enter rate(1-5)',
-                    ],
-                ]),
+//            Number::make('rate')
+//                ->min(0)
+//                ->max(5)
+//                ->step('any')
+//                ->rules('required')
+//                ->withMeta([
+//                    'extraAttributes' => [
+//                        'placeholder' => 'Enter rate(1-5)',
+//                    ],
+//                ]),
 //            note
             Textarea::make('Notes', 'note')
                 ->sortable()
