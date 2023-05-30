@@ -15,7 +15,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('hps_section_id')->constrained('home_page_sections');
             $table->foreignId('product_id')->constrained('products');
-            $table->timestamps();
+            $table->dateTime('created_at')->useCurrent();
+            $table->dateTime('updated_at')->useCurrentOnUpdate()->nullable();
         });
     }
 

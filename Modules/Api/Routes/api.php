@@ -18,7 +18,9 @@ use Modules\Api\Http\Controllers\SellBike\SellBikeController;
 use Modules\Api\Http\Controllers\System\BannerController;
 use Modules\Api\Http\Controllers\System\ColorController;
 use Modules\Api\Http\Controllers\System\PrivacyPolicyController;
+use Modules\Api\Http\Controllers\System\SeoSettingController;
 use Modules\Api\Http\Controllers\System\ShowroomController;
+use Modules\Api\Http\Controllers\System\SiteSettingController;
 use Modules\Api\Http\Controllers\System\SystemAddressController;
 use Modules\Api\Http\Controllers\System\TermsConditionController;
 use Modules\Api\Http\Controllers\System\TestimonialController;
@@ -39,6 +41,10 @@ Route::post('verify-otp', [OtpController::class, 'verifyOtp']); // Verify OTP Ro
 
 // System Routes (Public) or (Guest) Mode
 Route::middleware('guest')->group(function () {
+
+    Route::get('site-settings', [SiteSettingController::class,'siteSettings']);
+    Route::get('seo-settings', [SeoSettingController::class,'seoSettings']);
+
     Route::get('banners', [BannerController::class, 'banners']);                // Banner Routes
     Route::get('testimonials', [TestimonialController::class, 'testimonials']); // Testimonial Routes
     Route::get('showrooms', [ShowroomController::class, 'showrooms']);          // Showroom Routes
@@ -48,7 +54,6 @@ Route::middleware('guest')->group(function () {
     Route::controller(OrderController::class)->group(function () {
         Route::get('delivery-options', 'deliveryOptions'); // Delivery Options
         Route::get('payment-methods', 'paymentMethods');   // Payment Methods// Shipping Charges
-
     });
 });
 
@@ -56,9 +61,6 @@ Route::middleware('guest')->group(function () {
 Route::middleware('auth:sanctum')->group(function () {
 
     Route::post("sell/store", [SellBikeController::class, 'store']);
-
-//   shipping charge
-
 
     // Routes on user prefix
     Route::prefix('user')->group(function () {
@@ -111,7 +113,7 @@ Route::middleware('auth:sanctum')->group(function () {
     });
 
     Route::post('make-order', [OrderController::class, 'order']);
-    Route::get('order-list',[OrderController::class,'orderList']);// Make Order Routes
+    Route::get('order-list', [OrderController::class, 'orderList']);// Make Order Routes
     Route::post('buy-now', [OrderController::class, 'buyNow']); // Buy Now Routes
     Route::post('buy-now/make-order', [OrderController::class, 'makeOrderFromBuyNow']); // Buy Now Routes
 });
@@ -188,7 +190,7 @@ Route::middleware('guest')->group(function () {
         Route::get('bike/{brand_id}', 'bikeByBrand');
     });
 
-    Route::get('shipping-charges/{name?}', [ShippingChargeController::class,'shippingCharges']);
+    Route::get('shipping-charges/{name?}', [ShippingChargeController::class, 'shippingCharges']);
 
 });
 Route::get('bike/details/{name}', [BikeController::class, 'details']);
