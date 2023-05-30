@@ -11,8 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('orders', function (Blueprint $table) {
-            $table->foreignId('showroom_id')->nullable()->constrained('showrooms')->onDelete('cascade');
+        Schema::create('hps_products', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('hps_section_id')->constrained('home_page_sections');
+            $table->foreignId('product_id')->constrained('products');
+            $table->timestamps();
         });
     }
 
@@ -21,8 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('orders', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('hps_products');
     }
 };

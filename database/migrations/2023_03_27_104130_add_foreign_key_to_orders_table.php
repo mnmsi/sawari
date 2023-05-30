@@ -16,14 +16,6 @@ return new class extends Migration
                 ->references('id')
                 ->on('users');
 
-            $table->foreign('product_id')
-                ->references('id')
-                ->on('products');
-
-            $table->foreign('product_color_id')
-                ->references('id')
-                ->on('product_colors');
-
             $table->foreign('delivery_option_id')
                   ->references('id')
                   ->on('delivery_options');
@@ -41,8 +33,6 @@ return new class extends Migration
     {
         Schema::table('orders', function (Blueprint $table) {
             $table->dropForeign('orders_user_id_foreign');
-            $table->dropForeign('orders_product_id_foreign');
-            $table->dropForeign('orders_product_color_id_foreign');
             $table->dropForeign('orders_delivery_option_id_foreign');
             $table->dropForeign('orders_payment_method_id_foreign');
         });
