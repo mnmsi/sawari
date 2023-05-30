@@ -30,7 +30,8 @@ class DatabaseSeeder extends Seeder
             ProductSeeder::class,
             ProductColorSeeder::class,
             ProductMediaSeeder::class,
-            ProductSpecificationSeeder::class
+            ProductSpecificationSeeder::class,
+            UserRoleSeeder::class
         ]);
     }
 }
