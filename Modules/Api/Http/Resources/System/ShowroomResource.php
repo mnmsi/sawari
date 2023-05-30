@@ -16,17 +16,17 @@ class ShowroomResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'id'                 => $this->id,
-            'name'               => $this->name,
-            'phone'              => $this->phone,
-            'address'            => $this->address,
-            'country_id'         => $this->country->name,
-            'division_id'        => $this->division->name,
-            'city_id'            => $this->city->name,
-            'area_id'            => $this->area->name,
-            'postal_code'        => $this->postal_code,
-            'location_image_url' => asset('storage/' . $this->location_image_url),
-            'support_number'     => $this->support_number,
+            'id' => $this->id,
+            'name' => $this->name,
+            'phone' => $this->phone,
+            'address' => $this->address,
+            'country_id' => $this->country->name,
+            'division_id' => $this->division->name,
+            'city_id' => $this->city->name,
+            'area_id' => $this->area->name,
+            'postal_code' => $this->postal_code,
+            'map_image_url' => $this->location_image_url,
+            'support_number' => $this->support_number,
         ];
     }
 }
