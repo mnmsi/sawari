@@ -60,6 +60,7 @@ class Category extends Resource
             Image::make('Icon', 'image_url')
                 ->disk('public')
                 ->nullable()
+                ->help("*For better view please use image height=132,width=250")
                 ->disableDownload(),
 
             Select::make('Is popular', 'is_popular')->options([
@@ -67,7 +68,7 @@ class Category extends Resource
                 '0' => 'No',
             ])->rules('required')
                 ->resolveUsing(function ($value) {
-                    if (!$value) {
+                    if ($value === false) {
                         return 0;
                     }
                     return 1;
@@ -81,7 +82,7 @@ class Category extends Resource
                 '0' => 'No',
             ])->rules('required')
                 ->resolveUsing(function ($value) {
-                    if (!$value) {
+                    if ($value === false) {
                         return 0;
                     }
                     return 1;

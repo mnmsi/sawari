@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\FormData;
+use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Image;
 use Laravel\Nova\Fields\Number;
@@ -17,6 +18,7 @@ use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Fields\Trix;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Query\Search\SearchableRelation;
+use App\Models\Product\ProductColor;
 
 class Product extends Resource
 {
@@ -46,7 +48,7 @@ class Product extends Resource
     /**
      * Get the fields displayed by the resource.
      *
-     * @param \Laravel\Nova\Http\Requests\NovaRequest $request
+     * @param NovaRequest $request
      * @return array
      */
     public function fields(NovaRequest $request)
@@ -70,7 +72,7 @@ class Product extends Resource
                 ->path('product_badge')
                 ->disk('public')
                 ->nullable()
-                ->help("*For better view pleas use image height=52,width=52")
+                ->help("*For better view please use image height=52,width=52")
                 ->disableDownload(),
             //              type
             Select::make('Type', 'type')->options([
@@ -201,13 +203,60 @@ class Product extends Resource
                 ->hideWhenCreating()
                 ->hideWhenUpdating()
                 ->default(now()),
+
+//            product color block only when create a new product
+            Text::make('Product Color Name', 'product_color_name')
+                ->sortable()
+                ->hideWhenUpdating()
+                ->hideFromIndex()
+                ->hideFromDetail()
+                ->creationRules('required', 'max:255')
+                ->updateRules('nullable')
+                ->withMeta([
+                    'ignoreOnSaving',
+                    'extraAttributes' => [
+                        'placeholder' => 'Enter product color name',
+                    ],
+                ]),
+//            image
+            Image::make('Product Color Image', 'product_color_image')
+                ->path('color')
+                ->disk('public')
+                ->hideWhenUpdating()
+                ->hideFromIndex()
+                ->hideFromDetail()
+                ->creationRules('required', 'max:255')
+                ->updateRules('nullable')
+                ->help("*For better view please use image height=53,width=68")
+                ->disableDownload()
+                ->withMeta([
+                    'ignoreOnSaving',
+                ]),
+//            stock
+            Number::make('Product stock', 'product_stock')
+                ->default(0)
+                ->min(0)
+                ->step('any')
+                ->hideWhenUpdating()
+                ->hideFromIndex()
+                ->hideFromDetail()
+                ->creationRules('required', 'max:255')
+                ->updateRules('nullable')
+                ->withMeta([
+                    'ignoreOnSaving',
+                    'extraAttributes' => [
+                        'placeholder' => 'Enter product stock',
+                    ],
+                ]),
+//            has many
+            HasMany::make('Product Color', 'colors'),
         ];
     }
 
     /**
      * Get the cards available for the request.
      *
-     * @param \Laravel\Nova\Http\Requests\NovaRequest $request
+     * @param NovaRequest $request
      * @return array
      */
     public function cards(NovaRequest $request)
@@ -220,7 +269,7 @@ class Product extends Resource
     /**
      * Get the filters available for the resource.
      *
-     * @param \Laravel\Nova\Http\Requests\NovaRequest $request
+     * @param NovaRequest $request
      * @return array
      */
     public function filters(NovaRequest $request)
@@ -233,7 +282,7 @@ class Product extends Resource
     /**
      * Get the lenses available for the resource.
      *
-     * @param \Laravel\Nova\Http\Requests\NovaRequest $request
+     * @param NovaRequest $request
      * @return array
      */
     public function lenses(NovaRequest $request)
@@ -244,7 +293,7 @@ class Product extends Resource
     /**
      * Get the actions available for the resource.
      *
-     * @param \Laravel\Nova\Http\Requests\NovaRequest $request
+     * @param NovaRequest $request
      * @return array
      */
     public function actions(NovaRequest $request)
@@ -260,5 +309,26 @@ class Product extends Resource
             new SearchableRelation('bodyType', 'name'),
             new SearchableRelation('category', 'name')
         ];
+    }
+
+    public static function fill(NovaRequest $request, $model)
+    {
+        return static::fillFields(
+            $request, $model,
+            (new static($model))->creationFieldsWithoutReadonly($request)->reject(function ($field) use ($request) {
+                return in_array('ignoreOnSaving', $field->meta);
+            })
+        );
+    }
+
+    public static function afterCreate(NovaRequest $request, $model)
+    {
+        $formData = $request->only('product_color_name', 'product_stock', 'product_color_image');
+        $product_color = new ProductColor();
+        $product_color->product_id = $model->id;
+        $product_color->name = $formData['product_color_name'];
+        $product_color->image_url = $formData['product_color_image']->store('product_color', 'public');
+        $product_color->stock = $formData['product_stock'];
+        $product_color->save();
     }
 }
