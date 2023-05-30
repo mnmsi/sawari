@@ -15,7 +15,7 @@ return new class extends Migration {
             $table->string('name');
             $table->string('address');
             $table->text('note');
-            $table->double('rate', 2, 1, true);
+            $table->double('rate', 2, 1, true)->nullable();
             $table->string('image_url');
             $table->tinyInteger('is_active')->default(1)->comment('0: Inactive, 1: Active');
             $table->dateTime('created_at')->useCurrent();
