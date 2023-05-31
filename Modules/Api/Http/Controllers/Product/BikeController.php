@@ -10,6 +10,7 @@
     use Modules\Api\Http\Resources\Product\BikeCollection;
     use Modules\Api\Http\Resources\Product\BikeDetailsResource;
     use Modules\Api\Http\Resources\Product\BikeResource;
+    use Modules\Api\Http\Resources\Product\ProductDetailsResource;
     use Modules\Api\Http\Traits\Product\BikeTrait;
     use Modules\Api\Http\Traits\Product\ProductCountTrait;
 
@@ -55,7 +56,7 @@
 
             // Return bike details as response
             return $this->respondWithSuccessWithData(
-                new BikeDetailsResource($bikeDetails)
+                new ProductDetailsResource($bikeDetails)
             );
         }
 

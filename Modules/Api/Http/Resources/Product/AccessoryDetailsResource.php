@@ -23,7 +23,7 @@ class AccessoryDetailsResource extends JsonResource
             'id'                   => $this->id,
             'name'                 => $this->name,
             'slug'                 => $this->slug,
-            'image'            => asset('storage/' . $this->image_url),
+            'image'                => asset('storage/' . $this->image_url),
             'price'                => $this->price,
             'discount_rate'        => $this->discount_rate,
             'price_after_discount' => $this->calculateDiscountPrice($this->price, $this->discount_rate),
