@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1683190978facdf7ec184dfa61dc4591",
+    "content-hash": "223d401f4e4140897cac152469ba07f2",
     "packages": [
         {
             "name": "brick/math",
@@ -6586,6 +6586,73 @@
                 "source": "https://github.com/webmozarts/assert/tree/1.11.0"
             },
             "time": "2022-06-03T18:03:27+00:00"
+        },
+        {
+            "name": "yieldstudio/nova-phone-field",
+            "version": "1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/YieldStudio/nova-phone-field.git",
+                "reference": "f472bdf6ec09609b62fc9302b7f3ab84faa9136f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/YieldStudio/nova-phone-field/zipball/f472bdf6ec09609b62fc9302b7f3ab84faa9136f",
+                "reference": "f472bdf6ec09609b62fc9302b7f3ab84faa9136f",
+                "shasum": ""
+            },
+            "require": {
+                "laravel/nova": "^4.0",
+                "php": "^8.0"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^3.8"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "YieldStudio\\NovaPhoneField\\FieldServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "YieldStudio\\NovaPhoneField\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Gustavo Bissolli",
+                    "email": "gustavo.bissolli@gmail.com",
+                    "homepage": "https://github.com/bissolli",
+                    "role": "Creator"
+                },
+                {
+                    "name": "James Hemery",
+                    "email": "james@yieldstudio.fr",
+                    "homepage": "https://yieldstudio.fr",
+                    "role": "Fork maintener"
+                }
+            ],
+            "description": "Nova Phone Number field with a dynamic mask based on the country code inserted by the user.",
+            "homepage": "https://github.com/YieldStudio/nova-phone-field",
+            "keywords": [
+                "input mask",
+                "laravel",
+                "nova",
+                "phone mask",
+                "yieldstudio"
+            ],
+            "support": {
+                "issues": "https://github.com/YieldStudio/nova-phone-field/issues",
+                "source": "https://github.com/YieldStudio/nova-phone-field/tree/1.0.1"
+            },
+            "time": "2022-06-02T14:45:50+00:00"
         }
     ],
     "packages-dev": [
