@@ -16,6 +16,7 @@ use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Avatar;
+use YieldStudio\NovaPhoneField\PhoneNumber;
 
 class User extends Resource
 {
@@ -55,7 +56,8 @@ class User extends Resource
             ID::make()->sortable(),
 //            role
             BelongsTo::make('User role', 'user_role', 'App\Nova\UserRole')
-                ->rules('required')
+                ->creationRules('required')
+                ->updateRules('nullable')
                 ->noPeeking(),
 //first name
             Text::make('First Name', 'first_name')
@@ -78,11 +80,12 @@ class User extends Resource
                 ->creationRules('unique:users,email')
                 ->updateRules('unique:users,email,{{resourceId}}'),
 //            phone
-            Text::make('Phone', 'phone')
-                ->sortable()
-                ->rules('required', 'max:255')
-                ->creationRules('unique:users,phone')
-                ->updateRules('unique:users,phone,{{resourceId}}'),
+            PhoneNumber::make('Phone', 'phone')
+                ->withCustomFormats('880## #### ####')
+                ->onlyCustomFormats()
+                ->creationRules('unique:users,email')
+                ->updateRules('unique:users,email,{{resourceId}}')
+                ->help("Ex: 880 #### #####"),
 //password
             Password::make('Password')
                 ->onlyOnForms()
@@ -92,7 +95,7 @@ class User extends Resource
 //            date of birth
 
             Date::make('Date of Birth', 'date_of_birth')
-            ->nullable(),
+                ->nullable(),
 
             // gender
             Select::make('Gender', 'gender')

@@ -26,18 +26,23 @@
             <label for="loginDropdown">
                 Select login method:
             </label>
-            <select class="form-control" id="loginDropdown" required>
-                <option selected disabled>Please choose</option>
-                <option value="email">Email</option>
-                <option value="phone">Phone</option>
-            </select>
+            <div style="display: flex; align-items: center; gap: 20px;">
+                <label style="display: flex;align-items: center;gap: 10px;cursor: pointer;">
+                    <input type="radio" name="login_type" style="margin: 0;cursor: pointer;" value="email" checked>
+                    Email
+                </label>
+                <label style="display: flex;align-items: center;gap: 10px;cursor: pointer;">
+                    <input type="radio" name="login_type" value="phone" style="margin: 0;cursor: pointer;">
+                    Phone
+                </label>
+            </div>
         </div>
-        <div class="form-group" id="phoneContainer" style="display: none;">
+        <div class="form-group" id="phone_login" style="display: none;">
             <label for="phone">Enter your number:</label>
             <input class="form-control" name="phone" placeholder="Enter number" type="text" id="phone">
         </div>
 
-        <div class="form-group" id="emailContainer" style="display: none;">
+        <div class="form-group" id="email_login" style="display: none;">
             <label for="email">Enter your email:</label>
             <input class="form-control" placeholder="Enter email" name="email"  type="email" id="email">
         </div>
@@ -64,17 +69,21 @@
 </body>
 <script>
     $(document).ready(function () {
-        $('#loginDropdown').change(function() {
-            let selectedOption = $(this).val();
+        const phoneLoginDiv = document.getElementById('phone_login');
+        const emailLoginDiv = document.getElementById('email_login');
 
-            if (selectedOption === 'phone') {
-                $('#phoneContainer').show();
-                $('#phone').val("880");
-                $('#emailContainer').hide();
-            } else if (selectedOption === 'email') {
-                $('#phoneContainer').hide();
-                $('#emailContainer').show();
-            }
+        emailLoginDiv.style.display = 'block';
+
+        document.querySelectorAll('input[name="login_type"]').forEach((radio) => {
+            radio.addEventListener('change', function() {
+                if (this.value === 'phone') {
+                    phoneLoginDiv.style.display = 'block';
+                    emailLoginDiv.style.display = 'none';
+                } else if (this.value === 'email') {
+                    phoneLoginDiv.style.display = 'none';
+                    emailLoginDiv.style.display = 'block';
+                }
+            });
         });
     });
 </script>

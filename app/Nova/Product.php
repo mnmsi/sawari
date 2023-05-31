@@ -205,51 +205,52 @@ class Product extends Resource
                 ->default(now()),
 
 //            product color block only when create a new product
-            Text::make('Product Color Name', 'product_color_name')
-                ->sortable()
-                ->hideWhenUpdating()
-                ->hideFromIndex()
-                ->hideFromDetail()
-                ->creationRules('required', 'max:255')
-                ->updateRules('nullable')
-                ->withMeta([
-                    'ignoreOnSaving',
-                    'extraAttributes' => [
-                        'placeholder' => 'Enter product color name',
-                    ],
-                ]),
-//            image
-            Image::make('Product Color Image', 'product_color_image')
-                ->path('color')
-                ->disk('public')
-                ->hideWhenUpdating()
-                ->hideFromIndex()
-                ->hideFromDetail()
-                ->creationRules('required', 'max:255')
-                ->updateRules('nullable')
-                ->help("*For better view please use image height=53,width=68")
-                ->disableDownload()
-                ->withMeta([
-                    'ignoreOnSaving',
-                ]),
-//            stock
-            Number::make('Product stock', 'product_stock')
-                ->default(0)
-                ->min(0)
-                ->step('any')
-                ->hideWhenUpdating()
-                ->hideFromIndex()
-                ->hideFromDetail()
-                ->creationRules('required', 'max:255')
-                ->updateRules('nullable')
-                ->withMeta([
-                    'ignoreOnSaving',
-                    'extraAttributes' => [
-                        'placeholder' => 'Enter product stock',
-                    ],
-                ]),
+//            Text::make('Product Color Name', 'product_color_name')
+//                ->sortable()
+//                ->hideWhenUpdating()
+//                ->hideFromIndex()
+//                ->hideFromDetail()
+//                ->creationRules('required', 'max:255')
+//                ->updateRules('nullable')
+//                ->withMeta([
+//                    'ignoreOnSaving',
+//                    'extraAttributes' => [
+//                        'placeholder' => 'Enter product color name',
+//                    ],
+//                ]),
+////            image
+//            Image::make('Product Color Image', 'product_color_image')
+//                ->path('color')
+//                ->disk('public')
+//                ->hideWhenUpdating()
+//                ->hideFromIndex()
+//                ->hideFromDetail()
+//                ->creationRules('required', 'max:255')
+//                ->updateRules('nullable')
+//                ->help("*For better view please use image height=53,width=68")
+//                ->disableDownload()
+//                ->withMeta([
+//                    'ignoreOnSaving',
+//                ]),
+////            stock
+//            Number::make('Product stock', 'product_stock')
+//                ->min(0)
+//                ->step('any')
+//                ->hideWhenUpdating()
+//                ->hideFromIndex()
+//                ->hideFromDetail()
+//                ->creationRules('required', 'max:255')
+//                ->updateRules('nullable')
+//                ->withMeta([
+//                    'ignoreOnSaving',
+//                    'extraAttributes' => [
+//                        'placeholder' => 'Enter product stock',
+//                    ],
+//                ]),
 //            has many
             HasMany::make('Product Color', 'colors'),
+            HasMany::make('Product Media', 'media','App\Nova\ProductMedia'),
+            HasMany::make('Product Specifications', 'specifications'),
         ];
     }
 
@@ -311,24 +312,24 @@ class Product extends Resource
         ];
     }
 
-    public static function fill(NovaRequest $request, $model)
-    {
-        return static::fillFields(
-            $request, $model,
-            (new static($model))->creationFieldsWithoutReadonly($request)->reject(function ($field) use ($request) {
-                return in_array('ignoreOnSaving', $field->meta);
-            })
-        );
-    }
-
-    public static function afterCreate(NovaRequest $request, $model)
-    {
-        $formData = $request->only('product_color_name', 'product_stock', 'product_color_image');
-        $product_color = new ProductColor();
-        $product_color->product_id = $model->id;
-        $product_color->name = $formData['product_color_name'];
-        $product_color->image_url = $formData['product_color_image']->store('product_color', 'public');
-        $product_color->stock = $formData['product_stock'];
-        $product_color->save();
-    }
+//    public static function fill(NovaRequest $request, $model)
+//    {
+//        return static::fillFields(
+//            $request, $model,
+//            (new static($model))->creationFieldsWithoutReadonly($request)->reject(function ($field) use ($request) {
+//                return in_array('ignoreOnSaving', $field->meta);
+//            })
+//        );
+//    }
+//
+//    public static function afterCreate(NovaRequest $request, $model)
+//    {
+//        $formData = $request->only('product_color_name', 'product_stock', 'product_color_image');
+//        $product_color = new ProductColor();
+//        $product_color->product_id = $model->id;
+//        $product_color->name = $formData['product_color_name'];
+//        $product_color->image_url = $formData['product_color_image']->store('product_color', 'public');
+//        $product_color->stock = $formData['product_stock'];
+//        $product_color->save();
+//    }
 }
