@@ -5,9 +5,11 @@ namespace Modules\Api\Http\Resources\Product;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Modules\Api\Http\Traits\Product\FeatureTrait;
+use Modules\Api\Http\Traits\Product\ProductTrait;
 
 class AccessoryResource extends JsonResource
 {
+    use ProductTrait;
     /**
      * Transform the resource into an array.
      *
