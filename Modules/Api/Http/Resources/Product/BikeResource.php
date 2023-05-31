@@ -28,6 +28,7 @@ class BikeResource extends JsonResource
             'price_after_discount' => $this->calculateDiscountPrice($this->price, $this->discount_rate),
             'image_url'            => asset('storage/' . $this->image_url),
             'is_used'              => $this->is_used,
+            'is_favorite'          => $this->is_favorite,
             'colors'               => $this->colors->pluck('name'),
         ];
     }

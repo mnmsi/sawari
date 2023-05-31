@@ -27,7 +27,6 @@
         {
             // Initialize filter data
             $filterData = $this->initializeBikeFilterData($request);
-
             // Return bike products with pagination and filter data as response
             return $this->respondWithSuccessWithData(
                 new BikeCollection($this->getBikeProducts($filterData))
