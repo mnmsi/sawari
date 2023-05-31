@@ -7,7 +7,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 use Modules\Api\Http\Traits\Product\FeatureTrait;
 use Modules\Api\Http\Traits\Product\ProductTrait;
 
-class AccessoryDetailsResource extends JsonResource
+class ProductDetailsResource extends JsonResource
 {
     use ProductTrait;
 
@@ -21,19 +21,26 @@ class AccessoryDetailsResource extends JsonResource
     {
         return [
             'id'                   => $this->id,
+            'type'                 => $this->type,
             'name'                 => $this->name,
             'slug'                 => $this->slug,
+            'product_code'         => $this->product_code,
             'image'                => asset('storage/' . $this->image_url),
             'price'                => $this->price,
             'discount_rate'        => $this->discount_rate,
             'price_after_discount' => $this->calculateDiscountPrice($this->price, $this->discount_rate),
             'in_stock'             => $this->total_stock,
+            'is_used'              => $this->is_used ?? 0,
+            'badge'                => $this->badge_url ? asset('storage/' . $this->badge_url) : "",
             'brand'                => new BrandResource($this->brand),
-            'category'             => new CategoryResource($this->category),
-            'colors'               => ColorResource::collection($this->colors),
-            'media'                => MediaResource::collection($this->media),
-            'short_description'    => $this->short_description,
+            'category'             => $this->category ? new CategoryResource($this->category) : [],
+            'colors'               => $this->colors ? ColorResource::collection($this->colors) : [],
+            'media'                => $this->media ? MediaResource::collection($this->media) : [],
+            'specifications'       => $this->specifications ? SpecificationResource::collection($this->specifications->where('is_key_feature', 0)) : [],
+            'summary'              => $this->specifications ? SpecificationResource::collection($this->specifications->where('is_key_feature', 1)) : [],
             'description'          => $this->description,
+            'short_description'    => $this->short_description,
+            'is_favorite'          => $this->is_favorite,
         ];
     }
 }

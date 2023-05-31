@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Modules\Api\Http\Resources\Product\AccessoryCollection;
 use Modules\Api\Http\Resources\Product\AccessoryDetailsResource;
 use Modules\Api\Http\Resources\Product\AccessoryResource;
+use Modules\Api\Http\Resources\Product\ProductDetailsResource;
 use Modules\Api\Http\Traits\Product\AccessoryTrait;
 
 class AccessoryController extends Controller
@@ -43,7 +44,7 @@ class AccessoryController extends Controller
 
         // Return bike details as response
         return $this->respondWithSuccessWithData(
-            new AccessoryDetailsResource($accessoryDetails)
+            new ProductDetailsResource($accessoryDetails)
         );
     }
 

@@ -29,7 +29,7 @@
                 'discount_rate' => $this->discount_rate,
                 'price_after_discount' => $this->calculateDiscountPrice($this->price, $this->discount_rate),
                 'in_stock' => $this->total_stock,
-                'is_used' => $this->is_used,
+                'is_used' => $this->is_used ?? 0,
                 'badge' => asset('storage/' . $this->badge_url),
                 'brand' => new BrandResource($this->brand),
                 'colors' => ColorResource::collection($this->colors),

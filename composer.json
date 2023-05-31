@@ -17,6 +17,7 @@
         "laravel/sanctum": "^3.2",
         "laravel/tinker": "^2.8",
         "nwidart/laravel-modules": "^10.0",
+        "outl1ne/nova-simple-repeatable": "^2.1",
         "yieldstudio/nova-phone-field": "^1.0"
     },
     "repositories": [
