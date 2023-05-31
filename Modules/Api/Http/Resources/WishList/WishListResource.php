@@ -27,6 +27,7 @@ class WishListResource extends JsonResource
             'name' => $this->product->name,
             'price' => $this->product->price,
             'brand' => $this->product->brand->name,
+            'discount_rate' => $this->product->discount_rate,
             'discount_price' => $this->calculateDiscountPrice($this->product->price,$this->product->discount_rate),
 
         ];
