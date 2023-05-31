@@ -171,11 +171,7 @@ Route::middleware('guest')->group(function () {
         Route::get('popular-categories', 'popularCategories'); // Product Popular Categories
     });
 
-    // Routes on feature prefix
-    Route::controller(FeatureController::class)->prefix('featured')->group(function () {
-        Route::get('new-bike', 'newBike');   // Feature new bikes
-        Route::get('used-bike', 'usedBike'); // Feature used bikes
-    });
+
 
 
 //        Route on Terms and Condition
@@ -196,4 +192,8 @@ Route::middleware('guest')->group(function () {
 
 });
 Route::get('bike/details/{name}', [BikeController::class, 'details']);
-
+// Routes on feature prefix
+Route::controller(FeatureController::class)->prefix('featured')->middleware('product')->group(function () {
+    Route::get('new-bike', 'newBike');   // Feature new bikes
+    Route::get('used-bike', 'usedBike'); // Feature used bikes
+});
