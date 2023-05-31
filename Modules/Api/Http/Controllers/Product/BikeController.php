@@ -11,6 +11,7 @@
     use Modules\Api\Http\Resources\Product\BikeDetailsResource;
     use Modules\Api\Http\Resources\Product\BikeResource;
     use Modules\Api\Http\Resources\Product\ProductDetailsResource;
+    use Modules\Api\Http\Resources\Product\ProductResource;
     use Modules\Api\Http\Traits\Product\BikeTrait;
     use Modules\Api\Http\Traits\Product\ProductCountTrait;
 
@@ -26,7 +27,6 @@
         {
             // Initialize filter data
             $filterData = $this->initializeBikeFilterData($request);
-
             // Return bike products with pagination and filter data as response
             return $this->respondWithSuccessWithData(
                 new BikeCollection($this->getBikeProducts($filterData))
@@ -66,7 +66,7 @@
         public function relatedBikes()
         {
             return $this->respondWithSuccessWithData(
-                BikeResource::collection(($this->getRelatedBikes()))
+                ProductResource::collection(($this->getRelatedBikes()))
             );
         }
 

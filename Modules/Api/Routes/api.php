@@ -132,12 +132,7 @@ Route::middleware('guest')->group(function () {
     });
 
     // Routes on BikeController
-    Route::controller(BikeController::class)->group(function () {
-        Route::get('bikes', 'bikes');                                                // Bikes Routes
-        Route::get('related-bikes', 'relatedBikes');                                 // Related Bikes Routes
-        Route::get('bike-body-types', 'bikeBodyTypes');                              // Related Bikes Routes
-//            Route::get('bike/details/{name}', 'details');                                  // Bike Details Routes
-    });
+
 
     // Routes on AccessoryController
     Route::controller(AccessoryController::class)->group(function () {
@@ -171,11 +166,7 @@ Route::middleware('guest')->group(function () {
         Route::get('popular-categories', 'popularCategories'); // Product Popular Categories
     });
 
-    // Routes on feature prefix
-    Route::controller(FeatureController::class)->prefix('featured')->group(function () {
-        Route::get('new-bike', 'newBike');   // Feature new bikes
-        Route::get('used-bike', 'usedBike'); // Feature used bikes
-    });
+
 
 
 //        Route on Terms and Condition
@@ -195,5 +186,17 @@ Route::middleware('guest')->group(function () {
     Route::get('shipping-charges/{name?}', [ShippingChargeController::class, 'shippingCharges']);
 
 });
-Route::get('bike/details/{name}', [BikeController::class, 'details']);
-
+//Route::get('bike/details/{name}', [BikeController::class, 'details']);
+// Routes on feature prefix
+Route::middleware('product')->group(function () {
+    Route::controller(FeatureController::class)->prefix('featured')->group(function () {
+        Route::get('new-bike', 'newBike');   // Feature new bikes
+        Route::get('used-bike', 'usedBike'); // Feature used bikes
+    });
+    Route::controller(BikeController::class)->group(function () {
+        Route::get('bikes', 'bikes');                                                // Bikes Routes
+        Route::get('related-bikes', 'relatedBikes');                                 // Related Bikes Routes
+        Route::get('bike-body-types', 'bikeBodyTypes');                              // Related Bikes Routes
+        Route::get('bike/details/{name}', 'details');                                  // Bike Details Routes
+    });
+});

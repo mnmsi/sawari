@@ -16,6 +16,7 @@ trait BikeTrait
      */
     public function getBikeProducts($filters)
     {
+//        dd(Product::all()->toArray());
         return Product::where('type', 'bike')
             ->where('is_active', 1)
             ->when($filters['brand_id'], function ($query) use ($filters) {
@@ -91,7 +92,7 @@ trait BikeTrait
      */
     public function getBikeDetails($name)
     {
-        return Product::with('brand', 'bodyType', 'category', 'colors', 'media', 'specifications','wishlists')
+        return Product::with('brand', 'bodyType', 'category', 'colors', 'media', 'specifications', 'wishlists')
             ->where('type', 'bike')
             ->where('is_active', 1)
             ->where('slug', $name)
