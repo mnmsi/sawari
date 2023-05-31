@@ -135,12 +135,7 @@ Route::middleware('guest')->group(function () {
 
 
     // Routes on AccessoryController
-    Route::controller(AccessoryController::class)->group(function () {
-        Route::get('accessories', 'accessories');                        // Accessories Routes
-        Route::get('related-accessories', 'relatedAccessories');         // Related Accessories Routes
-        Route::get('featured-accessories', 'featuredAccessories');        // Featured Accessories Routes
-        Route::get('accessory/details/{name}', 'details');                 // Accessory Details Routes
-    });
+
 
     // Routes on bike prefix for bike brand and bike category
     Route::controller(BrandController::class)->group(function () {
@@ -198,5 +193,11 @@ Route::middleware('product')->group(function () {
         Route::get('related-bikes', 'relatedBikes');                                 // Related Bikes Routes
         Route::get('bike-body-types', 'bikeBodyTypes');                              // Related Bikes Routes
         Route::get('bike/details/{name}', 'details');                                  // Bike Details Routes
+    });
+    Route::controller(AccessoryController::class)->group(function () {
+        Route::get('accessories', 'accessories');                        // Accessories Routes
+        Route::get('related-accessories', 'relatedAccessories');         // Related Accessories Routes
+        Route::get('featured-accessories', 'featuredAccessories');        // Featured Accessories Routes
+        Route::get('accessory/details/{name}', 'details');                 // Accessory Details Routes
     });
 });
