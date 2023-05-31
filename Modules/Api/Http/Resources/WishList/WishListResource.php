@@ -22,6 +22,7 @@ class WishListResource extends JsonResource
         return [
             'id' => $this->id,
             'product_id' => $this->product_id,
+            'type' => $this->product->type, // 'bike' or 'part
             'slug' => $this->product->slug,
             'image_url' => asset('storage/' . $this->product->image_url),
             'name' => $this->product->name,
@@ -29,7 +30,6 @@ class WishListResource extends JsonResource
             'brand' => $this->product->brand->name,
             'discount_rate' => $this->product->discount_rate,
             'discount_price' => $this->calculateDiscountPrice($this->product->price,$this->product->discount_rate),
-
         ];
     }
 }
