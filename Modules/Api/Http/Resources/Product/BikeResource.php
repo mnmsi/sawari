@@ -22,6 +22,7 @@ class BikeResource extends JsonResource
         return [
             'id'                   => $this->id,
             'name'                 => $this->name,
+            'type'                 => $this->type, // 'bike' or 'part
             'slug'                 => $this->slug,
             'price'                => $this->price,
             'discount_rate'        => $this->discount_rate,
@@ -29,7 +30,7 @@ class BikeResource extends JsonResource
             'image_url'            => asset('storage/' . $this->image_url),
             'is_used'              => $this->is_used,
             'is_favorite'          => $this->is_favorite,
-            'colors'               => $this->colors->pluck('name'),
+            'colors'               => $this->colors->pluck('name','id'),
         ];
     }
 }
