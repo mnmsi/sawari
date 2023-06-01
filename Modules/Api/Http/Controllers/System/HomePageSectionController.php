@@ -11,7 +11,7 @@ class HomePageSectionController extends Controller
 {
     public function homePageSections()
     {
-        $data = HomePageSection::with('homePageSection.product')
+        $data = HomePageSection::with('homePageSection.product')->orderBy('section_order', 'asc')
             ->get();
 
         return $this->respondWithSuccessWithData(
