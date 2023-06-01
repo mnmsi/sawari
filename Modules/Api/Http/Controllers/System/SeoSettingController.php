@@ -10,14 +10,9 @@ class SeoSettingController extends Controller
 {
     public function seoSettings()
     {
-        $data = SeoSetting::select('page_title', 'page_description', 'page_keywords', 'page_url')
-            ->get();
-        //add this query into html meta tag
-
-        $data['status'] = true;
         return $this->respondWithSuccessWithData(
-            $data,
-            // add this 
+            SeoSetting::select('page_title', 'page_description', 'page_keywords', 'page_url')
+                ->get()
         );
     }
 }
