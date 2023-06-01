@@ -41,7 +41,6 @@ class CartController extends Controller
         } else {
             return $this->respondError('Product already added to cart');
         }
-
     }
 
     /**
@@ -86,13 +85,12 @@ class CartController extends Controller
      * @return JsonResponse
      */
 
-    public function getSelectedProduct(){
+    public function getSelectedProduct()
+    {
         $product = $this->getSelectedCartProduct();
         return $this->respondWithSuccess([
             'data' => CartResource::collection($product),
             'total_price' => $this->getTotalPrice(),
         ]);
     }
-
-
 }
