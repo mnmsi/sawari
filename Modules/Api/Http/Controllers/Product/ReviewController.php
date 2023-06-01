@@ -18,7 +18,7 @@ class ReviewController extends Controller
         return $this->respondWithSuccess(
             [
                 'data' =>  ReviewResource::collection($this->getReview($id)),
-                'user_id' => Auth::id()
+                'user_id' => $this->getReview($id)->pluck('user_id'),
             ]
 
         );
