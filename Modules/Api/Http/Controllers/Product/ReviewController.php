@@ -8,19 +8,15 @@ use Illuminate\Http\Request;
 use Modules\Api\Http\Requests\Product\ReviewRequest;
 use Modules\Api\Http\Resources\Product\ReviewResource;
 use Modules\Api\Http\Traits\Product\ReviewTrait;
-use Illuminate\Support\Facades\Auth;
 
 class ReviewController extends Controller
 {
     use ReviewTrait;
     public function review($id)
     {
-        return $this->respondWithSuccess(
-            [
-                'data' =>  ReviewResource::collection($this->getReview($id)),
-                'user_id' => $this->getReview($id)->pluck('user_id'),
-            ]
-
+        return $this->respondWithSuccessWithData(
+            ReviewResource::collection($this->getReview($id)),
+            // user id
         );
     }
     public function store(ReviewRequest $request)
