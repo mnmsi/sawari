@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('header_logo')->nullable();
             $table->string('footer_logo')->nullable();
             $table->string('fav_icon')->nullable();
+            $table->string('dark_fav_icon')->nullable();
             $table->string('facebook_url')->nullable();
             $table->string('instagram_url')->nullable();
             $table->string('twitter_url')->nullable();

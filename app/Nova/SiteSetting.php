@@ -89,6 +89,12 @@ class SiteSetting extends Resource
                 ->disk('public')
                 ->nullable()
                 ->disableDownload(),
+//          fav icon
+            Image::make('Dark fav Icon', 'dark_fav_icon')
+                ->path('site')
+                ->disk('public')
+                ->nullable()
+                ->disableDownload(),
 //          facebook url
             Text::make('Facebook Url', 'facebook_url')
                 ->sortable()
@@ -134,36 +140,36 @@ class SiteSetting extends Resource
                         'placeholder' => 'Enter url',
                     ],
                 ]),
-//          facebook logo
-            Image::make('Facebook Logo', 'facebook_logo')
-                ->path('site')
-                ->disk('public')
-                ->nullable()
-                ->disableDownload(),
-//          instagram logo
-            Image::make('Instagram Logo', 'instagram_logo')
-                ->path('site')
-                ->disk('public')
-                ->nullable()
-                ->disableDownload(),
-//          twitter logo
-            Image::make('Twitter Logo', 'twitter_logo')
-                ->path('site')
-                ->disk('public')
-                ->nullable()
-                ->disableDownload(),
-//          youtube logo
-            Image::make('Youtube logo', 'youtube_logo')
-                ->path('site')
-                ->disk('public')
-                ->nullable()
-                ->disableDownload(),
-//
-            Image::make('Linkedin logo', 'linkedin_logo')
-                ->path('site')
-                ->disk('public')
-                ->nullable()
-                ->disableDownload(),
+////          facebook logo
+//            Image::make('Facebook Logo', 'facebook_logo')
+//                ->path('site')
+//                ->disk('public')
+//                ->nullable()
+//                ->disableDownload(),
+////          instagram logo
+//            Image::make('Instagram Logo', 'instagram_logo')
+//                ->path('site')
+//                ->disk('public')
+//                ->nullable()
+//                ->disableDownload(),
+////          twitter logo
+//            Image::make('Twitter Logo', 'twitter_logo')
+//                ->path('site')
+//                ->disk('public')
+//                ->nullable()
+//                ->disableDownload(),
+////          youtube logo
+//            Image::make('Youtube logo', 'youtube_logo')
+//                ->path('site')
+//                ->disk('public')
+//                ->nullable()
+//                ->disableDownload(),
+////
+//            Image::make('Linkedin logo', 'linkedin_logo')
+//                ->path('site')
+//                ->disk('public')
+//                ->nullable()
+//                ->disableDownload(),
             //             date
             DateTime::make('Created At', 'created_at')
                 ->hideFromIndex()

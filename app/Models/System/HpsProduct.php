@@ -9,6 +9,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class HpsProduct extends Model
 {
+    protected $fillable = [
+        'hps_section_id',
+        'product_id'
+    ];
+
     public function product()
     {
         return $this->belongsTo(Product::class);
