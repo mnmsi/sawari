@@ -55,7 +55,7 @@ class SeoSetting extends Resource
 //          page description
             Text::make('Page Description', 'page_description')
                 ->sortable()
-                ->rules('required', 'max:255')
+                ->rules('required')
                 ->withMeta([
                     'extraAttributes' => [
                         'placeholder' => 'Enter description',
@@ -64,7 +64,7 @@ class SeoSetting extends Resource
 //            page keywords
             Text::make('Page Keywords', 'page_keywords')
                 ->sortable()
-                ->rules('required', 'max:255')
+                ->rules('required')
                 ->withMeta([
                     'extraAttributes' => [
                         'placeholder' => 'Enter seo keywords',
