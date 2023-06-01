@@ -25,6 +25,8 @@ class HomeProductSection extends Resource
     public static $title = 'id';
     public static $group = 'Custom Home Section';
 
+    public static $displayInNavigation = false;
+
     /**
      * The columns that should be searched.
      *
