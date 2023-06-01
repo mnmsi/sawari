@@ -65,6 +65,7 @@ class SeoSetting extends Resource
             Text::make('Page Keywords', 'page_keywords')
                 ->sortable()
                 ->rules('required')
+                ->help("use coma between words for SEO purpose.")
                 ->withMeta([
                     'extraAttributes' => [
                         'placeholder' => 'Enter seo keywords',
