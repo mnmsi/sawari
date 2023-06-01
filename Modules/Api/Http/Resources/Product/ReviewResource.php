@@ -19,7 +19,6 @@ class ReviewResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->user->name,
-            'user_id' => $this->user->id,
             'review' => $this->review,
             'rate' => $this->rate,
             'created_at' => Carbon::parse($this->created_at)->format('d M Y'),

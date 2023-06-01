@@ -12,12 +12,18 @@ use Modules\Api\Http\Traits\Product\ReviewTrait;
 class ReviewController extends Controller
 {
     use ReviewTrait;
-    public function review($id){
+    public function review($id)
+    {
         return $this->respondWithSuccessWithData(
-           ReviewResource::collection($this->getReview($id))
+            [
+                'data' => ReviewResource::collection($this->getReview($id)),
+                'user_id' => auth()->user()->id
+            ]
+
         );
     }
-    public function store(ReviewRequest $request){
+    public function store(ReviewRequest $request)
+    {
         $data = $this->storeReview($request->validated());
         return Response()->json([
             'status' => 'success',
