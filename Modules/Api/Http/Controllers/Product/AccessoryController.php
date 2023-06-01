@@ -9,6 +9,7 @@ use Modules\Api\Http\Resources\Product\AccessoryCollection;
 use Modules\Api\Http\Resources\Product\AccessoryDetailsResource;
 use Modules\Api\Http\Resources\Product\AccessoryResource;
 use Modules\Api\Http\Resources\Product\ProductDetailsResource;
+use Modules\Api\Http\Resources\Product\ProductResource;
 use Modules\Api\Http\Traits\Product\AccessoryTrait;
 
 class AccessoryController extends Controller
@@ -54,7 +55,7 @@ class AccessoryController extends Controller
     public function relatedAccessories()
     {
         return $this->respondWithSuccessWithData(
-            AccessoryResource::collection(($this->getRelatedAccessories()))
+            ProductResource::collection(($this->getRelatedAccessories()))
         );
     }
 
@@ -64,7 +65,7 @@ class AccessoryController extends Controller
     public function featuredAccessories()
     {
         return $this->respondWithSuccessWithData(
-            AccessoryResource::collection(($this->getFeaturedAccessories()))
+            ProductResource::collection(($this->getFeaturedAccessories()))
         );
     }
 }

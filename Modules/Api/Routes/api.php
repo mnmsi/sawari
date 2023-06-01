@@ -45,8 +45,6 @@ Route::middleware('guest')->group(function () {
 
     Route::get('site-settings', [SiteSettingController::class, 'siteSettings']);
     Route::get('seo-settings', [SeoSettingController::class, 'seoSettings']);
-    Route::get('home-page-sections', [HomePageSectionController::class, 'homePageSections']);
-
     Route::get('banners', [BannerController::class, 'banners']);                // Banner Routes
     Route::get('testimonials', [TestimonialController::class, 'testimonials']); // Testimonial Routes
     Route::get('showrooms', [ShowroomController::class, 'showrooms']);          // Showroom Routes
@@ -83,23 +81,23 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::put('update/{id}', 'update');         // Address Update Routes
         Route::delete('delete/{id}', 'delete');      // Address Delete Routes
 
-//        selected address
+        //        selected address
         Route::get('selected-address/{id?}', 'getSelectedAddress');      // Address Delete Routes
     });
 
-//   System Address Routes
+    //   System Address Routes
     Route::controller(SystemAddressController::class)->group(function () {
         Route::get('divisions', 'division');
         Route::get('city/{id?}', 'city');
         Route::get('area/{id?}', 'area');
     });
 
-//        add review
+    //        add review
     Route::controller(ReviewController::class)->group(function () {
         Route::post('product/add-review', 'store');
     });
 
-//        Wishlist
+    //        Wishlist
     Route::controller(WishlistController::class)->prefix("wishlist")->group(function () {
         Route::post('add', 'store');
         Route::get('list', 'list');
@@ -115,7 +113,7 @@ Route::middleware('auth:sanctum')->group(function () {
     });
 
     Route::post('make-order', [OrderController::class, 'order']);
-    Route::get('order-list', [OrderController::class, 'orderList']);// Make Order Routes
+    Route::get('order-list', [OrderController::class, 'orderList']); // Make Order Routes
     Route::post('buy-now', [OrderController::class, 'buyNow']); // Buy Now Routes
     Route::post('buy-now/make-order', [OrderController::class, 'makeOrderFromBuyNow']); // Buy Now Routes
 });
@@ -135,12 +133,7 @@ Route::middleware('guest')->group(function () {
 
 
     // Routes on AccessoryController
-    Route::controller(AccessoryController::class)->group(function () {
-        Route::get('accessories', 'accessories');                        // Accessories Routes
-        Route::get('related-accessories', 'relatedAccessories');         // Related Accessories Routes
-        Route::get('featured-accessories', 'featuredAccessories');        // Featured Accessories Routes
-        Route::get('accessory/details/{name}', 'details');                 // Accessory Details Routes
-    });
+
 
     // Routes on bike prefix for bike brand and bike category
     Route::controller(BrandController::class)->group(function () {
@@ -169,22 +162,21 @@ Route::middleware('guest')->group(function () {
 
 
 
-//        Route on Terms and Condition
+    //        Route on Terms and Condition
     Route::controller(TermsConditionController::class)->group(function () {
         Route::get('terms', 'terms');
     });
-//        Route on Privacy Policy
+    //        Route on Privacy Policy
     Route::controller(PrivacyPolicyController::class)->group(function () {
         Route::get('privacy-policy', 'privacyPolicy');
     });
 
-//        Sell Bike
+    //        Sell Bike
     Route::controller(SellBikeController::class)->prefix('sell')->group(function () {
         Route::get('bike/{brand_id}', 'bikeByBrand');
     });
 
     Route::get('shipping-charges/{name?}', [ShippingChargeController::class, 'shippingCharges']);
-
 });
 //Route::get('bike/details/{name}', [BikeController::class, 'details']);
 // Routes on feature prefix
@@ -199,4 +191,11 @@ Route::middleware('product')->group(function () {
         Route::get('bike-body-types', 'bikeBodyTypes');                              // Related Bikes Routes
         Route::get('bike/details/{name}', 'details');                                  // Bike Details Routes
     });
+    Route::controller(AccessoryController::class)->group(function () {
+        Route::get('accessories', 'accessories');                        // Accessories Routes
+        Route::get('related-accessories', 'relatedAccessories');         // Related Accessories Routes
+        Route::get('featured-accessories', 'featuredAccessories');        // Featured Accessories Routes
+        Route::get('accessory/details/{name}', 'details');                 // Accessory Details Routes
+    });
+    Route::get('home-page-sections', [HomePageSectionController::class, 'homePageSections']);
 });
