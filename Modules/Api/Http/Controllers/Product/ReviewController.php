@@ -15,11 +15,7 @@ class ReviewController extends Controller
     public function review($id)
     {
         return $this->respondWithSuccessWithData(
-            [
-                'data' => ReviewResource::collection($this->getReview($id)),
-                'user_id' => auth()->user()->id
-            ]
-
+            ReviewResource::collection($this->getReview($id)),
         );
     }
     public function store(ReviewRequest $request)
