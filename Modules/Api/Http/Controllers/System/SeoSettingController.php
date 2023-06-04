@@ -12,6 +12,7 @@ class SeoSettingController extends Controller
     {
         return $this->respondWithSuccessWithData(
             SeoSetting::select('page_title', 'page_description', 'page_keywords', 'page_url')
-                ->get());
+                ->get()
+        );
     }
 }

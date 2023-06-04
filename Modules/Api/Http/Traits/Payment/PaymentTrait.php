@@ -6,21 +6,23 @@ use App\Library\SslCommerz\SslCommerzNotification;
 use App\Models\User\User;
 use Illuminate\Http\Request;
 
-trait PaymentTrait {
+trait PaymentTrait
+{
     public function processPayment($orderData)
     {
-        $user = User::where('id', $orderData['user_id'])->first();
-        $sslc = new SslCommerzNotification();
-        $orderData['cus_email'] = $user->email ?? "";
-        $orderData['cus_phone'] = $user->phone ?? "";
-        $orderData['shipping_method'] = "NO";
-        $orderData['product_name'] = "Sawari Product";
+        $user                          = User::where('id', $orderData['user_id'])->first();
+        $sslc                          = new SslCommerzNotification();
+        $orderData['cus_email']        = $user->email ?? "";
+        $orderData['cus_phone']        = $user->phone ?? "";
+        $orderData['shipping_method']  = "NO";
+        $orderData['product_name']     = "Sawari Product";
         $orderData['product_category'] = "Ecommerce";
-        $orderData['product_profile'] = "general";
-        $orderData['success_url'] = route('api.payment.success');
+        $orderData['product_profile']  = "general";
+        $orderData['success_url']      = url('/payment/success');
         return $sslc->makePayment($orderData, 'checkout', 'json');
 
     }
+
     public function success(Request $request)
     {
         return view('api::payment.success');
