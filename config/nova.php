@@ -165,6 +165,8 @@ return [
      'brand' => [
          'logo' => public_path('/img/sawari-logo.svg'),
 
+         'favicon' => public_path('/img/sawari-logo.svg'),
+
          'colors' => [
              "400" => "24, 182, 155, 0.5",
              "500" => "24, 182, 155",
@@ -205,6 +207,9 @@ return [
 
     'routes' => [
         'login' => '/admin-login',
-    ]
+    ],
+
+//    fav icon
+    'favicon' => public_path('/img/sawari-logo.svg'),
 
 ];

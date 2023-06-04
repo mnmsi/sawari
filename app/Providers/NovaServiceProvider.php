@@ -103,7 +103,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                     MenuItem::resource(Testimonial::class),
                     MenuItem::resource(TermsAndCondition::class),
                     MenuItem::resource(PrivacyPolicy::class),
-                ])->icon('document-text')->collapsable(),
+                ])->icon('cog')->collapsable(),
             ];
         });
     }
