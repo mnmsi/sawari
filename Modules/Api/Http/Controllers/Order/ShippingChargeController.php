@@ -12,16 +12,12 @@ class ShippingChargeController extends \App\Http\Controllers\Controller
         $text = strtolower($name);
         if($text == 'dhaka'){
             $shipping_charge = ShippingCharge::where('title', '=', 'Inside Dhaka')->where('active', 1)->get();
-            return response()->json([
-                'status' => 'success',
-                'data' => $shipping_charge
-            ]);
         }else{
             $shipping_charge = ShippingCharge::whereNotIn('title', ['Inside Dhaka'])->where('active', 1)->get();
-            return response()->json([
-                'status' => 'success',
-                'data' => $shipping_charge
-            ]);
         }
+        return response()->json([
+            'status' => 'success',
+            'data' => $shipping_charge
+        ]);
     }
 }
