@@ -130,4 +130,27 @@ class Product extends BaseModel
         }
     }
 
+    public function getSpecificationListAttribute(): array
+    {
+        if (isset($this->attributes['id'])) {
+            $list = [];
+            $product = ProductSpecification::where('product_id', $this->attributes['id'])->get();
+            foreach ($product as $l) {
+                $list[] = [
+                    "layout" => "video",
+                    "key" => $l->id,
+                    "attributes" => [
+                        "specification_id" => $l->id,
+                        "specification_title" => $l->title,
+                        "specification_value" => $l->value,
+                        "is_key_feature" => $l->is_key_feature,
+                    ]
+                ];
+            }
+            return $list;
+        } else {
+            return [];
+        }
+    }
+
 }

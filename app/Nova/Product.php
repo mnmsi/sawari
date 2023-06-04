@@ -9,6 +9,7 @@ use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\FormData;
 use Laravel\Nova\Fields\HasMany;
+use Laravel\Nova\Fields\Hidden;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Image;
 use Laravel\Nova\Fields\Number;
@@ -20,6 +21,7 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Query\Search\SearchableRelation;
 use Whitecube\NovaFlexibleContent\Flexible;
 use App\Models\Product\ProductColor;
+use App\Models\Product\ProductSpecification;
 
 class Product extends Resource
 {
@@ -128,7 +130,9 @@ class Product extends Resource
                     'extraAttributes' => [
                         'placeholder' => 'Enter code',
                     ],
-                ]),
+                ])
+                ->creationRules('unique:App\Models\Product\Product,product_code')
+                ->updateRules('unique:App\Models\Product\Product,product_code,{{resourceId}}'),
             //            price
             Number::make('price')
                 ->min(1)
@@ -207,14 +211,14 @@ class Product extends Resource
                 ->default(now()),
 
             HasMany::make('Product Color', 'colors'),
-            HasMany::make('Product Media', 'media', 'App\Nova\ProductMedia'),
             HasMany::make('Product Specifications', 'specifications'),
+            HasMany::make('Product Media', 'media', 'App\Nova\ProductMedia'),
 
             Flexible::make('Add Color List *', 'color_list')
                 ->button('Add Some Product Color')
                 ->addLayout('Select Color', 'video', [
                     // id
-                    Number::make('Color Id', 'color_id')
+                    Hidden::make('Color Id', 'color_id')
                         ->hideFromDetail()
                         ->hideFromIndex()
                         ->hideWhenCreating()
@@ -243,6 +247,43 @@ class Product extends Resource
                         ->min(0)
                         ->rules('required'),
 
+                ])->hideFromIndex()
+                ->hideFromDetail(),
+//            product specification
+            Flexible::make('Add Product specification *', 'specification_list')
+                ->button('Add more specification')
+                ->addLayout('Select specification', 'video', [
+                    Hidden::make('Specification Id', 'specification_id')
+                        ->hideFromDetail()
+                        ->hideFromIndex()
+                        ->hideWhenCreating()
+                        ->readonly(),
+//                    title
+                    Text::make('Specification Title', 'specification_title')
+                        ->sortable()
+                        ->rules('required', 'max:255')
+                        ->withMeta([
+                            'extraAttributes' => [
+                                'placeholder' => 'Enter specification title',
+                            ],
+                        ]),
+//                    details
+                    Text::make('Specification Value', 'specification_value')
+                        ->sortable()
+                        ->rules('required', 'max:255')
+                        ->withMeta([
+                            'extraAttributes' => [
+                                'placeholder' => 'Enter specification value',
+                            ],
+                        ]),
+//                    feature
+                    Select::make('Specification Feature', 'is_key_feature')->options([
+                        '1' => 'Yes',
+                        '0' => 'No',
+                    ])->rules('required')
+                        ->displayUsing(function ($v) {
+                            return $v ? "Yes" : "No";
+                        }),
                 ])->hideFromIndex()
                 ->hideFromDetail(),
         ];
@@ -310,13 +351,13 @@ class Product extends Resource
     {
         if ($request->isCreateOrAttachRequest()) {
             $fields = $fields->reject(function ($field) {
-                return $field->attribute === 'color_list';
+                return in_array($field->attribute, ['color_list', 'specification_list']);
             });
         }
 
         if ($request->isUpdateOrUpdateAttachedRequest()) {
             $fields = $fields->reject(function ($field) {
-                return $field->attribute === 'color_list';
+                return in_array($field->attribute, ['color_list', 'specification_list']);
             });
         }
 
@@ -327,6 +368,7 @@ class Product extends Resource
     public static function afterCreate(NovaRequest $request, $model)
     {
         $formData = $request->only('color_list');
+        $specification_data = $request->only('specification_list');
 
         if (isset($formData['color_list'])) {
             foreach ($formData['color_list'] as $list) {
@@ -336,6 +378,17 @@ class Product extends Resource
                 $product_color->image_url = $request->{$list['attributes']['color_image']}->store('product_color', 'public');
                 $product_color->stock = $list['attributes']['color_stock'];
                 $product_color->save();
+            }
+        }
+//        specification
+        if (isset($specification_data['specification_list'])) {
+            foreach ($specification_data['specification_list'] as $s) {
+                $specification = new ProductSpecification();
+                $specification->product_id = $model->id;
+                $specification->title = $s['attributes']['specification_title'];
+                $specification->value = $s['attributes']['specification_value'];
+                $specification->is_key_feature = $s['attributes']['is_key_feature'];
+                $specification->save();
             }
         }
     }
@@ -375,6 +428,39 @@ class Product extends Resource
                         'name' => $list['attributes']['color_name'],
                         'stock' => $list['attributes']['color_stock'],
                         'image_url' => $request->{$list['attributes']['color_image']}->store('product_color', 'public'),
+                    ]);
+                }
+            }
+        }
+
+//        product specification update
+        $specification_list = $request->only('specification_list');
+        $specification_model = new ProductSpecification();
+
+        $specification_new_color = collect($specification_list['specification_list'])->pluck('attributes.specification_id')->toArray();
+        $specification_prev_colors = $specification_model->where('product_id', $model->id)->pluck('id')->toArray();
+        $specification_delete_colors = array_diff($specification_prev_colors, $specification_new_color);
+//        delete item
+        $ppp = ProductSpecification::whereIn('id', $specification_delete_colors)->each(function ($item) {
+            $item->delete();
+        });
+
+        if (isset($specification_list['specification_list'])) {
+            foreach ($specification_list['specification_list'] as $list) {
+                if ($list['attributes']['specification_id']) {
+                    $check_spe = ProductSpecification::find($list['attributes']['specification_id']);
+
+                    $check_spe->update([
+                        'title' => $list['attributes']['specification_title'],
+                        'value' => $list['attributes']['specification_value'],
+                        'is_key_feature' => $list['attributes']['is_key_feature']
+                    ]);
+                } else {
+                    $specification_model->create([
+                        'product_id' => $model->id,
+                        'title' => $list['attributes']['specification_title'],
+                        'value' => $list['attributes']['specification_value'],
+                        'is_key_feature' => $list['attributes']['is_key_feature']
                     ]);
                 }
             }
