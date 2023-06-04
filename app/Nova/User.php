@@ -44,6 +44,11 @@ class User extends Resource
         'id', 'phone', 'email',
     ];
 
+    public static function label()
+    {
+        return __('All User List');
+    }
+
     /**
      * Get the fields displayed by the resource.
      *

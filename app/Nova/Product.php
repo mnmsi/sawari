@@ -48,6 +48,11 @@ class Product extends Resource
         'name',
     ];
 
+    public static function label()
+    {
+        return __('Product List');
+    }
+
     /**
      * Get the fields displayed by the resource.
      *
