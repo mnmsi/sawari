@@ -219,7 +219,7 @@ class Product extends Resource
                         ->hideFromIndex()
                         ->hideWhenCreating()
                         ->readonly(),
-
+//                  color name
                     Text::make('Color Name', 'color_name')
                         ->sortable()
                         ->rules('required', 'max:255')
@@ -228,7 +228,7 @@ class Product extends Resource
                                 'placeholder' => 'Enter name',
                             ],
                         ]),
-
+//                  color image
                     Image::make('Color Image', 'color_image')
                         ->path('product_color')
                         ->disk('public')
@@ -238,7 +238,7 @@ class Product extends Resource
                         ->preview(function ($value, $disk) {
                             return $value ? Storage::disk($disk)->url($value) : null;
                         })->prunable(),
-
+//                  color stock
                     Number::make('Color Stock', 'color_stock')
                         ->min(0)
                         ->rules('required'),
