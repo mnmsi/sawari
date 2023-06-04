@@ -34,8 +34,8 @@
                 'brand' => new BrandResource($this->brand),
                 'colors' => ColorResource::collection($this->colors),
                 'media' => MediaResource::collection($this->media),
-                'specifications' => SpecificationResource::collection($this->specifications->where('is_key_feature', 0)),
-                'summary' => SpecificationResource::collection($this->specifications->where('is_key_feature', 1)),
+                'specifications' => SpecificationResource::collection($this->specifications->where('is_key_feature', 1)),
+                'summary' => SpecificationResource::collection($this->specifications->where('is_key_feature', 0)),
                 'description' => $this->description,
                 'is_favorite' => $this->is_favorite,
             ];
