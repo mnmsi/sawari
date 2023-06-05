@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d8d112120c28f4d2c12b49420f593b26",
+    "content-hash": "e8ad4c9bc7f476d01fc9e4365fd2888e",
     "packages": [
         {
             "name": "brick/math",
@@ -3164,107 +3164,6 @@
                 }
             ],
             "time": "2023-03-30T15:40:03+00:00"
-        },
-        {
-            "name": "outl1ne/nova-simple-repeatable",
-            "version": "2.1.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/outl1ne/nova-simple-repeatable.git",
-                "reference": "eca3dcb283c876247a26b0a0dd15a6f99e340dc8"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/outl1ne/nova-simple-repeatable/zipball/eca3dcb283c876247a26b0a0dd15a6f99e340dc8",
-                "reference": "eca3dcb283c876247a26b0a0dd15a6f99e340dc8",
-                "shasum": ""
-            },
-            "require": {
-                "laravel/nova": "^4.0",
-                "outl1ne/nova-translations-loader": "^5.0",
-                "php": ">=8.0"
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "Outl1ne\\NovaSimpleRepeatable\\SimpleRepeatableServiceProvider"
-                    ]
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Outl1ne\\NovaSimpleRepeatable\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "description": "A Laravel Nova simple repeatable rows field.",
-            "keywords": [
-                "Flexible",
-                "field",
-                "keyvalue",
-                "laravel",
-                "nova",
-                "repeatable",
-                "rows"
-            ],
-            "support": {
-                "issues": "https://github.com/outl1ne/nova-simple-repeatable/issues",
-                "source": "https://github.com/outl1ne/nova-simple-repeatable/tree/2.1.0"
-            },
-            "time": "2022-10-21T14:13:02+00:00"
-        },
-        {
-            "name": "outl1ne/nova-translations-loader",
-            "version": "5.0.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/outl1ne/nova-translations-loader.git",
-                "reference": "c547009e8b3fd28d4cd2c034b6ac745785ddeca6"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/outl1ne/nova-translations-loader/zipball/c547009e8b3fd28d4cd2c034b6ac745785ddeca6",
-                "reference": "c547009e8b3fd28d4cd2c034b6ac745785ddeca6",
-                "shasum": ""
-            },
-            "require": {
-                "laravel/framework": "^8.0|^9.0|^10.0",
-                "laravel/nova": "^4.0",
-                "php": ">=8.0"
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [],
-                    "aliases": []
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Outl1ne\\NovaTranslationsLoader\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "description": "This Laravel Nova package helps developers load translations into their packages.",
-            "keywords": [
-                "laravel",
-                "nova",
-                "optimistdigital",
-                "outl1ne",
-                "translations"
-            ],
-            "support": {
-                "issues": "https://github.com/outl1ne/nova-translations-loader/issues",
-                "source": "https://github.com/outl1ne/nova-translations-loader/tree/5.0.1"
-            },
-            "time": "2023-02-10T16:14:58+00:00"
         },
         {
             "name": "phpoption/phpoption",

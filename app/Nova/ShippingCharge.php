@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Number;
+use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Http\Requests\NovaRequest;
@@ -68,7 +69,7 @@ class ShippingCharge extends Resource
                     ],
                 ]),
 //            charge
-            Number::make('charge')
+            Number::make('Charge', 'charge')
                 ->min(0)
                 ->step('any')
                 ->rules('required'),
@@ -78,6 +79,14 @@ class ShippingCharge extends Resource
                 ->rules('required')
                 ->rows(2)
                 ->alwaysShow(),
+            //              status
+            Select::make('Status', 'active')->options([
+                '1' => 'Yes',
+                '0' => 'No',
+            ])->rules('required')
+                ->displayUsing(function ($v) {
+                    return $v ? "Active" : "Inactive";
+                }),
 //            date
             DateTime::make('Created At', 'created_at')
                 ->hideFromIndex()

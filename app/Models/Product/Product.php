@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Models\BaseModel;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use Whitecube\NovaFlexibleContent\Value\FlexibleCast;
 
 class Product extends BaseModel
 {
@@ -34,15 +35,16 @@ class Product extends BaseModel
     protected $casts = [
         'is_used' => 'boolean',
         'is_featured' => 'boolean',
-        'is_active' => 'boolean'
+        'is_active' => 'boolean',
+        'color_list' => FlexibleCast::class,
     ];
 
     protected static function boot()
     {
-       parent::boot();
-       static::creating(function ($model){
-           $model->slug = Str::slug($model->name);
-       });
+        parent::boot();
+        static::creating(function ($model) {
+            $model->slug = Str::slug($model->name);
+        });
     }
 
     protected $appends = ['is_favorite', 'product_colors_id'];
@@ -98,6 +100,57 @@ class Product extends BaseModel
     public function getProductColorsIdAttribute()
     {
         return $this->colors->pluck('id');
+    }
+
+//    list
+
+    /**
+     * @throws \Exception
+     */
+    public function getColorListAttribute(): array
+    {
+        if (isset($this->attributes['id'])) {
+            $list = [];
+            $product = ProductColor::where('product_id', $this->attributes['id'])->get();
+            foreach ($product as $l) {
+                $list[] = [
+                    "layout" => "video",
+                    "key" => $l->id,
+                    "attributes" => [
+                        "color_id" => $l->id,
+                        "color_name" => $l->name,
+                        "color_image" => $l->image_url,
+                        "color_stock" => $l->stock,
+                    ]
+                ];
+            }
+            return $list;
+        } else {
+            return [];
+        }
+    }
+
+    public function getSpecificationListAttribute(): array
+    {
+        if (isset($this->attributes['id'])) {
+            $list = [];
+            $product = ProductSpecification::where('product_id', $this->attributes['id'])->get();
+            foreach ($product as $l) {
+                $list[] = [
+                    "layout" => "video",
+                    "key" => $l->id,
+                    "attributes" => [
+                        "specification_id" => $l->id,
+                        "specification_title" => $l->title,
+                        "specification_value" => $l->value,
+                        "is_key_feature" => $l->is_key_feature,
+                    ]
+                ];
+            }
+            return $list;
+        } else {
+            return [];
+        }
     }
 
 }

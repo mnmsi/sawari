@@ -37,6 +37,11 @@ class PaymentDetails extends Resource
         'id','tran_id',
     ];
 
+    public static function label()
+    {
+        return __('Order Payment Details');
+    }
+
     /**
      * Get the fields displayed by the resource.
      *

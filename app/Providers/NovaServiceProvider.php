@@ -2,9 +2,40 @@
 
 namespace App\Providers;
 
+use App\Nova\Banner;
+use App\Nova\BikeSellRequest;
+use App\Nova\BodyType;
+use App\Nova\Brand;
+use App\Nova\Category;
 use App\Nova\Dashboards\Main;
+use App\Nova\DeliveryOption;
+use App\Nova\HomeSection;
+use App\Nova\Notification;
+use App\Nova\Order;
+use App\Nova\OrderDetail;
+use App\Nova\PaymentDetails;
+use App\Nova\PaymentMethods;
+use App\Nova\PrivacyPolicy;
+use App\Nova\Product;
+use App\Nova\ProductColor;
+use App\Nova\ProductMedia;
+use App\Nova\ProductReview;
+use App\Nova\ProductSpecification;
+use App\Nova\SellBike;
+use App\Nova\SeoSetting;
+use App\Nova\ShippingCharge;
+use App\Nova\Showroom;
+use App\Nova\SiteSetting;
+use App\Nova\TermsAndCondition;
+use App\Nova\Testimonial;
+use App\Nova\User;
+use App\Nova\UserAddress;
+use App\Nova\UserWishlist;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Gate;
+use Laravel\Nova\Menu\MenuItem;
+use Laravel\Nova\Menu\MenuSection;
 use Laravel\Nova\Nova;
 use Laravel\Nova\NovaApplicationServiceProvider;
 
@@ -22,6 +53,59 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
         Nova::footer(function ($req) {
             return Blade::render('nova/footer');
         });
+
+//        menu
+        Nova::mainMenu(function (Request $request) {
+            return [
+                MenuSection::dashboard(Main::class)->icon('chart-bar'),
+//                user users
+                MenuSection::make('Users', [
+                    MenuItem::resource(User::class),
+                    MenuItem::resource(UserAddress::class),
+                    MenuItem::resource(UserWishlist::class),
+                ])->icon('users')->collapsable(),
+//                product
+                MenuSection::make('Products', [
+                    MenuItem::resource(Product::class),
+                    MenuItem::resource(ProductColor::class),
+                    MenuItem::resource(ProductSpecification::class),
+                    MenuItem::resource(ProductMedia::class),
+                    MenuItem::resource(ProductReview::class),
+                ])->icon('gift')->collapsable(),
+//                order
+                MenuSection::make('Orders', [
+                    MenuItem::resource(Order::class),
+                    MenuItem::resource(OrderDetail::class),
+                    MenuItem::resource(PaymentDetails::class),
+                ])->icon('shopping-cart')->collapsable(),
+//                bike sell
+                MenuSection::make('Bike Sell', [
+                    MenuItem::resource(SellBike::class),
+                    MenuItem::resource(BikeSellRequest::class),
+                ])->icon('cube')->collapsable(),
+//                system
+                MenuSection::make('System', [
+                    MenuItem::resource(Showroom::class),
+                    MenuItem::resource(Brand::class),
+                    MenuItem::resource(Category::class),
+                    MenuItem::resource(Banner::class),
+                    MenuItem::resource(BodyType::class),
+                    MenuItem::resource(PaymentMethods::class),
+                    MenuItem::resource(ShippingCharge::class),
+                    MenuItem::resource(DeliveryOption::class),
+                    MenuItem::resource(Notification::class),
+                ])->icon('briefcase')->collapsable(),
+//                settings
+                MenuSection::make('Settings', [
+                    MenuItem::resource(SiteSetting::class),
+                    MenuItem::resource(SeoSetting::class),
+                    MenuItem::resource(HomeSection::class),
+                    MenuItem::resource(Testimonial::class),
+                    MenuItem::resource(TermsAndCondition::class),
+                    MenuItem::resource(PrivacyPolicy::class),
+                ])->icon('document-text')->collapsable(),
+            ];
+        });
     }
 
     /**
@@ -32,9 +116,9 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     protected function routes()
     {
         Nova::routes()
-                ->withAuthenticationRoutes()
-                ->withPasswordResetRoutes()
-                ->register();
+            ->withAuthenticationRoutes()
+            ->withPasswordResetRoutes()
+            ->register();
     }
 
     /**

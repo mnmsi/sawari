@@ -13,12 +13,12 @@ class HomePageSection extends Model
         'product_list' => FlexibleCast::class
     ];
 
-    public function homePageSection()
+    public function homePageSection(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(HpsProduct::class, 'hps_section_id', 'id');
     }
 
-    public function getProductListAttribute()
+    public function getProductListAttribute(): array
     {
         if (isset($this->attributes['id'])) {
             $list = [];

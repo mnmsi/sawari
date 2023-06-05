@@ -41,6 +41,11 @@ class Order extends Resource
         'id', 'transaction_id',
     ];
 
+    public static function label()
+    {
+        return __('Order List');
+    }
+
     /**
      * Get the fields displayed by the resource.
      *

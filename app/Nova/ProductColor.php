@@ -68,7 +68,7 @@ class ProductColor extends Resource
                 ->disk('public')
                 ->creationRules('required')
                 ->updateRules('nullable')
-                ->help("*For better view pleas use image height=53,width=68")
+                ->help("*For better view please use image height=53,width=68")
                 ->disableDownload(),
 //            total stock
             Number::make('Stock', 'stock')
