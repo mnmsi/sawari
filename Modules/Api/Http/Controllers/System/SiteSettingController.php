@@ -9,14 +9,15 @@ class SiteSettingController extends Controller
 {
     public function siteSettings()
     {
-        $data = SiteSetting::select('name', 'email', 'phone', 'header_logo', 'footer_logo', 'fav_icon', 'dark_fav_icon', 'facebook_url', 'instagram_url', 'twitter_url', 'youtube_url', 'linkedin_url')
+        $data = SiteSetting::select('name', 'email', 'phone', 'header_logo', 'footer_logo', 'fav_icon', 'dark_fav_icon', 'facebook_url', 'instagram_url', 'twitter_url', 'youtube_url', 'linkedin_url', 'welcome_popup_image')
             ->first();
 
         $data['status'] = true;
-        $data['header_logo'] = asset('storage/' . $data['header_logo']);
-        $data['footer_logo'] = asset('storage/' . $data['footer_logo']);
-        $data['fav_icon'] = asset('storage/' . $data['fav_icon']);
-        $data['dark_fav_icon'] = asset('storage/' . $data['dark_fav_icon']);
+        $data['welcome_popup_image'] = asset('storage/' . $data['welcome_popup_image']) ?? null;
+        $data['header_logo'] = isset($data['header_logo']) ? asset('storage/' . $data['header_logo']) : null;
+        $data['footer_logo'] = isset($data['footer_logo']) ? asset('storage/' . $data['footer_logo']) : null;
+        $data['fav_icon'] = isset($data['fav_icon']) ? asset('storage/' . $data['fav_icon']) : '';
+        $data['dark_fav_icon'] = isset($data['dark_fav_icon']) ? asset('storage/' . $data['dark_fav_icon']) : '';
 
         return $data;
     }

@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('name')->nullable();
             $table->string('email')->nullable();
             $table->string('phone')->nullable();
+            $table->string('welcome_popup_image')->nullable();
             $table->string('header_logo')->nullable();
             $table->string('footer_logo')->nullable();
             $table->string('fav_icon')->nullable();

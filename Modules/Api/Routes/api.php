@@ -16,8 +16,10 @@ use Modules\Api\Http\Controllers\Product\ReviewController;
 use Modules\Api\Http\Controllers\Product\WishListController;
 use Modules\Api\Http\Controllers\SellBike\SellBikeController;
 use Modules\Api\Http\Controllers\System\BannerController;
+use Modules\Api\Http\Controllers\System\BookAppointmentController;
 use Modules\Api\Http\Controllers\System\ColorController;
 use Modules\Api\Http\Controllers\System\HomePageSectionController;
+use Modules\Api\Http\Controllers\System\PreOrderController;
 use Modules\Api\Http\Controllers\System\PrivacyPolicyController;
 use Modules\Api\Http\Controllers\System\SeoSettingController;
 use Modules\Api\Http\Controllers\System\ShowroomController;
@@ -25,6 +27,7 @@ use Modules\Api\Http\Controllers\System\SiteSettingController;
 use Modules\Api\Http\Controllers\System\SystemAddressController;
 use Modules\Api\Http\Controllers\System\TermsConditionController;
 use Modules\Api\Http\Controllers\System\TestimonialController;
+use Modules\Api\Http\Controllers\System\VideoReviewController;
 use Modules\Api\Http\Controllers\User\UserAddressController;
 use Modules\Api\Http\Controllers\User\UserController;
 
@@ -48,7 +51,8 @@ Route::middleware('guest')->group(function () {
     Route::get('banners', [BannerController::class, 'banners']);                // Banner Routes
     Route::get('testimonials', [TestimonialController::class, 'testimonials']); // Testimonial Routes
     Route::get('showrooms', [ShowroomController::class, 'showrooms']);          // Showroom Routes
-    Route::get('colors', [ColorController::class, 'colors']);                   // Color Routes
+    Route::get('colors', [ColorController::class, 'colors']);
+    Route::get('video-review', [VideoReviewController::class, 'index']);// Color Routes
 
     // Routes on OrderController
     Route::controller(OrderController::class)->group(function () {
@@ -160,8 +164,6 @@ Route::middleware('guest')->group(function () {
     });
 
 
-
-
     //        Route on Terms and Condition
     Route::controller(TermsConditionController::class)->group(function () {
         Route::get('terms', 'terms');
@@ -198,4 +200,12 @@ Route::middleware('product')->group(function () {
         Route::get('accessory/details/{name}', 'details');                 // Accessory Details Routes
     });
     Route::get('home-page-sections', [HomePageSectionController::class, 'homePageSections']);
+    Route::get('scooter',[BikeController::class,'scooter']);
+    Route::get('upcoming-bikes',[BikeController::class,'upcomingBikes']);
 });
+
+Route::controller(PreOrderController::class)->prefix('pre-order')->group(function () {
+    Route::post('/store', 'store');
+});
+
+Route::post('/book-appointment', [BookAppointmentController::class, 'store']);

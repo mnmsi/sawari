@@ -14,6 +14,7 @@ class Brand extends BaseModel
         'image_url',
         'type',
         'is_popular',
+        'order',
         'is_active',
         'created_at',
         'updated_at'

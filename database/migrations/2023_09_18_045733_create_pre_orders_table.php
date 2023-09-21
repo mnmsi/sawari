@@ -10,12 +10,15 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('banners', function (Blueprint $table) {
+        Schema::create('pre_orders', function (Blueprint $table) {
             $table->id();
-            $table->enum('page', ['home', 'all-bikes', 'popular-brands', 'bike-accessories', 'our-showrooms','upcoming-bike-stock','scooter-bangladesh']);
-            $table->enum('show_on', ['all', 'top', 'bottom']);
-            $table->string('image_url');
-            $table->tinyInteger('is_active')->default(1)->comment('0: Inactive, 1: Active');
+            $table->text('product_name');
+            $table->string('product_image');
+            $table->tinyInteger('product_quantity');
+            $table->text('name');
+            $table->text('email')->nullable();
+            $table->text('phone');
+            $table->text('address')->nullable();
             $table->dateTime('created_at')->useCurrent();
             $table->dateTime('updated_at')->useCurrentOnUpdate()->nullable();
         });
@@ -26,6 +29,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('banners');
+        Schema::dropIfExists('pre_orders');
     }
 };
