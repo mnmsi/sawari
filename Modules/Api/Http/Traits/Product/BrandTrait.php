@@ -19,7 +19,7 @@ trait BrandTrait
                 $query->where('type', 'bike')
                     ->orWhere('type', 'both');
             })
-            ->orderBy('name')
+            ->orderBy('order', 'asc')
             ->paginate(request('per_page', 9));
     }
 
@@ -34,7 +34,7 @@ trait BrandTrait
                     ->orWhere('type', 'both');
             })
             ->where('is_popular', 1)
-            ->orderBy('name', 'asc')
+            ->orderBy('order', 'asc')
             ->get();
     }
 
@@ -48,7 +48,7 @@ trait BrandTrait
                 $query->where('type', 'accessory')
                     ->orWhere('type', 'both');
             })
-            ->orderBy('name')
+            ->orderBy('order', 'asc')
             ->paginate(request('per_page', 9));
     }
 
@@ -63,7 +63,7 @@ trait BrandTrait
                     ->orWhere('type', 'both');
             })
             ->where('is_popular', 1)
-            ->orderBy('name', 'asc')
+            ->orderBy('order', 'asc')
             ->get();
     }
 
@@ -79,7 +79,7 @@ trait BrandTrait
                 $query->where('type', 'accessory')
                     ->orWhere('type', 'both');
             })
-            ->orderBy('name')
+            ->orderBy('order', 'asc')
             ->get();
     }
 }

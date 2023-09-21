@@ -19,6 +19,9 @@ trait BikeTrait
 //        dd(Product::all()->toArray());
         return Product::where('type', 'bike')
             ->where('is_active', 1)
+            ->whereHas('colors', function ($query) {
+                $query->where('stock', '>', 0);
+            })
             ->when($filters['brand_id'], function ($query) use ($filters) {
                 $query->whereIn('brand_id', $filters['brand_id']);
             })
@@ -106,11 +109,37 @@ trait BikeTrait
     {
         return Product::where('type', 'bike')
             ->where('is_active', 1)
+            ->whereHas('colors', function ($query) {
+                $query->where('stock', '>', 0);
+            })
             ->inRandomOrder()
             ->take(4)
             ->get();
     }
 
+    public function getUpComingBikes()
+    {
+        return Product::where('type', 'bike')
+            ->where('is_active', 1)
+            ->whereHas('colors', function ($query) {
+                $query->where('stock', '>', 0);
+            })
+            ->where('is_upcoming', 1)
+            ->orderBy( 'id', 'desc')
+            ->paginate( 12);
+    }
+
+    public function getScooter()
+    {
+        return Product::where('type', 'bike')
+            ->where('is_active', 1)
+            ->whereHas('colors', function ($query) {
+                $query->where('stock', '>', 0);
+            })
+            ->where('is_scooter', 1)
+            ->orderBy( 'id', 'desc')
+            ->paginate( 12);
+    }
     /**
      * @return mixed
      */
