@@ -20,7 +20,7 @@ class ApiAuthController extends Controller
 {
     use OtpTrait;
 
-    public function login(AuthenticateUserRequest $request)
+    public function login(Request $request)
     {
 //        dd($request->all());
         // Authentication for requested phone and password
