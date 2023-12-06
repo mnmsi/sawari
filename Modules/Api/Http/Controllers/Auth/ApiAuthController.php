@@ -23,7 +23,7 @@
         public function login(AuthenticateUserRequest $request)
         {
             // Authentication for requested phone and password
-            if (Auth::attempt($request->only('phone', 'password'))) {
+            if (Auth::attempt($request->only('email', 'password'))) {
 
                 // Get user for current request which is authenticated
                 $user = Auth::user();
