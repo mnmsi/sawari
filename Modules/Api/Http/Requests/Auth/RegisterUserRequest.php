@@ -60,6 +60,13 @@ class RegisterUserRequest extends FormRequest
 //        ]);
 //    }
 
+    public function passedValidation()
+    {
+        $this->merge([
+            'password' => Hash::make($this->password),
+        ]);
+    }
+
     protected function failedValidation(Validator $validator)
     {
         // Throw response exception with failed validation message

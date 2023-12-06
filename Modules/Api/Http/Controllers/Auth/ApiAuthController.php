@@ -8,7 +8,6 @@ use App\Models\User\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Session;
 use Modules\Api\Http\Requests\Auth\AuthenticateUserRequest;
 use Modules\Api\Http\Requests\Auth\RegisterUserRequest;
