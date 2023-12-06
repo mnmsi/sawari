@@ -30,7 +30,8 @@ class AuthenticateUserRequest extends FormRequest
     public function rules()
     {
         return [
-            'phone'    => 'required|string|exists:App\Models\User\User,phone',
+//            'phone'    => 'required|string|exists:App\Models\User\User,phone',
+            'email'    => 'required|string|exists:App\Models\User\User,email',
             'password' => 'required|string|min:6',
         ];
     }
