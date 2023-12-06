@@ -31,7 +31,7 @@ class AuthenticateUserRequest extends FormRequest
     {
         return [
 //            'phone'    => 'required|string|exists:App\Models\User\User,phone',
-            'email'    => 'required|string|exists:App\Models\User\User,email',
+//            'email'    => 'required|string|exists:App\Models\User\User,email',
             'password' => 'required|string|min:6',
         ];
     }
