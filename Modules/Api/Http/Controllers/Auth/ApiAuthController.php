@@ -22,6 +22,7 @@ class ApiAuthController extends Controller
 
     public function login(AuthenticateUserRequest $request)
     {
+        dd($request->all());
         // Authentication for requested phone and password
         if (Auth::attempt($request->only('email', 'password'))) {
 
