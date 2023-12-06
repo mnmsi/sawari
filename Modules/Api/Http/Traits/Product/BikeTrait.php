@@ -38,6 +38,13 @@ trait BikeTrait
                     $query->where('is_used', 0);
                 }
             })
+            ->when($filters['used_bike_type'], function ($query) use ($filters) {
+                if ($filters['used_bike_type'] === 'new') {
+                    $query->where('used_bike_type', 0);
+                } else {
+                    $query->where('used_bike_type', 1);
+                }
+            })
             ->when($filters['color'], function ($query) use ($filters) {
                 $query->whereHas('colors', function ($query) use ($filters) {
                     $query->whereIn('name', $filters['color']);
@@ -74,6 +81,7 @@ trait BikeTrait
     {
         return [
             'brand_id' => isset($request->brand_id) ? explode(',', $request->brand_id) : null,
+            'used_bike_type' => $request->used_bike_type,
             'body_type_id' => isset($request->body_type_id) ? explode(',', $request->body_type_id) : null,
             'category_id' => isset($request->category_id) ? explode(',', $request->category_id) : null,
             'is_used' => $request->is_used,
