@@ -46,6 +46,7 @@
         public function register(RegisterUserRequest $request)
         {
             $reqData = $request->all(); // Get request data
+            $reqData['phone'] = '+880 0 0 0 ';
 
             // Check if request has file
             if ($request->hasFile('avatar')) {
