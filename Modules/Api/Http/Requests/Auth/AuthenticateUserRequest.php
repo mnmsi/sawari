@@ -36,12 +36,12 @@ class AuthenticateUserRequest extends FormRequest
         ];
     }
 
-    public function messages()
-    {
-        return [
-            'phone.exists' => 'User with this phone number does not exist',
-        ];
-    }
+//    public function messages()
+//    {
+//        return [
+//            'phone.exists' => 'User with this phone number does not exist',
+//        ];
+//    }
 
     protected function failedValidation(Validator $validator)
     {
