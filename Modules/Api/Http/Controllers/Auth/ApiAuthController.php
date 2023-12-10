@@ -19,11 +19,11 @@ class ApiAuthController extends Controller
 {
     use OtpTrait;
 
-    public function login(Request $request)
+    public function login(AuthenticateUserRequest $request)
     {
 //        dd($request->all());
         // Authentication for requested phone and password
-        if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
+        if (Auth::attempt(['phone' => $request->phone, 'password' => $request->password])) {
 
             // Get user for current request which is authenticated
             $user = Auth::user();
@@ -45,9 +45,6 @@ class ApiAuthController extends Controller
 
     public function register(RegisterUserRequest $request)
     {
-        $request->merge([
-            'phone' => '+880 0 0 0 ' . rand(1000000, 9999999),
-        ]);
         $reqData = $request->all(); // Get request data
 
         // Check if request has file

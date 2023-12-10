@@ -30,18 +30,18 @@ class AuthenticateUserRequest extends FormRequest
     public function rules()
     {
         return [
-//            'phone'    => 'required|string|exists:App\Models\User\User,phone',
+            'phone'    => 'required|string|exists:App\Models\User\User,phone',
 //            'email'    => 'required|string|exists:App\Models\User\User,email',
             'password' => 'required|string|min:6',
         ];
     }
 
-//    public function messages()
-//    {
-//        return [
-//            'phone.exists' => 'User with this phone number does not exist',
-//        ];
-//    }
+    public function messages()
+    {
+        return [
+            'phone.exists' => 'User with this phone number does not exist',
+        ];
+    }
 
     protected function failedValidation(Validator $validator)
     {

@@ -17,13 +17,14 @@ trait OtpTrait
 
         // Set some options - we are passing in a useragent too here for AlphaSMS
         curl_setopt_array($curl, [
-            CURLOPT_URL            => 'https://api.sms.net.bd/sendsms',
+            CURLOPT_URL            => 'http://sms.tricomsms.com/api/v2/SendSMS',
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_CUSTOMREQUEST  => 'POST',
             CURLOPT_POSTFIELDS     => [
-                'api_key' => config('services.alpha_sms.api_key'), // AlphaSMS API Key
-                'msg'     =>  $message, // Message to send with OTP
-                'to'      => $phone
+                'apiKey' => env('SMS_API_KEY'),
+                'senderId' => env('SMS_CLIENT_ID'),
+                'message'     =>  $message, // Message to send with OTP
+                'mobileNumbers'      => $phone
             ],
         ]);
 

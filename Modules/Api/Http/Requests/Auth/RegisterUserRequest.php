@@ -35,8 +35,8 @@ class RegisterUserRequest extends FormRequest
         return [
             'first_name' => 'required|string|max:190',
             'last_name' => 'required|string|max:190',
-//            'phone' => 'required|string|unique:App\Models\User\User,phone',
-//            'otp' => 'required|numeric|digits:6',
+            'phone' => 'required|string|unique:App\Models\User\User,phone',
+            'otp' => 'required|numeric|digits:6',
             'email' => 'nullable | string | email | max:190 | unique:App\Models\User\User,email',
             'date_of_birth' => 'nullable | date',
             'gender' => 'nullable | in:male,female,other',
@@ -45,23 +45,16 @@ class RegisterUserRequest extends FormRequest
         ];
     }
 
-//    protected function passedValidation()
-//    {
-//        // Verify OTP if it is not valid throw response exception
-//        if (!$this->verifyOtp($this->phone, $this->otp)) {
-//            throw new HttpResponseException(
-//                $this->respondFailedValidation('Invalid OTP')
-//            );
-//        }
-//
-//        // Hash password and merge it with request
-//        $this->merge([
-//            'password' => Hash::make($this->password),
-//        ]);
-//    }
-
-    public function passedValidation()
+    protected function passedValidation()
     {
+        // Verify OTP if it is not valid throw response exception
+        if (!$this->verifyOtp($this->phone, $this->otp)) {
+            throw new HttpResponseException(
+                $this->respondFailedValidation('Invalid OTP')
+            );
+        }
+
+        // Hash password and merge it with request
         $this->merge([
             'password' => Hash::make($this->password),
         ]);
