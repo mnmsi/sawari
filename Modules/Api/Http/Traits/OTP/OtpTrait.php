@@ -13,6 +13,7 @@ trait OtpTrait
 
     public function sendSms($phone, $message)
     {
+//        dd($phone, $message);
         $curl = curl_init();
 
         // Set some options - we are passing in a useragent too here for AlphaSMS
@@ -21,6 +22,8 @@ trait OtpTrait
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_CUSTOMREQUEST  => 'POST',
             CURLOPT_POSTFIELDS     => [
+                'is_Unicode' => 'false', // Message is in Unicode or not
+                'is_Flash' => 'false', // Message is flash or not
                 'apiKey' => env('SMS_API_KEY'),
                 'senderId' => env('SMS_CLIENT_ID'),
                 'message'     =>  $message, // Message to send with OTP
@@ -30,10 +33,7 @@ trait OtpTrait
 
         $response = curl_exec($curl);
         curl_close($curl);
-
         $response = json_decode($response);
-
-
         // Check if the response is successful then return true
         if ($response->error == 0) {
             return true;
