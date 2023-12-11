@@ -13,41 +13,45 @@ trait OtpTrait
 
     public function sendSms($phone, $message)
     {
-//        dd($phone, $message);
-        $curl = curl_init();
 
-        // Set some options - we are passing in a useragent too here for AlphaSMS
-        curl_setopt_array($curl, [
-            CURLOPT_URL            => 'http://sms.tricomsms.com/api/v2/SendSMS',
+        $curl = curl_init();
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => 'http://sms.tricomsms.com/api/v2/SendSMS',
             CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_CUSTOMREQUEST  => 'POST',
-            CURLOPT_POSTFIELDS     => [
-                'is_Unicode' => 'false', // Message is in Unicode or not
-                'is_Flash' => 'false', // Message is flash or not
-                'apiKey' => env('SMS_API_KEY'),
-                'senderId' => env('SMS_CLIENT_ID'),
-                'message'     =>  $message, // Message to send with OTP
-                'mobileNumbers'      => $phone
-            ],
-        ]);
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'POST',
+            CURLOPT_POSTFIELDS => '{
+            "senderId":"'.env('SMS_SENDER_ID').'",
+            "message":"'.$message.'",
+            "mobileNumbers":"'.$phone.'",
+            "apiKey":"' . env('SMS_API_KEY') . '",
+            "clientId":"'.env('SMS_CLIENT_ID').'",
+            }',
+            CURLOPT_HTTPHEADER => array(
+                'accept: application/json',
+                'Content-Type: application/json'
+            ),
+        ));
 
         $response = curl_exec($curl);
         curl_close($curl);
-        $response = json_decode($response);
-        // Check if the response is successful then return true
-        if ($response->error == 0) {
+        if ($response) {
             return true;
+        } else {
+            return false;
         }
-
-        return false;
     }
 
     public function verifyOtp($phone, $otp)
     {
         // Check if the phone number and otp is valid / it exists in the database
         $phoneVerification = PhoneVerification::where('phone', $phone)
-                                              ->where('otp', $otp)
-                                              ->first();
+            ->where('otp', $otp)
+            ->first();
 
         // If the phone number and otp is not valid / not exists in the database then return false
         if (!$phoneVerification) {
