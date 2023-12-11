@@ -16,6 +16,7 @@ trait OtpTrait
 
         $curl = curl_init();
         curl_setopt_array($curl, array(
+//
             CURLOPT_URL => 'http://sms.tricomsms.com/api/v2/SendSMS',
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
