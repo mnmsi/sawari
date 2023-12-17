@@ -12,7 +12,8 @@ class TestimonialController extends Controller
     {
         // Get all active testimonials
         $testimonials = Testimonial::where('is_active', 1)
-                                   ->get();
+            ->orderByRaw('ISNULL(`order_no`), `order_no` ASC')
+            ->get();
 
         // Return response with testimonials
         return $this->respondWithSuccessWithData(TestimonialResource::collection($testimonials));

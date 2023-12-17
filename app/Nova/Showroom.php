@@ -7,6 +7,7 @@ use Laravel\Nova\Exceptions\HelperNotSupported;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\ID;
+use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
@@ -116,6 +117,9 @@ class Showroom extends Resource
                         'placeholder' => 'Enter support number',
                     ],
                 ]),
+//            order
+            Number::make('Showroom Position No.', 'order_no')
+                ->nullable(),
 //            status
             Select::make('Status', 'is_active')->options([
                 '1' => 'Yes',

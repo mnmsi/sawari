@@ -12,6 +12,7 @@ class ShowroomController extends Controller
     {
         // Get all active showrooms
         $showrooms = Showroom::where('is_active', 1)
+            ->orderByRaw('ISNULL(`order_no`), `order_no` ASC')
             ->get();
 
         // Return response with showrooms

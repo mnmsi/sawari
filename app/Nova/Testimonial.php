@@ -91,6 +91,9 @@ class Testimonial extends Resource
                 ->rules('required')
                 ->rows(2)
                 ->alwaysShow(),
+//            order
+            Number::make('Position No.', 'order_no')
+                ->nullable(),
 //            status
             Select::make('Status', 'is_active')
                 ->options([
