@@ -47,6 +47,9 @@ class Banner extends BaseModel
 
     public function getHomeShowOnAttribute()
     {
-        return $this->attributes['show_on'];
+        if (!empty($this->attributes['show_on'])) {
+            return $this->attributes['show_on'];
+        }
+        return null;
     }
 }
