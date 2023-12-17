@@ -15,7 +15,7 @@ class HomePageSection extends Model
 
     public function homePageSection(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
-        return $this->hasMany(HpsProduct::class, 'hps_section_id', 'id');
+        return $this->hasMany(HpsProduct::class, 'hps_section_id', 'id')->orderBy("order_no");
     }
 
     public function getProductListAttribute(): array
@@ -28,7 +28,8 @@ class HomePageSection extends Model
                     "layout" => "wysiwyg",
                     "key" => substr(uniqid(rand()), 0, 12),
                     "attributes" => [
-                        "product" => $l->product_id
+                        "product" => $l->product_id,
+                        "order_no" => $l->order_no,
                     ]
                 ];
             }

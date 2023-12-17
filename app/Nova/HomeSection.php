@@ -96,6 +96,8 @@ class HomeSection extends Resource
                     )->rules('required')
                         ->searchable()
                         ->displayUsingLabels(),
+                    Number::make('Product Position No.', 'order_no')
+                        ->required(),
                 ])->hideFromIndex()
                 ->withMeta([
                     'ignoreOnSaving',
@@ -174,6 +176,7 @@ class HomeSection extends Resource
                 $secModel = new HpsProduct();
                 $secModel->hps_section_id = $model->id;
                 $secModel->product_id = $list['attributes']['product'];
+                $secModel->order_no = $list['attributes']['order_no'];
                 $secModel->save();
             }
         }
@@ -201,8 +204,13 @@ class HomeSection extends Resource
                 {
                     $secModel->create([
                         'hps_section_id' => $model->id,
-                        'product_id' => $list['attributes']['product']
+                        'product_id' => $list['attributes']['product'],
+                        'order_no' => $list['attributes']['order_no']
                     ]);
+                } else {
+                    $check->product_id = $list['attributes']['product'];
+                    $check->order_no = $list['attributes']['order_no'];
+                    $check->save();
                 }
             }
         }

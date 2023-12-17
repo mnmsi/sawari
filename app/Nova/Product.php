@@ -152,6 +152,9 @@ class Product extends Resource
             //            position
             Number::make('Product Position No.', 'order_no')
                 ->nullable(),
+            //            category
+            Number::make('Category Position No.', 'category_order_no')
+                ->nullable(),
             //            used or not
             Select::make('Is Used', 'is_used')->options([
                 '1' => 'Yes',

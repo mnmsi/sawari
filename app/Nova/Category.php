@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Image;
+use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
@@ -62,6 +63,10 @@ class Category extends Resource
                 ->nullable()
                 ->help("*For better view please use image height=132,width=250")
                 ->disableDownload(),
+
+            //            position
+            Number::make('Category Position No.', 'order_no')
+                ->nullable(),
 
             Select::make('Is popular', 'is_popular')->options([
                 '1' => 'Yes',

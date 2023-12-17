@@ -69,7 +69,8 @@ trait BikeTrait
                         $query->where('discount_rate', '<=', $filters['discount_rate_to']);
                     });
             })
-            ->orderBy($filters['sort_by'] ?? 'id', $filters['sort_type'] ?? 'desc')
+//            ->orderBy($filters['sort_by'] ?? 'id', $filters['sort_type'] ?? 'desc')
+            ->orderByRaw('ISNULL(`order_no`), `order_no` ASC')
             ->paginate($filters['per_page'] ?? 10);
     }
 
@@ -133,7 +134,7 @@ trait BikeTrait
                 $query->where('stock', '>', 0);
             })
             ->where('is_upcoming', 1)
-            ->orderBy( 'id', 'desc')
+            ->orderByRaw('ISNULL(`category_order_no`), `category_order_no` ASC')
             ->paginate( 12);
     }
 
@@ -145,7 +146,7 @@ trait BikeTrait
                 $query->where('stock', '>', 0);
             })
             ->where('is_scooter', 1)
-            ->orderBy( 'id', 'desc')
+            ->orderByRaw('ISNULL(`category_order_no`), `category_order_no` ASC')
             ->paginate( 12);
     }
     /**
