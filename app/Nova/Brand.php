@@ -8,6 +8,7 @@ use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\FormData;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Image;
+use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
@@ -84,6 +85,9 @@ class Brand extends Resource
                     }
                 })
                 ->noPeeking(),
+
+            Number::make('Brand Position No.', 'order')
+                ->nullable(),
 
             Select::make('Is popular', 'is_popular')->options([
                 '1' => 'Yes',
