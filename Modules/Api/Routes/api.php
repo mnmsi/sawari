@@ -122,6 +122,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('buy-now/make-order', [OrderController::class, 'makeOrderFromBuyNow']); // Buy Now Routes
 });
 
+Route::get('product/suggestion', [ProductController::class, 'getProductSuggestion']); // Product Review
 // Product Routes (Auth) or (Guest) Mode
 Route::middleware('guest')->group(function () {
 
