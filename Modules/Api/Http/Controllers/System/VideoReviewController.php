@@ -11,7 +11,9 @@ class VideoReviewController extends Controller
 {
     public function index()
     {
-        $data = VideoReview::all();
+        $data = VideoReview::where('status', 1)
+            ->orderByRaw('ISNULL(`order_no`), `order_no` ASC')
+            ->get();
         return $this->respondWithSuccessWithData(
             VideoReviewResource::collection($data),
         );

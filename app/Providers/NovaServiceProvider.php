@@ -31,6 +31,7 @@ use App\Nova\Testimonial;
 use App\Nova\User;
 use App\Nova\UserAddress;
 use App\Nova\UserWishlist;
+use App\Nova\VideoReview;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Gate;
@@ -93,6 +94,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                     MenuItem::resource(PaymentMethods::class),
                     MenuItem::resource(ShippingCharge::class),
                     MenuItem::resource(DeliveryOption::class),
+                    MenuItem::resource(VideoReview::class),
                     MenuItem::resource(Notification::class),
                 ])->icon('briefcase')->collapsable(),
 //                settings

@@ -13,5 +13,7 @@ class VideoReview extends Model
         'title',
         'video_url',
         'video_thumbnail',
+        'order_no',
+        'status',
     ];
 }
