@@ -16,7 +16,8 @@ trait FeatureTrait
             ->where('type', 'bike')
             ->where('is_used', 0)
             ->where('is_featured', 1)
-            ->inRandomOrder()
+//            ->inRandomOrder()
+            ->orderByRaw('ISNULL(`order_no`), `order_no` ASC')
             ->take(4)
             ->get();
     }
@@ -31,7 +32,8 @@ trait FeatureTrait
             ->where('type', 'bike')
             ->where('is_used', 1)
             ->where('is_featured', 1)
-            ->inRandomOrder()
+//            ->inRandomOrder()
+            ->orderByRaw('ISNULL(`order_no`), `order_no` ASC')
             ->take(4)
             ->get();
     }
