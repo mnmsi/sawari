@@ -18,6 +18,7 @@ class BannerResource extends JsonResource
             'page'      => $this->page,
             'show_on'   => $this->show_on,
             'image_url' => str_contains($this->image_url, 'http') ? $this->image_url : asset('storage/' . $this->image_url),
+            'home_banner' => $this->home_images ? json_decode($this->home_images, true) : null,
         ];
     }
 }
