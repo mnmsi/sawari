@@ -149,6 +149,9 @@ class Product extends Resource
                 ->min(0)
                 ->step('any')
                 ->nullable(),
+            //            position
+            Number::make('Product Position No.', 'order_no')
+                ->nullable(),
             //            used or not
             Select::make('Is Used', 'is_used')->options([
                 '1' => 'Yes',

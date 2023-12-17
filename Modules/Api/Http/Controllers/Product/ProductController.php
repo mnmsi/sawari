@@ -5,6 +5,7 @@ namespace Modules\Api\Http\Controllers\Product;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Modules\Api\Http\Resources\Product\ProductResource;
 use Modules\Api\Http\Traits\Product\ProductCountTrait;
 
 class ProductController extends Controller
@@ -26,6 +27,6 @@ class ProductController extends Controller
 
     public function getProductSuggestion(Request $request)
     {
-        return $this->respondWithSuccessWithData($this->getSearchSuggestions($request->name));
+        return $this->respondWithSuccessWithData(ProductResource::collection($this->getSearchSuggestions($request->name)));
     }
 }
