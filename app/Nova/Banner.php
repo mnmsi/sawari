@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Image;
+use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
@@ -67,13 +68,16 @@ class Banner extends Resource
                 ->creationRules('required')
                 ->updateRules('nullable')
                 ->disableDownload(),
+            //            order no
+            Number::make('Banner Position', 'order_no')
+                ->rules('required'),
 //            status
             Select::make('Status', 'is_active')->options([
                 '1' => 'Yes',
                 '0' => 'No',
             ])->rules('required')
                 ->resolveUsing(function ($value) {
-                    if (!$value) {
+                    if ($value === false) {
                         return 0;
                     }
                     return 1;

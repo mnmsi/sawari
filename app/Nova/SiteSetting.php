@@ -6,8 +6,10 @@ use Illuminate\Http\Request;
 use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Image;
+use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Whitecube\NovaFlexibleContent\Flexible;
 
 class SiteSetting extends Resource
 {
@@ -39,6 +41,7 @@ class SiteSetting extends Resource
      *
      * @param NovaRequest $request
      * @return array
+     * @throws \Exception
      */
     public function fields(NovaRequest $request)
     {
@@ -170,6 +173,19 @@ class SiteSetting extends Resource
 //                ->disk('public')
 //                ->nullable()
 //                ->disableDownload(),
+            //            home section setting
+            Flexible::make('Home Section List', 'section_list')
+                ->button('Add Some Section')
+                ->addLayout('Select Section', 'wysiwyg', [
+                    Text::make('Section Name', 'section_name')
+                        ->sortable()
+                        ->rules('nullable', 'max:255'),
+                    Number::make('Section Position No.', 'order_no')
+                        ->rules('required'),
+                ])->hideFromIndex()
+                ->withMeta([
+                    'ignoreOnSaving',
+                ]),
             //             date
             DateTime::make('Created At', 'created_at')
                 ->hideFromIndex()
@@ -232,5 +248,56 @@ class SiteSetting extends Resource
     public static function searchable()
     {
         return false;
+    }
+
+    protected static function fillFields(NovaRequest $request, $model, $fields)
+    {
+        if ($request->isCreateOrAttachRequest()) {
+            $fields = $fields->reject(function ($field) {
+                return $field->attribute === 'section_list';
+            });
+        }
+
+        if ($request->isUpdateOrUpdateAttachedRequest()) {
+            $fields = $fields->reject(function ($field) {
+                return $field->attribute === 'section_list';
+            });
+        }
+
+        return parent::fillFields($request, $model, $fields);
+    }
+
+    public static function afterCreate(NovaRequest $request, $model)
+    {
+        $formData = $request->only('section_list');
+        if (isset($formData['section_list'])) {
+            $result = [];
+            foreach ($formData['section_list'] as $list) {
+                $result[] = [
+                    "section_name" => $list['attributes']['section_name'],
+                    "order_no" => $list['attributes']['order_no'],
+                ];
+            }
+            $result = collect($result)->sortBy("order_no");
+            $model->section_order = json_encode($result);
+            $model->save();
+        }
+    }
+//    update
+    public static function afterUpdate(NovaRequest $request, $model)
+    {
+        $product_list = $request->only('section_list');
+        if (isset($product_list['section_list'])) {
+            $result = [];
+            foreach ($product_list['section_list'] as $list) {
+                $result[] = [
+                    "section_name" => $list['attributes']['section_name'],
+                    "order_no" => $list['attributes']['order_no'],
+                ];
+            }
+            $result = collect($result)->sortBy("order_no");
+            $model->section_order = json_encode($result);
+            $model->save();
+        }
     }
 }
