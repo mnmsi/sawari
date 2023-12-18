@@ -5,6 +5,7 @@ namespace App\Nova\Dashboards;
 use App\Nova\Metrics\BikeSellRequestPerDay;
 use App\Nova\Metrics\OrderPerDay;
 use App\Nova\Metrics\OrderTotalPayment;
+use App\Nova\Metrics\RecentOrder;
 use App\Nova\Metrics\RegisteredUsers;
 use App\Nova\Metrics\ShowroomPerCity;
 use App\Nova\Metrics\TotalProduct;
@@ -27,6 +28,7 @@ class Main extends Dashboard
             new OrderPerDay(),
             new BikeSellRequestPerDay(),
             new ShowroomPerCity(),
+            (new RecentOrder())->width("full"),
         ];
     }
 

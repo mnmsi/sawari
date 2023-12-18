@@ -242,7 +242,7 @@ class Banner extends Resource
             foreach ($formData['home_image'] as $b) {
                 $result[] = [
                     "url" => $b["attributes"]["image_url"],
-                    "image" => Env::get("APP_URL") . "storage/" . $request->all()[$b["attributes"]["home_image"]]->store("banner", "public"),
+                    "image" => Env::get("APP_URL") . "/storage/" . $request->all()[$b["attributes"]["home_image"]]->store("banner", "public"),
                 ];
                 $banner_item = \App\Models\System\Banner::find($model->id);
                 $banner_item->show_on = $formData['home_show_on'];
@@ -263,7 +263,7 @@ class Banner extends Resource
                 if (!empty($b["attributes"]["home_image"])) {
                     $update_data[] = [
                         "url" => $b["attributes"]["image_url"],
-                        "image" => Env::get("APP_URL") . "storage/" . $request->all()[$b["attributes"]["home_image"]]->store("banner", "public")
+                        "image" => Env::get("APP_URL") . "/storage/" . $request->all()[$b["attributes"]["home_image"]]->store("banner", "public")
                     ];
                 } else {
                     $update_data[] = [
