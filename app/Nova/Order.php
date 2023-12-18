@@ -6,6 +6,7 @@ use App\Nova\Filters\OrderByDateFilter;
 use App\Nova\Filters\OrderStatusFilter;
 use App\Nova\Metrics\OrderPerDay;
 use Illuminate\Http\Request;
+use Laravel\Nova\Fields\Badge;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\ID;
@@ -56,10 +57,16 @@ class Order extends Resource
     {
         return [
             ID::make()->sortable(),
+            Text::make('Name of the customer', 'name')->required(),
 //            user
             BelongsTo::make('User', 'user', 'App\Nova\User')
                 ->rules('required')
                 ->noPeeking(),
+            Text::make('Phone', 'phone')->required(),
+            Text::make('City','city')->required(),
+            Text::make('Division','division')->required(),
+            Text::make('Area','area')->required(),
+            Text::make('Address Line','address_line')->required(),
 //            payment method
             BelongsTo::make('Payment Method', 'paymentMethod', 'App\Nova\PaymentMethods')
                 ->rules('required')
@@ -69,9 +76,9 @@ class Order extends Resource
                 ->rules('required')
                 ->noPeeking(),
 //            user address
-            BelongsTo::make('User address', 'userAddress', 'App\Nova\UserAddress')
-                ->nullable()
-                ->noPeeking(),
+//            BelongsTo::make('User address', 'userAddress', 'App\Nova\UserAddress')
+//                ->nullable()
+//                ->noPeeking(),
 //            showroom
             BelongsTo::make('Showroom', 'showRooms', 'App\Nova\Showroom')
                 ->nullable()
@@ -115,13 +122,23 @@ class Order extends Resource
                 ->step('any')
                 ->rules('required'),
 //            status
+            //            status
             Select::make('Status', 'status')->options([
                 'pending' => 'Pending',
                 'processing' => 'Processing',
                 'completed' => 'Completed',
                 'delivered' => 'Delivered',
                 'cancelled' => 'Cancelled',
-            ])->rules('required'),
+            ])->rules('required')->hideFromIndex()
+                ->hideFromDetail(),
+
+            Badge::make('Status', 'status')->map([
+                'pending' => 'warning',
+                'processing' => 'info',
+                'completed' => 'success',
+                'delivered' => 'success',
+                'cancelled' => 'danger',
+            ]),
 //            date
             DateTime::make('Created At', 'created_at')
                 ->default(now())

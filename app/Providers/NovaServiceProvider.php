@@ -9,6 +9,7 @@ use App\Nova\Brand;
 use App\Nova\Category;
 use App\Nova\Dashboards\Main;
 use App\Nova\DeliveryOption;
+use App\Nova\GuestOrder;
 use App\Nova\HomeSection;
 use App\Nova\Notification;
 use App\Nova\Order;
@@ -78,6 +79,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                     MenuItem::resource(Order::class),
                     MenuItem::resource(OrderDetail::class),
                     MenuItem::resource(PaymentDetails::class),
+                    MenuItem::resource(GuestOrder::class),
                 ])->icon('shopping-cart')->collapsable(),
 //                bike sell
                 MenuSection::make('Bike Sell', [
