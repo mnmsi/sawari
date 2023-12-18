@@ -6,7 +6,10 @@ use App\Models\Order\Cart;
 use App\Models\Order\Order;
 use App\Models\OrderDetails;
 use App\Models\Product\Product;
+use App\Models\System\Area;
+use App\Models\System\City;
 use App\Models\System\DeliveryOption;
+use App\Models\System\Division;
 use App\Models\System\PaymentMethod;
 use App\Models\Voucher;
 use Carbon\Carbon;
@@ -59,6 +62,15 @@ trait OrderTrait
                 'discount_rate' => $total_discountRate,
                 'total_price' => $subtotal_price + $data['shipping_amount'] ?? 0,
                 'status' => 1,
+//                new
+                'name' => $data['name'],
+                'phone' => $data['phone'],
+                'email' => $data['email'] ?? null,
+                'voucher_id' => $data['voucher_id'] ?? null,
+                'division' => Division::where('id', $data['division_id'])->first()->name,
+                'city' => City::where('id', $data['city_id'])->first()->name,
+                'area' => Area::where('id', $data['area_id'])->first()->name,
+                'address_line' => $data['address_line'],
             ];
             $order = Order::create($orderData);
             $orderDetails = [];
