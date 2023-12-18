@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use Modules\Api\Http\Controllers\Auth\ApiAuthController;
+use Modules\Api\Http\Controllers\Cart\GuestCartController;
+use Modules\Api\Http\Controllers\Guest\GuestOrderController;
 use Modules\Api\Http\Controllers\Order\CartController;
 use Modules\Api\Http\Controllers\Order\OrderController;
 use Modules\Api\Http\Controllers\Order\ShippingChargeController;
@@ -210,3 +212,18 @@ Route::controller(PreOrderController::class)->prefix('pre-order')->group(functio
 });
 
 Route::post('/book-appointment', [BookAppointmentController::class, 'store']);
+
+// guest cart
+Route::prefix('guest-cart')->middleware('api-session')->as('guest-cart.')->controller(GuestCartController::class)->group(function () {
+    Route::post('add', 'store')->name('add');
+    Route::get('list/{id}', 'getCartProduct')->name('list');
+    Route::Post('/delete', 'removeProductFromCart')->name('remove');
+    Route::post('update', 'updateCart')->name('update');
+    Route::get('selected-product/{id}', 'getSelectedCartProduct')->name('selected-product');
+});
+
+Route::prefix('guest-order')->middleware('api-session')->as('guest-order.')->controller(GuestOrderController::class)->group(function () {
+    Route::post('buy-now', 'guestOrder')->name('buy-now');
+});
+
+Route::post('create-guest-user',[GuestCartController::class,'createGuestUser']);

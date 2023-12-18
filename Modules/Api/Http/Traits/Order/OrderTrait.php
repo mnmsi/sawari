@@ -8,6 +8,8 @@ use App\Models\OrderDetails;
 use App\Models\Product\Product;
 use App\Models\System\DeliveryOption;
 use App\Models\System\PaymentMethod;
+use App\Models\Voucher;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Modules\Api\Http\Traits\Payment\PaymentTrait;
@@ -210,6 +212,26 @@ trait OrderTrait
         $buyNowProductPrice = $buyNowProduct->price;
         $buyNowProductDiscountRate = $buyNowProduct->discount_rate;
         return $buyNowProductPrice - ($buyNowProductPrice * $buyNowProductDiscountRate / 100);
+    }
+
+    public function calculateVoucherDiscount($id, $amount)
+    {
+        return 0;
+//        $value = $amount;
+//        $voucher = Voucher::where('id', $id)
+//            ->where('expires_at', '>', Carbon::parse(now()->addHours(6))->format('Y-m-d H:i:s'))
+//            ->where('status', 1)
+//            ->first();
+//        if ($voucher) {
+//            if ($voucher->type == "percentage") {
+//                $value = (($value * $voucher->value) / 100);
+//            } else {
+//                $value = $voucher->value;
+//            }
+//            return $value;
+//        } else {
+//            return 0;
+//        }
     }
 
 }
