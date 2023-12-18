@@ -2,6 +2,13 @@
 
 namespace App\Nova;
 
+use App\Nova\Actions\Order\OrderCanceledActions;
+use App\Nova\Actions\Order\OrderCompletedActions;
+use App\Nova\Actions\Order\OrderDeliveredActions;
+use App\Nova\Actions\Order\OrderGuestInvoiceActions;
+use App\Nova\Actions\Order\OrderInvoiceActions;
+use App\Nova\Actions\Order\OrderPendingActions;
+use App\Nova\Actions\Order\OrderProcessingActions;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Badge;
@@ -139,7 +146,21 @@ class GuestOrder extends Resource
      */
     public function actions(NovaRequest $request)
     {
-        return [];
+        return [
+            new OrderGuestInvoiceActions(),
+            new OrderPendingActions(),
+            new OrderProcessingActions(),
+            new OrderDeliveredActions(),
+            new OrderCompletedActions(),
+            new OrderCanceledActions(),
+
+            (new OrderGuestInvoiceActions())->onlyOnTableRow(),
+            (new OrderPendingActions())->onlyOnTableRow(),
+            (new OrderProcessingActions())->onlyOnTableRow(),
+            (new OrderDeliveredActions())->onlyOnTableRow(),
+            (new OrderCompletedActions())->onlyOnTableRow(),
+            (new OrderCanceledActions())->onlyOnTableRow(),
+        ];
     }
 
     public static function authorizedToCreate(Request $request)

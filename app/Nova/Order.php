@@ -2,6 +2,12 @@
 
 namespace App\Nova;
 
+use App\Nova\Actions\Order\OrderCanceledActions;
+use App\Nova\Actions\Order\OrderCompletedActions;
+use App\Nova\Actions\Order\OrderDeliveredActions;
+use App\Nova\Actions\Order\OrderInvoiceActions;
+use App\Nova\Actions\Order\OrderPendingActions;
+use App\Nova\Actions\Order\OrderProcessingActions;
 use App\Nova\Filters\OrderByDateFilter;
 use App\Nova\Filters\OrderStatusFilter;
 use App\Nova\Metrics\OrderPerDay;
@@ -63,10 +69,10 @@ class Order extends Resource
                 ->rules('required')
                 ->noPeeking(),
             Text::make('Phone', 'phone')->required(),
-            Text::make('City','city')->required(),
-            Text::make('Division','division')->required(),
-            Text::make('Area','area')->required(),
-            Text::make('Address Line','address_line')->required(),
+            Text::make('City', 'city')->required(),
+            Text::make('Division', 'division')->required(),
+            Text::make('Area', 'area')->required(),
+            Text::make('Address Line', 'address_line')->required(),
 //            payment method
             BelongsTo::make('Payment Method', 'paymentMethod', 'App\Nova\PaymentMethods')
                 ->rules('required')
@@ -200,7 +206,21 @@ class Order extends Resource
      */
     public function actions(NovaRequest $request)
     {
-        return [];
+        return [
+            new OrderInvoiceActions(),
+            new OrderPendingActions(),
+            new OrderProcessingActions(),
+            new OrderDeliveredActions(),
+            new OrderCompletedActions(),
+            new OrderCanceledActions(),
+
+            (new OrderInvoiceActions())->onlyOnTableRow(),
+            (new OrderPendingActions())->onlyOnTableRow(),
+            (new OrderProcessingActions())->onlyOnTableRow(),
+            (new OrderDeliveredActions())->onlyOnTableRow(),
+            (new OrderCompletedActions())->onlyOnTableRow(),
+            (new OrderCanceledActions())->onlyOnTableRow(),
+        ];
     }
 
     public static function searchableColumns()

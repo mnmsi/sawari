@@ -16,6 +16,7 @@ use App\Nova\Order;
 use App\Nova\OrderDetail;
 use App\Nova\PaymentDetails;
 use App\Nova\PaymentMethods;
+use App\Nova\PreOrder;
 use App\Nova\PrivacyPolicy;
 use App\Nova\Product;
 use App\Nova\ProductColor;
@@ -79,6 +80,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                     MenuItem::resource(Order::class),
                     MenuItem::resource(OrderDetail::class),
                     MenuItem::resource(PaymentDetails::class),
+                    MenuItem::resource(PreOrder::class),
                     MenuItem::resource(GuestOrder::class),
                 ])->icon('shopping-cart')->collapsable(),
 //                bike sell

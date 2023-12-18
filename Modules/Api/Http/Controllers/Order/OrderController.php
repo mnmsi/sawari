@@ -3,6 +3,10 @@
 namespace Modules\Api\Http\Controllers\Order;
 
 use App\Http\Controllers\Controller;
+use App\Models\GuestOrder;
+use App\Models\Order\Order;
+use App\Models\System\SiteSetting;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Modules\Api\Http\Requests\Order\AddCartRequest;
@@ -105,6 +109,47 @@ class OrderController extends Controller
             return $this->respondError(
                 "Something went wrong!"
             );
+        }
+    }
+
+    public function orderInvoiceGenerate(Request $request, $id)
+    {
+        try {
+            $order = Order::with("orderDetails", "orderDetails.product", "orderDetails.product_color")->find($id);
+            $site = SiteSetting::first();
+            $discount = null;
+
+            $pdf = Pdf::loadView('pdf.invoice', [
+                'order' => $order,
+                'site' => $site,
+                'discount' => $discount,
+                'data' => $request->all()
+            ]);
+//            return $pdf->stream('invoice.pdf');
+            return $pdf->download($order->transaction_id . '_invoice.pdf');
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
+    }
+
+    public function guestOrderInvoiceGenerate(Request $request, $id)
+    {
+        try {
+            $order = GuestOrder::with("orderItems", "orderItems.product", "orderItems.productColor")->find($id);
+            $site = SiteSetting::first();
+            $discount = null;
+
+            $pdf = Pdf::loadView('pdf.guest_invoice', [
+                'order' => $order,
+                'site' => $site,
+                'discount' => $discount,
+                'data' => $request->all()
+            ]);
+
+//            return $pdf->stream('invoice.pdf');
+            return $pdf->download($order->transaction_id . '_invoice.pdf');
+        } catch (\Exception $e) {
+            return $e->getMessage();
         }
     }
 }
