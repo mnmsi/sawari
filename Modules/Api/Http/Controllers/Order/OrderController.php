@@ -119,6 +119,13 @@ class OrderController extends Controller
             $site = SiteSetting::first();
             $discount = null;
 
+//            return view('pdf.invoice', [
+//                'order' => $order,
+//                'site' => $site,
+//                'discount' => $discount,
+//                'data' => $request->all()
+//            ]);
+
             $pdf = Pdf::loadView('pdf.invoice', [
                 'order' => $order,
                 'site' => $site,
