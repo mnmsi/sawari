@@ -18,7 +18,7 @@ class GuestOrderRequest extends FormRequest
     public function rules()
     {
         return [
-            'cart_id' => 'nullable|array|exists:carts,id',
+            'guest_cart_id' => 'nullable|array|exists:guest_carts,id',
             'product_id' => 'nullable|exists:products,id',
             'quantity' => 'nullable|numeric|min:1|max:5',
             'voucher_id' => 'nullable|exists:vouchers,id',

@@ -140,6 +140,8 @@ class GuestOrderController extends Controller
             $guest = GuestUser::where('uuid', $request->guest_user_id)->first();
             $carts = GuestCart::select('id', 'product_id', 'product_color_id', 'product_data', 'quantity')
                 ->where('guest_user_id', $guest->id)->where('status', 1)->whereIn('id', $request->guest_cart_id)->get();
+            $subtotal_price = 0;
+
             foreach ($carts as $cartItem) {
                 $product = Product::find($cartItem['product_id']);
                 $subtotal_price = $this->calculateDiscountPrice($product->price, $product->discount_rate) * $cartItem['quantity'];
