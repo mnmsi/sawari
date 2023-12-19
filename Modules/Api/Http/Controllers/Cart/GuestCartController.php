@@ -69,7 +69,7 @@ class GuestCartController extends Controller
         return $this->respondWithSuccess([
 //            'data' => CartResource::collection($cart),
             'data' => $result_date,
-            'total_price' => $this->checkProductListPrice($result_date)
+            'total_price' => $this->checkProductListPrice($cart)
         ]);
     }
 
@@ -121,8 +121,8 @@ class GuestCartController extends Controller
     {
         $total = 0;
         foreach ($list as $i) {
-            if ($i->is_checked === 1) {
-                $total += $i->total;
+            if ($i->status === 1) {
+                $total += ($i->quantity * $this->calculateDiscountPrice($i->product->price, $i->product->discount_rate));
             }
         }
         return $total;
