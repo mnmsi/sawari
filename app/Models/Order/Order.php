@@ -24,7 +24,13 @@ class Order extends BaseModel
         'total_price',
         'status',
         'created_at',
-        'updated_at'
+        'updated_at',
+        'name',
+        'phone',
+        'city_id',
+        'division_id',
+        'area_id',
+        'address_line',
     ];
 
     public function showRooms()
