@@ -69,24 +69,24 @@ class GuestCartController extends Controller
         return $this->respondWithSuccess([
 //            'data' => CartResource::collection($cart),
             'data' => $result_date,
-            'total_price' => collect($result_date)->sum("total")
+            'total_price' => $this->checkProductListPrice($cart)
         ]);
     }
 
     public function updateCart(Request $request)
     {
-        try{
+        try {
             $guest_user = GuestUser::where('uuid', $request->guest_user_id)->first();
             $cart = GuestCart::where('id', $request->cart_id)->where('guest_user_id', $guest_user->id)->first();
             if ($cart) {
-                $cart->status = $request->status ;
+                $cart->status = $request->status;
                 $cart->quantity = $request->quantity;
                 $cart->save();
             }
             return $this->respondWithSuccess([
                 'message' => 'Product updated in cart successfully',
             ]);
-        }catch (\Exception $e) {
+        } catch (\Exception $e) {
             return $this->respondError($e->getMessage());
         }
     }
@@ -115,5 +115,16 @@ class GuestCartController extends Controller
         } else {
             return $this->respondError('Something went wrong');
         }
+    }
+
+    public function checkProductListPrice($list)
+    {
+        $total = 0;
+        foreach ($list as $i) {
+            if ($i->status === 1) {
+                $total += ($i->quantity * $this->calculateDiscountPrice($i->product->price, $i->product->discount_rate));
+            }
+        }
+        return $total;
     }
 }
