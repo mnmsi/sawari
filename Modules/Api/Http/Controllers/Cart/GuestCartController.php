@@ -48,11 +48,11 @@ class GuestCartController extends Controller
         $guestCart = GuestCart::wherehas('productColor', function ($q) {
             $q->where('stock', '>', 0);
         })->with(['product'])->where('guest_user_id', $guest_user->id)->get();
-        $result_date = GuestCartResource::collection($guestCart);
+//        $result_date = GuestCartResource::collection($guestCart);
         if ($guestCart) {
             return $this->respondWithSuccess([
-                'data' => $result_date,
-                'total_price' => collect($result_date)->sum("total")
+                'data' => CartResource::collection($guestCart),
+//                'total_price' => collect($result_date)->sum("total")
             ]);
         }
 
@@ -65,8 +65,11 @@ class GuestCartController extends Controller
         $cart = GuestCart::wherehas('productColor', function ($q) {
             $q->where('stock', '>', 0);
         })->where('guest_user_id', $guest_user->id)->with('product')->where('status', '1')->get();
+        $result_date = GuestCartResource::collection($cart);
         return $this->respondWithSuccess([
-            'data' => CartResource::collection($cart),
+//            'data' => CartResource::collection($cart),
+            'data' => $result_date,
+            'total_price' => collect($result_date)->sum("total")
         ]);
     }
 
