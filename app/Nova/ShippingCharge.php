@@ -48,17 +48,21 @@ class ShippingCharge extends Resource
         return [
             ID::make()->sortable(),
 //            title
-            Text::make('Title', 'title')
-                ->sortable()
-                ->rules('required', 'max:255')
-                ->creationRules('unique:App\Models\ShippingCharge,title')
-                ->updateRules('unique:App\Models\ShippingCharge,title,{{resourceId}}')
-                ->hideWhenUpdating()
-                ->withMeta([
-                    'extraAttributes' => [
-                        'placeholder' => 'Enter title',
-                    ],
-                ]),
+            Select::make('Title', 'title')->options([
+                'Inside Dhaka' => 'Inside Dhaka',
+                'Outside Dhaka' => 'Outside Dhaka',
+            ])->rules('required'),
+//            Text::make('Title', 'title')
+//                ->sortable()
+//                ->rules('required', 'max:255')
+//                ->creationRules('unique:App\Models\ShippingCharge,title')
+//                ->updateRules('unique:App\Models\ShippingCharge,title,{{resourceId}}')
+//                ->hideWhenUpdating()
+//                ->withMeta([
+//                    'extraAttributes' => [
+//                        'placeholder' => 'Enter title',
+//                    ],
+//                ]),
 //            name
             Text::make('Name', 'name')
                 ->sortable()
