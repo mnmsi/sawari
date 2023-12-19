@@ -6,6 +6,7 @@ use App\Models\Order\Cart;
 use App\Models\Order\Order;
 use App\Models\OrderDetails;
 use App\Models\Product\Product;
+use App\Models\Product\ProductColor;
 use App\Models\System\Area;
 use App\Models\System\City;
 use App\Models\System\DeliveryOption;
@@ -49,6 +50,18 @@ trait OrderTrait
             $carts->map(function ($value, $key) {
                 return $value['product_id'] == 1;
             });
+//            color check
+            foreach ($carts as $c) {
+                $product_color = ProductColor::find($c['product_color_id']);
+                if ($product_color) {
+                    if ($product_color->stock < $c['quantity']) {
+                        throw new \Exception('Product color out of stock.');
+                    }
+                    $product_color->stock = $product_color->stock - $c['quantity'];
+                    $product_color->save();
+                }
+            }
+
             $orderData = [
                 'user_id' => Auth::id(),
                 'transaction_id' => uniqid(),
@@ -156,6 +169,17 @@ trait OrderTrait
         DB::beginTransaction();
         try {
             $products = Product::where('id', $data->product_id)->first();
+            // color
+
+            $product_color_check = ProductColor::find($data['product_color_id']);
+            if ($product_color_check) {
+                if ($product_color_check->stock < 1) {
+                    throw new \Exception('Product color out of stock.');
+                }
+                $product_color_check->stock = $product_color_check->stock - 1;
+                $product_color_check->save();
+            }
+
             $total_discountRate = $products->discount_rate;
             $subtotal_price = $this->calculateDiscountPrice($products->price, $products->discount_rate);
             $orderData = [
