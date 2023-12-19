@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Modules\Api\Http\Requests\Order\AddCartRequest;
 use Modules\Api\Http\Resources\Cart\CartResource;
+use Modules\Api\Http\Resources\Cart\GuestCartResource;
 use Modules\Api\Http\Traits\Product\ProductTrait;
 use Modules\Api\Http\Traits\Response\ApiResponseHelper;
 
@@ -47,9 +48,11 @@ class GuestCartController extends Controller
         $guestCart = GuestCart::wherehas('productColor', function ($q) {
             $q->where('stock', '>', 0);
         })->with(['product'])->where('guest_user_id', $guest_user->id)->get();
+        $result_date = GuestCartResource::collection($guestCart);
         if ($guestCart) {
             return $this->respondWithSuccess([
-                'data' => CartResource::collection($guestCart),
+                'data' => $result_date,
+                'total_price' => collect($result_date)->sum("total")
             ]);
         }
 
