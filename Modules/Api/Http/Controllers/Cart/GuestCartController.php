@@ -52,7 +52,7 @@ class GuestCartController extends Controller
         if ($guestCart) {
             return $this->respondWithSuccess([
                 'data' => CartResource::collection($guestCart),
-//                'total_price' => collect($result_date)->sum("total")
+                'total_price' => $this->checkProductListPrice($guestCart)
             ]);
         }
 
