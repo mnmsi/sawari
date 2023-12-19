@@ -27,9 +27,9 @@ class Order extends BaseModel
         'updated_at',
         'name',
         'phone',
-        'city_id',
-        'division_id',
-        'area_id',
+        'division',
+        'city',
+        'area',
         'address_line',
     ];
 
