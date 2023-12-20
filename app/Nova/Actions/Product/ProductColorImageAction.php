@@ -63,7 +63,7 @@ class ProductColorImageAction extends Action
     /**
      * Get the fields available on the action.
      *
-     * @param \Laravel\Nova\Http\Requests\NovaRequest $request
+     * @param NovaRequest $request
      * @return array
      */
     public function fields(NovaRequest $request)
