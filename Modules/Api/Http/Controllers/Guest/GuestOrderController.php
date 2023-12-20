@@ -95,17 +95,14 @@ class GuestOrderController extends Controller
                 'subtotal_price' => $subtotal_price,
             ];
             if ($order) {
-                GuestOrderDetails::create($orderDetails);
+                GuestOrderDetails::create($orderDetails,$request);
                 if ($request->payment_method_id == 2) {
-//                    $sslc = new AmarPayController();
-//                    if ($isProcessPayment = $sslc->payment($orderData)) {
                     if ($isProcessPayment = $this->processPayment($orderData,$request)) {
                         DB::commit();
                         return [
                             'status' => 'success',
                             'message' => 'Payment Successful',
                             'data' => json_decode($isProcessPayment)
-//                            'data' => $isProcessPayment->getTargetUrl()
                         ];
                     } else {
                         return [
@@ -116,8 +113,10 @@ class GuestOrderController extends Controller
                 } else {
                     DB::commit();
                     return [
-                        'status' => true,
-                        'message' => 'Payment Successful',
+                        'data' => [
+                            'status' => true,
+                            'message' => 'Payment Successful',
+                        ]
                     ];
                 }
             } else {
