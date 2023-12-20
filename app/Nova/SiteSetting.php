@@ -179,7 +179,7 @@ class SiteSetting extends Resource
             Flexible::make('Home Section List', 'section_list')
                 ->button('Add Some Section')
                 ->addLayout('Select Section', 'wysiwyg', [
-                    Select::make('Section Name', 'name')->options([
+                    Select::make('Section Name', 'section_name')->options([
                         'feature bike' => 'Feature Bike',
                         'used bike' => 'Used Bike',
                         'video reviews' => 'Video Reviews',
