@@ -95,9 +95,9 @@ class GuestOrderController extends Controller
                 'subtotal_price' => $subtotal_price,
             ];
             if ($order) {
-                GuestOrderDetails::create($orderDetails);
+                GuestOrderDetails::create($orderDetails,$request);
                 if ($request->payment_method_id == 2) {
-                    if ($isProcessPayment = $this->processPayment($orderData)) {
+                    if ($isProcessPayment = $this->processPayment($orderData,$request)) {
                         DB::commit();
                         return [
                             'status' => 'success',

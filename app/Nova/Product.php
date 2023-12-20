@@ -2,6 +2,7 @@
 
 namespace App\Nova;
 
+use App\Nova\Actions\Product\ProductUpload;
 use App\Nova\Filters\ProductStatusFilter;
 use App\Nova\Metrics\TotalProduct;
 use Illuminate\Support\Facades\Storage;
@@ -345,7 +346,9 @@ class Product extends Resource
      */
     public function actions(NovaRequest $request): array
     {
-        return [];
+        return [
+            (new ProductUpload())->standalone(),
+        ];
     }
 
     public static function searchableColumns(): array
