@@ -3,6 +3,7 @@
 namespace App\Nova;
 
 use App\Nova\Actions\Product\ProductImageUpload;
+use App\Nova\Actions\Product\ProductSpecificationAction;
 use App\Nova\Actions\Product\ProductUpload;
 use App\Nova\Filters\ProductStatusFilter;
 use App\Nova\Metrics\TotalProduct;
@@ -350,6 +351,7 @@ class Product extends Resource
         return [
             (new ProductUpload())->standalone(),
             (new ProductImageUpload())->standalone(),
+            (new ProductSpecificationAction())->standalone(),
         ];
     }
 
