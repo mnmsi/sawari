@@ -97,15 +97,12 @@ class GuestOrderController extends Controller
             if ($order) {
                 GuestOrderDetails::create($orderDetails);
                 if ($request->payment_method_id == 2) {
-//                    $sslc = new AmarPayController();
-//                    if ($isProcessPayment = $sslc->payment($orderData)) {
                     if ($isProcessPayment = $this->processPayment($orderData)) {
                         DB::commit();
                         return [
                             'status' => 'success',
                             'message' => 'Payment Successful',
                             'data' => json_decode($isProcessPayment)
-//                            'data' => $isProcessPayment->getTargetUrl()
                         ];
                     } else {
                         return [
@@ -116,8 +113,10 @@ class GuestOrderController extends Controller
                 } else {
                     DB::commit();
                     return [
-                        'status' => true,
-                        'message' => 'Payment Successful',
+                        'data' => [
+                            'status' => true,
+                            'message' => 'Payment Successful',
+                        ]
                     ];
                 }
             } else {
