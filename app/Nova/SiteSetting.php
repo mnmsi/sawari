@@ -7,6 +7,7 @@ use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Image;
 use Laravel\Nova\Fields\Number;
+use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Whitecube\NovaFlexibleContent\Flexible;
@@ -48,14 +49,22 @@ class SiteSetting extends Resource
         return [
             ID::make()->sortable(),
 //          name
-            Text::make('Site Name', 'name')
-                ->sortable()
-                ->rules('nullable', 'max:255')
-                ->withMeta([
-                    'extraAttributes' => [
-                        'placeholder' => 'Enter site name',
-                    ],
-                ]),
+//            Text::make('Site Name', 'name')
+//                ->sortable()
+//                ->rules('nullable', 'max:255')
+//                ->withMeta([
+//                    'extraAttributes' => [
+//                        'placeholder' => 'Enter site name',
+//                    ],
+//                ]),
+            Select::make('Site Name', 'name')->options([
+                'feature bike' => 'Feature Bike',
+                'used bike' => 'Used Bike',
+                'video reviews' => 'Video Reviews',
+                'testimonial' => 'Testimonial',
+                'popular categories' => 'Popular Categories',
+                'dynamic section' => 'Dynamic Section',
+            ])->rules('required', 'max:255'),
 //          email
             Text::make('Site Email', 'email')
                 ->sortable()
