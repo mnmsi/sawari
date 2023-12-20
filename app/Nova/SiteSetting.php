@@ -57,7 +57,7 @@ class SiteSetting extends Resource
 //                        'placeholder' => 'Enter site name',
 //                    ],
 //                ]),
-            Select::make('Site Name', 'name')->options([
+            Select::make('Section Name', 'name')->options([
                 'feature bike' => 'Feature Bike',
                 'used bike' => 'Used Bike',
                 'video reviews' => 'Video Reviews',
