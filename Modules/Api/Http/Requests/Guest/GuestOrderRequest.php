@@ -35,9 +35,9 @@ class GuestOrderRequest extends FormRequest
             'order_note' => 'nullable|string',
             'voucher_code' => 'nullable|string',
             'discount_rate' => 'nullable',
-            'shipping_amount' => 'required',
-            'subtotal_price' => 'required',
-            'total_price' => 'required',
+            'shipping_amount' => 'nullable',
+            'subtotal_price' => 'nullable',
+            'total_price' => 'nullable',
         ];
     }
 
