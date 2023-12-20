@@ -52,14 +52,22 @@ class HomeSection extends Resource
         return [
             ID::make()->sortable(),
 //            title
-            Text::make('Section Title', 'section_title')
-                ->sortable()
-                ->rules('required', 'max:255')
-                ->withMeta([
-                    'extraAttributes' => [
-                        'placeholder' => 'Enter title',
-                    ],
-                ]),
+//            Text::make('Section Title', 'section_title')
+//                ->sortable()
+//                ->rules('required', 'max:255')
+//                ->withMeta([
+//                    'extraAttributes' => [
+//                        'placeholder' => 'Enter title',
+//                    ],
+//                ]),
+            Select::make('Product', 'product')->options([
+                'feature bike' => 'Feature Bike',
+                'used bike' => 'Used Bike',
+                'video reviews' => 'Video Reviews',
+                'testimonial' => 'Testimonial',
+                'popular categories' => 'Popular Categories',
+                'dynamic section' => 'Dynamic Section',
+            ])->rules('required', 'max:255'),
 //            sub title
             Text::make('Section Subtitle', 'section_subtitle')
                 ->sortable()
@@ -192,16 +200,15 @@ class HomeSection extends Resource
         $secModel = new HpsProduct();
         $secModel->where('hps_section_id', $model->id)
             ->whereIn('product_id', $diff_product)->each(function ($item) {
-            $item->delete();
-        }); // delete if item remove
+                $item->delete();
+            }); // delete if item remove
 
         if (isset($product_list['product_list'])) {
             foreach ($product_list['product_list'] as $list) {
                 $check = $secModel->where('hps_section_id', $model->id)
                     ->where('product_id', $list['attributes']['product'])
                     ->first();
-                if(!$check)
-                {
+                if (!$check) {
                     $secModel->create([
                         'hps_section_id' => $model->id,
                         'product_id' => $list['attributes']['product'],
