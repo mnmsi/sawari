@@ -17,6 +17,7 @@
         "laravel/nova": "~4.0",
         "laravel/sanctum": "^3.2",
         "laravel/tinker": "^2.8",
+        "maatwebsite/excel": "^3.1",
         "nwidart/laravel-modules": "^10.0",
         "whitecube/nova-flexible-content": "^1.0",
         "yieldstudio/nova-phone-field": "^1.0"

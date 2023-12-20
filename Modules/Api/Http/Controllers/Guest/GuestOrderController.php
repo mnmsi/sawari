@@ -99,7 +99,7 @@ class GuestOrderController extends Controller
                 if ($request->payment_method_id == 2) {
 //                    $sslc = new AmarPayController();
 //                    if ($isProcessPayment = $sslc->payment($orderData)) {
-                    if ($isProcessPayment = $this->processPayment($orderData)) {
+                    if ($isProcessPayment = $this->processPayment($orderData,$request)) {
                         DB::commit();
                         return [
                             'status' => 'success',

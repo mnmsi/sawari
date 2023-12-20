@@ -8,12 +8,13 @@ use Illuminate\Http\Request;
 
 trait PaymentTrait
 {
-    public function processPayment($orderData)
+    public function processPayment($orderData,$req)
     {
-        $user                          = User::where('id', $orderData['user_id'])->first();
+//        $user                          = User::where('id', $orderData['user_id'])->first();
         $sslc                          = new SslCommerzNotification();
-        $orderData['cus_email']        = $user->email ?? "";
-        $orderData['cus_phone']        = $user->phone ?? "";
+        $orderData['cus_email']        = $req->email ?? "";
+        $orderData['cus_phone']        = $req->phone ?? "";
+        $orderData['request']  = $req;
         $orderData['shipping_method']  = "NO";
         $orderData['product_name']     = "Sawari Product";
         $orderData['product_category'] = "Ecommerce";
