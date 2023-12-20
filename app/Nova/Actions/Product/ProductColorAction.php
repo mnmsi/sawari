@@ -2,7 +2,7 @@
 
 namespace App\Nova\Actions\Product;
 
-use App\Imports\Product\ProductSpecificationImport;
+use App\Imports\Product\ProductColorImport;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Collection;
@@ -13,11 +13,11 @@ use Laravel\Nova\Fields\Heading;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Maatwebsite\Excel\Facades\Excel;
 
-class ProductSpecificationAction extends Action
+class ProductColorAction extends Action
 {
     use InteractsWithQueue, Queueable;
 
-    public $name = 'Product Specification';
+    public $name = 'Upload Product Color';
     public $onlyOnIndex = true;
 
     /**
@@ -30,8 +30,8 @@ class ProductSpecificationAction extends Action
     public function handle(ActionFields $fields, Collection $models)
     {
         try {
-            Excel::import(new ProductSpecificationImport(),$fields->products);
-            return Action::message("Product Specification done!");
+            Excel::import(new ProductColorImport(),$fields->products);
+            return Action::message("Product Upload done!");
         } catch (\Exception $e)
         {
             return Action::danger($e->getMessage());
@@ -52,11 +52,11 @@ class ProductSpecificationAction extends Action
                     <span class='text-red-500 text-sm'>*</span>
                     <span class='font-bold text-sm'>FORMAT:</span>
                     Product Code <span class='text-red-500 text-sm'>|</span>
-                    Title <span class='text-red-500 text-sm'>|</span>
-                    Value <span class='text-red-500 text-sm'>|</span>
-                    Feature <span class='text-red-500 text-sm'></span>
+                    Color Name <span class='text-red-500 text-sm'>|</span>
+                    Price <span class='text-red-500 text-sm'>|</span>
+                    Stock <span class='text-red-500 text-sm'></span>
             ")->asHtml(),
-            File::make("Product Specifications","products")->required(),
+            File::make("Product Colors","products")->required(),
         ];
     }
 }

@@ -2,6 +2,8 @@
 
 namespace App\Nova;
 
+use App\Nova\Actions\Product\ProductColorAction;
+use App\Nova\Actions\Product\ProductColorImageAction;
 use App\Nova\Actions\Product\ProductImageUpload;
 use App\Nova\Actions\Product\ProductSpecificationAction;
 use App\Nova\Actions\Product\ProductUpload;
@@ -351,6 +353,8 @@ class Product extends Resource
         return [
             (new ProductUpload())->standalone(),
             (new ProductImageUpload())->standalone(),
+            (new ProductColorAction())->standalone(),
+            (new ProductColorImageAction())->standalone(),
             (new ProductSpecificationAction())->standalone(),
         ];
     }

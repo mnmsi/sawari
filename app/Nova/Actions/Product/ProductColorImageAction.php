@@ -13,36 +13,48 @@ use Laravel\Nova\Fields\ActionFields;
 use Laravel\Nova\Fields\Heading;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
-class ProductImageUpload extends Action
+class ProductColorImageAction extends Action
 {
     use InteractsWithQueue, Queueable;
 
-    public $name = 'Upload Product Images';
+    public $name = 'Upload Color Image';
     public $onlyOnIndex = true;
 
     /**
      * Perform the action on the given models.
      *
-     * @param ActionFields $fields
-     * @param Collection $models
+     * @param \Laravel\Nova\Fields\ActionFields $fields
+     * @param \Illuminate\Support\Collection $models
      * @return mixed
      */
     public function handle(ActionFields $fields, Collection $models)
     {
         try {
             $images_list = json_decode($fields->images, true);
-
             foreach ($images_list as $m) {
                 $fileName = basename($m);
-                $product = Product::where("product_code", pathinfo($fileName, PATHINFO_FILENAME))->first();
-                if ($product) {
-                    $product->image_url = str_replace('/storage', '', $m);
-                    $product->save();
+                $image_name = explode('_', pathinfo($fileName, PATHINFO_FILENAME));
+
+                if (count($image_name) > 1) {
+                    $product = Product::where("product_code", $image_name[0])->first();
+                    if ($product) {
+                        $product_color = \App\Models\Product\ProductColor::where([
+                            'product_id' => $product->id,
+                            'name' => $image_name[1]
+                        ])->first();
+                        if ($product_color) {
+                            $product_color->image_url = str_replace('/storage', '', $m);
+                            $product_color->save();
+                        } else {
+                            return Action::danger('Product color not found with name ' . $image_name[1]);
+                        }
+                    } else {
+                        return Action::danger('Product not found with code ' . $image_name[0]);
+                    }
                 } else {
-                    return Action::danger("Product not found!");
+                    return Action::danger('Select proper Image color name with productCode_productColorName');
                 }
             }
-            return Action::message("Product image Upload done!");
         } catch (\Exception $e) {
             return Action::danger($e->getMessage());
         }
@@ -51,7 +63,7 @@ class ProductImageUpload extends Action
     /**
      * Get the fields available on the action.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @param \Laravel\Nova\Http\Requests\NovaRequest $request
      * @return array
      */
     public function fields(NovaRequest $request)
@@ -60,12 +72,11 @@ class ProductImageUpload extends Action
             Heading::make("
                 <div class='text-secondary m-0 font-bold'>
                     <span class='text-red-500 text-sm'>*</span>
-                    Select Multiple Image with product code.
+                    Select Multiple Image with *product code and *color name.
                 </div>
             ")->asHtml(),
             Imagic::make('Images', "images")
                 ->multiple()
-//                ->directory("product_image")
                 ->help("Use .png, .jpg images only.")
                 ->convert(false)
                 ->required(),
