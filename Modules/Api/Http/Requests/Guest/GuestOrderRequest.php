@@ -38,6 +38,7 @@ class GuestOrderRequest extends FormRequest
             'shipping_amount' => 'nullable',
             'subtotal_price' => 'nullable',
             'total_price' => 'nullable',
+            'showroom_id' => 'nullable',
         ];
     }
 

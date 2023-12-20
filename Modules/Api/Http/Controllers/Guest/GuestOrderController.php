@@ -80,6 +80,7 @@ class GuestOrderController extends Controller
                 'payment_method' => PaymentMethod::where('id', $request->payment_method_id)->first()->name,
                 'order_note' => $request->order_note ?? null,
                 'voucher_code' => $request->voucher_code ?? null,
+                'showroom_id' => $request->showroom_id ?? null,
             ];
 
             $order = GuestOrder::create($orderData);
@@ -178,6 +179,7 @@ class GuestOrderController extends Controller
                 'payment_method' => PaymentMethod::where('id', $request->payment_method_id)->first()->name,
                 'order_note' => $request->order_note ?? null,
                 'voucher_code' => $request->voucher_code ?? null,
+                'showroom_id' => $request->showroom_id ?? null,
             ];
             $order = GuestOrder::create($orderData);
 
