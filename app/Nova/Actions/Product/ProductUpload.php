@@ -54,21 +54,21 @@ class ProductUpload extends Action
                     <span class='font-bold text-sm'>FORMAT:</span>
                     Brand <span class='text-red-500 text-sm'>|</span>
                     Category <span class='text-red-500 text-sm'>|</span>
-                    Image <span class='text-red-500 text-sm'>|</span>
-                    Hover Image <span class='text-red-500 text-sm'>|</span>
-                    Image(2) <span class='text-red-500 text-sm'>|</span>
-                    Video Url <span class='text-red-500 text-sm'>|</span>
+                    Type(bike/accessory) <span class='text-red-500 text-sm'>|</span>
+                    Bike Body Type <span class='text-red-500 text-sm'>|</span>
                     Name <span class='text-red-500 text-sm'>|</span>
                     Product Code <span class='text-red-500 text-sm'>|</span>
                     Price <span class='text-red-500 text-sm'>|</span>
                     Discount Percent <span class='text-red-500 text-sm'>|</span>
                     Product serial number <span class='text-red-500 text-sm'>|</span>
-                    Description <span class='text-red-500 text-sm'>|</span>
-                    Is new arrival <span class='text-red-500 text-sm'>|</span>
-                    Is official <span class='text-red-500 text-sm'>|</span>
+                    Product Category serial number <span class='text-red-500 text-sm'>|</span>
+                    Is used <span class='text-red-500 text-sm'>|</span>
                     Is featured <span class='text-red-500 text-sm'>|</span>
-                    status <span class='text-red-500 text-sm'>|</span>
-                    SKU <span class='text-red-500 text-sm'>*Use CSV file</span></div>
+                    Is scooter <span class='text-red-500 text-sm'>|</span>
+                    Is Upcoming <span class='text-red-500 text-sm'>|</span>
+                    Is Used Bike <span class='text-red-500 text-sm'>|</span>
+                    Short description <span class='text-red-500 text-sm'>|</span>
+                    Description <span class='text-red-500 text-sm'>|</span>
             ")->asHtml(),
             File::make("Products","products")->required(),
         ];
