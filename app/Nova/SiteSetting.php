@@ -49,22 +49,15 @@ class SiteSetting extends Resource
         return [
             ID::make()->sortable(),
 //          name
-//            Text::make('Site Name', 'name')
-//                ->sortable()
-//                ->rules('nullable', 'max:255')
-//                ->withMeta([
-//                    'extraAttributes' => [
-//                        'placeholder' => 'Enter site name',
-//                    ],
-//                ]),
-            Select::make('Section Name', 'name')->options([
-                'feature bike' => 'Feature Bike',
-                'used bike' => 'Used Bike',
-                'video reviews' => 'Video Reviews',
-                'testimonial' => 'Testimonial',
-                'popular categories' => 'Popular Categories',
-                'dynamic section' => 'Dynamic Section',
-            ])->rules('required', 'max:255'),
+            Text::make('Site Name', 'name')
+                ->sortable()
+                ->rules('nullable', 'max:255')
+                ->withMeta([
+                    'extraAttributes' => [
+                        'placeholder' => 'Enter site name',
+                    ],
+                ]),
+
 //          email
             Text::make('Site Email', 'email')
                 ->sortable()
@@ -186,9 +179,14 @@ class SiteSetting extends Resource
             Flexible::make('Home Section List', 'section_list')
                 ->button('Add Some Section')
                 ->addLayout('Select Section', 'wysiwyg', [
-                    Text::make('Section Name', 'section_name')
-                        ->sortable()
-                        ->rules('nullable', 'max:255'),
+                    Select::make('Section Name', 'name')->options([
+                        'feature bike' => 'Feature Bike',
+                        'used bike' => 'Used Bike',
+                        'video reviews' => 'Video Reviews',
+                        'testimonial' => 'Testimonial',
+                        'popular categories' => 'Popular Categories',
+                        'dynamic section' => 'Dynamic Section',
+                    ])->rules('required', 'max:255'),
                     Number::make('Section Position No.', 'order_no')
                         ->rules('required'),
                 ])->hideFromIndex()
