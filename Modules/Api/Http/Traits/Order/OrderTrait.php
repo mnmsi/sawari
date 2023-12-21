@@ -41,17 +41,21 @@ trait OrderTrait
     {
         DB::beginTransaction();
         try {
+            $newPrice = 0;
             $cartIds = $data['cart_id'];
             $carts = Cart::whereIn('id', $cartIds)
                 ->select('id', 'product_id', 'product_color_id', 'price', 'quantity')->get();
             $products = Product::whereIn('id', $carts->pluck('product_id'))->with('colors')->get();
             $total_discountRate = $products->sum('discount_rate');
             $subtotal_price = $carts->sum('price') * $carts->sum('quantity');
+//            $newPrice =
             $carts->map(function ($value, $key) {
                 return $value['product_id'] == 1;
             });
 //            color check
+            //calculateDiscountPrice
             foreach ($carts as $c) {
+//                $newProduct = Product::find($c["product_id"]);
                 $product_color = ProductColor::find($c['product_color_id']);
                 if ($product_color) {
                     if ($product_color->stock < $c['quantity']) {
@@ -167,7 +171,8 @@ trait OrderTrait
         try {
             $products = Product::where('id', $data->product_id)->first();
             // color
-
+            $newPrice = 0;
+            $newPrice = $this->calculateDiscountPrice($products->price, $products->discount_rate);
             $product_color_check = ProductColor::find($data['product_color_id']);
             if ($product_color_check) {
                 if ($product_color_check->stock < 1) {
@@ -175,10 +180,12 @@ trait OrderTrait
                 }
                 $product_color_check->stock = $product_color_check->stock - 1;
                 $product_color_check->save();
+                $newPrice +=  $product_color_check->price * 1;
             }
 
             $total_discountRate = $products->discount_rate;
-            $subtotal_price = $this->calculateDiscountPrice($products->price, $products->discount_rate);
+//            $subtotal_price = $this->calculateDiscountPrice($products->price, $products->discount_rate);
+            $subtotal_price = $newPrice;
             $orderData = [
                 'user_id' => Auth::id(),
                 'transaction_id' => uniqid(),
