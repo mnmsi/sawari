@@ -44,10 +44,10 @@ trait OrderTrait
             $newPrice = 0;
             $cartIds = $data['cart_id'];
             $carts = Cart::whereIn('id', $cartIds)
-                ->select('id', 'product_id', 'product_color_id', 'price', 'quantity')->get();
+                ->select('id', 'product_id', 'product_color_id')->get();
             $products = Product::whereIn('id', $carts->pluck('product_id'))->with('colors')->get();
             $total_discountRate = $products->sum('discount_rate');
-            $subtotal_price = $carts->sum('price') * $carts->sum('quantity');
+            $subtotal_price = $this->calculateDiscountPrice($products->sum('price'), $total_discountRate);
 //            $newPrice =
             $carts->map(function ($value, $key) {
                 return $value['product_id'] == 1;
@@ -107,8 +107,8 @@ trait OrderTrait
                     'total' => $subtotal + $data['shipping_amount'] ?? 0,
                 ];
                 if ($order) {
-                    OrderDetails::insert($orderDetails);
                     Cart::whereIn('id', $cartIds)->delete();
+                    OrderDetails::insert($orderDetails);
                     if ($data['payment_method_id'] == 2) {
                         if ($isProcessPayment = $this->processPayment($orderData)) {
                             DB::commit();
