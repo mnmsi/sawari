@@ -148,12 +148,9 @@ trait OrderTrait
     public function buyNowProduct($request)
     {
         try {
-            $buyNowProduct = Product::where('id', $request->product_id)
-                ->whereHas('colors', function ($query) use ($request) {
-                    $query->where('id', $request->product_color_id);
-                })->with(['colors' => function ($query) use ($request) {
-                    $query->where('id', $request->product_color_id);
-                }])->first();
+            $buyNowProduct = Product::with(['colors'=>function($q) use ($request){
+                return $q->where('id',$request->product_color_id)->first();
+            }])->find($request->product_id);
             if ($buyNowProduct) {
                 return $buyNowProduct;
             } else {
@@ -252,10 +249,14 @@ trait OrderTrait
 
     public function buyNowProductPrice($request)
     {
-        $buyNowProduct = $this->buyNowProduct($request);
-        $buyNowProductPrice = $buyNowProduct->price;
-        $buyNowProductDiscountRate = $buyNowProduct->discount_rate;
-        return $buyNowProductPrice - ($buyNowProductPrice * $buyNowProductDiscountRate / 100);
+
+//        $buyNowProduct = $this->buyNowProduct($request);
+//        dd($buyNowProduct->toArray());
+        $buyNowProduct = Product::with(['colors'=>function($q) use ($request){
+            return $q->where('id',$request->product_color_id);
+        }])->find($request->product_id);
+//        dd($buyNowProduct->price,$buyNowProduct->colors[0]->price);
+        return $this->calculateDiscountPrice($buyNowProduct->price , $buyNowProduct->discount_rate) + $buyNowProduct->colors[0]->price ?? 0;
     }
 
     public function calculateVoucherDiscount($id, $amount)

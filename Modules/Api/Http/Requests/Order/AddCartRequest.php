@@ -33,8 +33,6 @@ class AddCartRequest extends FormRequest
         return [
             'product_id'       => 'required|integer|exists:App\Models\Product\Product,id',
             'product_color_id' => 'required|integer|exists:App\Models\Product\ProductColor,id',
-//            'price'            => 'required|numeric',
-//            'total'            => 'required|numeric',
             'quantity'         => 'required|integer|min:1',
         ];
     }

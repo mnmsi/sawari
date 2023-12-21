@@ -30,7 +30,7 @@ class BikeResource extends JsonResource
             'image_url' => str_contains($this->image_url, 'https') ? $this->image_url : asset('storage/' . $this->image_url),
             'is_used' => $this->is_used,
             'is_favorite' => $this->is_favorite,
-            'colors' => $this->colors->pluck('name', 'price', 'stock', 'id'),
+            'colors' => $this->colors->pluck('name', 'id', 'price', 'stock'),
         ];
     }
 }

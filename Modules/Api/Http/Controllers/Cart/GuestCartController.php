@@ -4,6 +4,7 @@ namespace Modules\Api\Http\Controllers\Cart;
 
 use App\Models\GuestCart;
 use App\Models\GuestUser;
+use App\Models\Order\Cart;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
@@ -122,9 +123,20 @@ class GuestCartController extends Controller
         $total = 0;
         foreach ($list as $i) {
             if ($i->status === 1) {
-                $total += ($i->quantity * $this->calculateDiscountPrice($i->product->price, $i->product->discount_rate));
+                $total += ($i->quantity * $this->calculateDiscountPrice($i->product->price, $i->product->discount_rate) + $i->productColor->price);
             }
         }
         return $total;
     }
+
+//    public function getTotalPrice()
+//    {
+//        $cart = GuestCart::where('', auth()->id())->where('status', '1')->get();
+//        $total_price = 0;
+//        foreach ($cart as $item) {
+//            $total_price += $this->calculateDiscountPrice($item->product->price, $item->product->discount_rate) + $item->productColor->price;
+//        }
+//        return $total_price;
+//
+//    }
 }

@@ -20,7 +20,12 @@ trait CartTrait
 
     public function getTotalPrice()
     {
-        return Cart::where('status', '1')->where('user_id', auth()->id())->sum('total');
+        $cart = Cart::where('user_id', auth()->id())->where('status', '1')->get();
+        $total_price = 0;
+        foreach ($cart as $item) {
+            $total_price += $this->calculateDiscountPrice($item->product->price, $item->product->discount_rate) + $item->productColor->price;
+        }
+        return $total_price;
 
     }
 
@@ -44,7 +49,17 @@ trait CartTrait
             if ($cart) {
                 return false;
             } else {
-                return Cart::create($request->all());
+                $store = new Cart;
+                $store->user_id = $request->user_id;
+                $store->product_id = $request->product_id;
+                $store->product_color_id = $request->product_color_id;
+                $store->quantity = $request->quantity;
+                $store->save();
+                if ($store) {
+                    return true;
+                } else {
+                    return false;
+                }
             }
         } catch (\Exception $e) {
             return $e->getMessage();

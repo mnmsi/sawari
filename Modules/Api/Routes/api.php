@@ -228,4 +228,4 @@ Route::controller(SystemAddressController::class)->group(function () {
     Route::get('city/{id?}', 'city');
     Route::get('area/{id?}', 'area');
 });
-Route::post('buy-now', [OrderController::class, 'buyNow']); // Buy Now Routes
+Route::post('buy-now', [OrderController::class, 'buyNow']); // Buy Routes now
