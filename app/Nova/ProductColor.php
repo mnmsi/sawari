@@ -51,7 +51,7 @@ class ProductColor extends Resource
 //            product
             BelongsTo::make('Product', 'product')
                 ->rules('required')
-//                ->searchable()
+                ->searchable()
                 ->noPeeking(),
 //            name
             Text::make('Name', 'name')
