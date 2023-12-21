@@ -21,7 +21,6 @@ trait AccessoryTrait
     {
         return Product::where('type', 'accessory')
             ->where('is_active', 1)
-            ->orWhere('stock' , '>' , 0)
             ->whereHas('colors',function ($query){
                 $query->where('stock' , '>' , 0);
             })
@@ -94,7 +93,6 @@ trait AccessoryTrait
     {
         return Product::where('type', 'accessory')
             ->where('is_active', 1)
-            ->orWhere('stock' , '>' , 0)
             ->whereHas('colors',function ($query){
                 $query->where('stock' , '>' , 0);
             })
@@ -110,7 +108,6 @@ trait AccessoryTrait
     {
         return Product::where('type', 'accessory')
             ->where('is_featured', 1)
-            ->orWhere('stock' , '>' , 0)
             ->whereHas('colors',function ($query){
                 $query->where('stock' , '>' , 0);
             })
