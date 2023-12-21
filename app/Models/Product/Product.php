@@ -127,6 +127,7 @@ class Product extends BaseModel
                         "color_name" => $l->name,
                         "color_image" => $l->image_url,
                         "color_stock" => $l->stock,
+                        "color_price" => $l->price,
                     ]
                 ];
             }

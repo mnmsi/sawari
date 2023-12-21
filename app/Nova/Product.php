@@ -258,6 +258,9 @@ class Product extends Resource
                         ->preview(function ($value, $disk) {
                             return $value ? Storage::disk($disk)->url($value) : null;
                         })->prunable(),
+                    Number::make('Color Price', 'color_price')
+                        ->min(0)
+                        ->rules('required'),
 //                  color stock
                     Number::make('Color Stock', 'color_stock')
                         ->min(0)
@@ -398,6 +401,7 @@ class Product extends Resource
                 $product_color->product_id = $model->id;
                 $product_color->name = $list['attributes']['color_name'];
                 $product_color->image_url = $request->{$list['attributes']['color_image']}->store('product_color', 'public');
+                $product_color->price = $list['attributes']['color_price'];
                 $product_color->stock = $list['attributes']['color_stock'];
                 $product_color->save();
             }
@@ -435,6 +439,7 @@ class Product extends Resource
                     if (isset($list['attributes']['color_image'])) {
                         $check->update([
                             'name' => $list['attributes']['color_name'],
+                            'price' => $list['attributes']['color_price'],
                             'stock' => $list['attributes']['color_stock'],
                             'image_url' => $request->{$list['attributes']['color_image']}->store('product_color', 'public'),
                         ]);
@@ -442,6 +447,7 @@ class Product extends Resource
                         $check->update([
                             'name' => $list['attributes']['color_name'],
                             'stock' => $list['attributes']['color_stock'],
+                            'price' => $list['attributes']['color_price'],
                         ]);
                     }
                 } else {
@@ -449,6 +455,7 @@ class Product extends Resource
                         'product_id' => $model->id,
                         'name' => $list['attributes']['color_name'],
                         'stock' => $list['attributes']['color_stock'],
+                        'price' => $list['attributes']['color_price'],
                         'image_url' => $request->{$list['attributes']['color_image']}->store('product_color', 'public'),
                     ]);
                 }
