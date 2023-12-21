@@ -70,6 +70,11 @@ class ProductColor extends Resource
                 ->updateRules('nullable')
                 ->help("*For better view please use image height=53,width=68")
                 ->disableDownload(),
+            //            price
+            Number::make('price')
+                ->min(1)
+                ->step('any')
+                ->rules('required'),
 //            total stock
             Number::make('Stock', 'stock')
                 ->min(0)

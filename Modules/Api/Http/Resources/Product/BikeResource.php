@@ -20,17 +20,17 @@ class BikeResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'id'                   => $this->id,
-            'name'                 => $this->name,
-            'type'                 => $this->type, // 'bike' or 'part
-            'slug'                 => $this->slug,
-            'price'                => $this->price,
-            'discount_rate'        => $this->discount_rate,
+            'id' => $this->id,
+            'name' => $this->name,
+            'type' => $this->type, // 'bike' or 'part
+            'slug' => $this->slug,
+            'price' => $this->price,
+            'discount_rate' => $this->discount_rate,
             'price_after_discount' => $this->calculateDiscountPrice($this->price, $this->discount_rate),
-            'image_url'            => str_contains($this->image_url, 'https') ? $this->image_url : asset('storage/' . $this->image_url),
-            'is_used'              => $this->is_used,
-            'is_favorite'          => $this->is_favorite,
-            'colors'               => $this->colors->pluck('name','id'),
+            'image_url' => str_contains($this->image_url, 'https') ? $this->image_url : asset('storage/' . $this->image_url),
+            'is_used' => $this->is_used,
+            'is_favorite' => $this->is_favorite,
+            'colors' => $this->colors->pluck('name', 'price', 'stock', 'id'),
         ];
     }
 }

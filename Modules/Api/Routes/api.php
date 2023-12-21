@@ -199,8 +199,8 @@ Route::middleware('product')->group(function () {
         Route::get('accessory/details/{name}', 'details');                 // Accessory Details Routes
     });
     Route::get('home-page-sections', [HomePageSectionController::class, 'homePageSections']);
-    Route::get('scooter',[BikeController::class,'scooter']);
-    Route::get('upcoming-bikes',[BikeController::class,'upcomingBikes']);
+    Route::get('scooter', [BikeController::class, 'scooter']);
+    Route::get('upcoming-bikes', [BikeController::class, 'upcomingBikes']);
 });
 
 Route::controller(PreOrderController::class)->prefix('pre-order')->group(function () {
@@ -222,7 +222,7 @@ Route::prefix('guest-order')->middleware('api-session')->as('guest-order.')->con
     Route::post('buy-now', 'guestOrder')->name('buy-now');
 });
 
-Route::post('create-guest-user',[GuestCartController::class,'createGuestUser']);
+Route::post('create-guest-user', [GuestCartController::class, 'createGuestUser']);
 Route::controller(SystemAddressController::class)->group(function () {
     Route::get('divisions', 'division');
     Route::get('city/{id?}', 'city');
