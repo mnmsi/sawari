@@ -237,6 +237,12 @@ class Banner extends Resource
     {
         $formData = $request->all();
 
+        if (!empty($formData['home_show_on']) && $formData['home_show_on'] === "top") {
+            $banner_item = \App\Models\System\Banner::find($model->id);
+            $banner_item->show_on = $formData['home_show_on'];
+            $banner_item->save();
+        }
+
         if (isset($formData['home_image'])) {
             $result = [];
             foreach ($formData['home_image'] as $b) {
@@ -251,9 +257,16 @@ class Banner extends Resource
             }
         }
     }
+
     public static function afterUpdate(NovaRequest $request, $model): void
     {
         $formData = $request->all();
+
+        if (!empty($formData['home_show_on']) && $formData['home_show_on'] === "top") {
+            $banner_item = \App\Models\System\Banner::find($model->id);
+            $banner_item->show_on = $formData['home_show_on'];
+            $banner_item->save();
+        }
 
         if (isset($formData['home_image'])) {
             $banner_item = \App\Models\System\Banner::find($model->id);
