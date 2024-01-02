@@ -50,7 +50,7 @@ class Product extends Resource
      * @var array
      */
     public static $search = [
-        'name',
+        'id', 'name',
     ];
 
     public static function label()

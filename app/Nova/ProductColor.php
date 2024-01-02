@@ -35,7 +35,7 @@ class ProductColor extends Resource
      * @var array
      */
     public static $search = [
-        'name',
+        'id', 'name',
     ];
 
     /**
@@ -147,6 +147,7 @@ class ProductColor extends Resource
     {
         return [
             'id',
+            'name',
             new SearchableRelation('product', 'name'),
         ];
     }
