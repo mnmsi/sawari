@@ -69,6 +69,9 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                 ])->icon('users')->collapsable(),
 //                product
                 MenuSection::make('Products', [
+                    MenuItem::resource(Brand::class),
+                    MenuItem::resource(Category::class),
+                    MenuItem::resource(BodyType::class),
                     MenuItem::resource(Product::class),
                     MenuItem::resource(ProductColor::class),
                     MenuItem::resource(ProductSpecification::class),
@@ -91,10 +94,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
 //                system
                 MenuSection::make('System', [
                     MenuItem::resource(Showroom::class),
-                    MenuItem::resource(Brand::class),
-                    MenuItem::resource(Category::class),
                     MenuItem::resource(Banner::class),
-                    MenuItem::resource(BodyType::class),
                     MenuItem::resource(PaymentMethods::class),
                     MenuItem::resource(ShippingCharge::class),
                     MenuItem::resource(DeliveryOption::class),
