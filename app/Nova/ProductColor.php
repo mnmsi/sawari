@@ -143,7 +143,7 @@ class ProductColor extends Resource
 //        return $query->where('type', 'bike');
 //    }
 
-    public static function searchableColumns()
+    public static function searchableColumns(): array
     {
         return [
             'id',

@@ -366,6 +366,7 @@ class Product extends Resource
     {
         return [
             'id',
+            'name',
             new SearchableRelation('brand', 'name'),
             new SearchableRelation('bodyType', 'name'),
             new SearchableRelation('category', 'name'),
