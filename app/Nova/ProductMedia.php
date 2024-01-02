@@ -55,10 +55,12 @@ class ProductMedia extends Resource
 //            product
             BelongsTo::make('Product', 'product')
                 ->rules('required')
+                ->searchable()
                 ->noPeeking(),
 //            color
 
             BelongsTo::make('Color', 'color', 'App\Nova\ProductColor')
+                ->searchable()
                 ->rules('required')
                 ->dependsOn(['product'], function (BelongsTo $field, NovaRequest $request, FormData $formData) {
                     $field->relatableQueryUsing(function (NovaRequest $request, Builder $query) use ($formData) {
