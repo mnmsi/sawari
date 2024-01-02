@@ -17,7 +17,7 @@ class ProductColorAction extends Action
 {
     use InteractsWithQueue, Queueable;
 
-    public $name = 'Upload Product Color';
+    public $name = 'Import Product Color';
     public $onlyOnIndex = true;
 
     /**

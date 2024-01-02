@@ -23,10 +23,10 @@ class ProductImport implements ToModel, WithStartRow
         $brand = Brand::where("name", $row[0])->first();
         $category = Category::where("name", $row[1])->first();
         $body_type = BikeBodyType::where("name", $row[3])->first();
-        if ($brand == null && !empty($row[0])) {
+        if ($brand == null || !empty($row[0])) {
             throw new \ErrorException('Brand ' . $row[0] . " missing. Please add brand first.");
         }
-        if ($category == null && !empty($row[1])) {
+        if ($category == null || !empty($row[1])) {
             throw new \ErrorException('Category ' . $row[1] . " missing. Please add category first.");
         }
 
@@ -34,7 +34,7 @@ class ProductImport implements ToModel, WithStartRow
             'brand_id' => $brand->id,
             'category_id' => $category->id,
             'type' => $row[2],
-            'body_type_id' => $body_type->id ?? null,
+            'body_type_id' => !empty($body_type->id) ? $body_type->id : null,
             'name' => $row[4],
             'product_code' => $row[5],
             'price' => (integer)$row[6],
