@@ -25,6 +25,9 @@ trait AccessoryTrait
             ->whereHas('colors',function ($query){
                 $query->where('stock' , '>' , 0);
             })
+            ->when($filters['brand_id'], function ($query) use ($filters) {
+                $query->where('brand_id', $filters['brand_id']);
+            })
             ->when($filters['category_id'], function ($query) use ($filters) {
                 $query->where('category_id', $filters['category_id']);
             })
