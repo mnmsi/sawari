@@ -55,7 +55,6 @@ trait CartTrait
                 $store->product_color_id = $request->product_color_id;
                 $store->quantity = $request->quantity;
                 $store->save();
-                dd($store);
                 if ($store) {
                     return true;
                 } else {
