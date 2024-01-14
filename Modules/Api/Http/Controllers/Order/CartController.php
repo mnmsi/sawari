@@ -33,7 +33,7 @@ class CartController extends Controller
      */
     public function store(AddCartRequest $request): JsonResponse
     {
-        $data = $this->addProductToCart($request); // Get carted data
+        $data = $this->addProductToCart($request);
         if ($data) {
             return $this->respondWithSuccess([
                 'message' => 'Product added to cart successfully',

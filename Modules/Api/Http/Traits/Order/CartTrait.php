@@ -49,12 +49,13 @@ trait CartTrait
             if ($cart) {
                 return false;
             } else {
-                $store = new Cart;
+                $store = new Cart();
                 $store->user_id = $request->user_id;
                 $store->product_id = $request->product_id;
                 $store->product_color_id = $request->product_color_id;
                 $store->quantity = $request->quantity;
                 $store->save();
+                dd($store);
                 if ($store) {
                     return true;
                 } else {

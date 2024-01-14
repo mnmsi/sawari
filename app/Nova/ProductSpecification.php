@@ -50,6 +50,7 @@ class ProductSpecification extends Resource
 //            product
             BelongsTo::make('Product', 'product','App\Nova\Product')
                 ->rules('required')
+                ->searchable()
                 ->noPeeking(),
 //            name
             Text::make('Title', 'title')

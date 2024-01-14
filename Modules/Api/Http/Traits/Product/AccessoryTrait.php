@@ -32,7 +32,7 @@ trait AccessoryTrait
                 $query->where('category_id', $filters['category_id']);
             })
             ->when($filters['search'], function ($query) use ($filters) {
-                $query->where('name', 'like', '%' . $filters['search'] . '%');
+                $query->whereRaw('LOWER(name) LIKE ?', '%' . strtolower($filters['name']) . '%');
             })
             ->where(function ($query) use ($filters) {
                 $query->when($filters['price_from'], function ($query) use ($filters) {
