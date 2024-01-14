@@ -19,13 +19,11 @@ trait AccessoryTrait
      */
     public function getAccessories($filters)
     {
+//        dd(Product::where('category_id',$filters['category_id'])->get());
         return Product::where('type', 'accessory')
             ->where('is_active', 1)
             ->whereHas('colors',function ($query){
                 $query->where('stock' , '>' , 0);
-            })
-            ->when($filters['brand_id'], function ($query) use ($filters) {
-                $query->where('brand_id', $filters['brand_id']);
             })
             ->when($filters['category_id'], function ($query) use ($filters) {
                 $query->where('category_id', $filters['category_id']);
@@ -49,7 +47,9 @@ trait AccessoryTrait
                         $query->where('discount_rate', '<=', $filters['discount_rate_to']);
                     });
             })
-            ->orderBy($filters['sort_by'] ?? 'id', $filters['sort_type'] ?? 'desc')
+            ->when($filters['sort_by'], function ($query) use ($filters) {
+                $query->orderBy($filters['sort_by'], $filters['sort_type'] ?? 'desc');
+            })
             ->paginate($filters['per_page'] ?? 10);
     }
 

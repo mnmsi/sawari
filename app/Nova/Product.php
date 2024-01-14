@@ -153,6 +153,7 @@ class Product extends Resource
                 ->default(0)
                 ->min(0)
                 ->step('any')
+                ->help("Discount rate in percentage")
                 ->nullable(),
             //            position
             Number::make('Product Position No.', 'order_no')
