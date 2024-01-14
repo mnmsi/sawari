@@ -188,6 +188,20 @@ class Product extends Resource
                 ->displayUsing(function ($v) {
                     return $v ? "Yes" : "No";
                 }),
+//            is scooter
+            Select::make('Is Scooter', 'is_scooter')->options([
+                '1' => 'Yes',
+                '0' => 'No',
+            ])->rules('required')
+                ->resolveUsing(function ($value) {
+                    if (!$value) {
+                        return 0;
+                    }
+                    return 1;
+                })
+                ->displayUsing(function ($v) {
+                    return $v ? "Yes" : "No";
+                }),
             //              status
             Select::make('Status', 'is_active')->options([
                 '1' => 'Yes',

@@ -14,7 +14,6 @@ class BannerController extends Controller
         $banners = Banner::where('is_active', 1)
             ->orderByRaw('ISNULL(`order_no`), `order_no` ASC')
             ->get();
-
         // Return response with banners
         return $this->respondWithSuccessWithData(BannerResource::collection($banners));
     }
