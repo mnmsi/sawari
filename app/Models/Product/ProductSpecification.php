@@ -11,7 +11,6 @@ class ProductSpecification extends BaseModel
         'product_id',
         'title',
         'value',
-        'is_key_feature',
         'created_at',
         'updated_at'
     ];

@@ -70,14 +70,6 @@ class ProductSpecification extends Resource
                         'placeholder' => 'Enter value',
                     ],
                 ]),
-//            feature
-            Select::make('Feature', 'is_key_feature')->options([
-                '1' => 'Yes',
-                '0' => 'No',
-            ])->rules('required')
-                ->displayUsing(function ($v) {
-                    return $v ? "Yes" : "No";
-                }),
 //            date
             DateTime::make('Created At', 'created_at')
                 ->hideFromIndex()
