@@ -37,6 +37,19 @@ class SiteSetting extends Resource
         'id',
     ];
 
+
+    public static function authorizedToCreate(Request $request)
+    {
+        return false;
+    }
+
+    public function authorizedToDelete(Request $request)
+    {
+        return false;
+    }
+
+
+
     /**
      * Get the fields displayed by the resource.
      *

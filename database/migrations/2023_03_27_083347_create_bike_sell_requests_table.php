@@ -17,8 +17,8 @@ return new class extends Migration {
             $table->unsignedBigInteger('area_id')->nullable();
             $table->unsignedBigInteger('brand_id')->nullable();
             $table->unsignedBigInteger('bike_id')->nullable();
-            $table->integer('registration_year')->nullable();
-            $table->integer('registration_duration')->nullable();
+            $table->string('registration_year')->nullable();
+            $table->string('registration_duration')->nullable();
             $table->string('registration_zone')->nullable();
             $table->string('registration_series')->nullable();
             $table->string('color')->nullable();
