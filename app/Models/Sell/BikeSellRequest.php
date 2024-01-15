@@ -14,7 +14,7 @@ class BikeSellRequest extends BaseModel
 {
     protected $fillable = [
         'name',
-        'mobile',
+        'phone',
         'city_id',
         'area_id',
         'brand_id',
