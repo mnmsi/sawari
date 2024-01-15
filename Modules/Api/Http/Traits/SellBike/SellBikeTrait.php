@@ -26,7 +26,6 @@ trait SellBikeTrait
 //            dd($bike_images);
         $request->merge([
             'bike_image' => json_encode($bike_images),
-            'user_id' => Auth::id(),
         ]);
         return BikeSellRequest::create($request->all());
     }

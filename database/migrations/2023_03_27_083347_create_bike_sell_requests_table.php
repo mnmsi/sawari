@@ -12,11 +12,12 @@ return new class extends Migration {
     {
         Schema::create('bike_sell_requests', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id')->nullable();
             $table->unsignedBigInteger('city_id')->nullable();
             $table->unsignedBigInteger('area_id')->nullable();
             $table->unsignedBigInteger('brand_id')->nullable();
             $table->unsignedBigInteger('bike_id')->nullable();
+            $table->string('name');
+            $table->string('phone');
             $table->string('registration_year')->nullable();
             $table->string('registration_duration')->nullable();
             $table->string('registration_zone')->nullable();

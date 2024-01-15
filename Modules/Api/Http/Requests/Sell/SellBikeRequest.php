@@ -18,6 +18,8 @@ class SellBikeRequest extends FormRequest
     public function rules()
     {
         return [
+            'name'=> 'required|string',
+            'phone'=> 'required|string',
             'bike_id' => 'required|numeric|exists:sell_bikes,id',
             'city_id' => 'required|numeric|exists:cities,id',
             'area_id' => 'required|numeric|exists:areas,id',

@@ -13,7 +13,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class BikeSellRequest extends BaseModel
 {
     protected $fillable = [
-        'user_id',
+        'name',
+        'mobile',
         'city_id',
         'area_id',
         'brand_id',
@@ -34,10 +35,6 @@ class BikeSellRequest extends BaseModel
         'updated_at'
     ];
 
-    public function user(): BelongsTo
-    {
-        return $this->belongsTo(User::class);
-    }
 
     public function city(): BelongsTo
     {
