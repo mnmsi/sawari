@@ -53,9 +53,8 @@ class BikeSellRequest extends Resource
         return [
             ID::make()->sortable(),
 //            user
-            BelongsTo::make('User', 'user')
-                ->rules('required')
-                ->noPeeking(),
+            Text::make('Name','name')->rules('required'),
+            Text::make('phone','Phone')->rules('required'),
 //            city
             BelongsTo::make('City', 'city','App\Nova\Others\City')
                 ->rules('required')
