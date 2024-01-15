@@ -66,7 +66,7 @@ Route::middleware('guest')->group(function () {
 // User Routes (Auth) or (User) Mode
 Route::middleware('auth:sanctum')->group(function () {
 
-    Route::post("sell/store", [SellBikeController::class, 'store']);
+
 
     // Routes on user prefix
     Route::prefix('user')->group(function () {
@@ -229,3 +229,4 @@ Route::controller(SystemAddressController::class)->group(function () {
     Route::get('area/{id?}', 'area');
 });
 Route::post('buy-now', [OrderController::class, 'buyNow']); // Buy Routes now
+Route::post("sell/store", [SellBikeController::class, 'store']);
