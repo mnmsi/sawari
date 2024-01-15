@@ -25,6 +25,7 @@ class BikeController extends Controller
      */
     public function bikes(Request $request)
     {
+//        dd($request->all());
         // Initialize filter data
         $filterData = $this->initializeBikeFilterData($request);
         // Return bike products with pagination and filter data as response

@@ -17,6 +17,7 @@ trait BikeTrait
     public function getBikeProducts($filters)
     {
 //        dd(Product::all()->toArray());
+//        dd($filters,count($filters['brand_id']));
         return Product::where('type', 'bike')
             ->where('is_active', 1)
             ->whereHas('colors', function ($query) {
@@ -27,9 +28,6 @@ trait BikeTrait
             })
             ->when($filters['body_type_id'], function ($query) use ($filters) {
                 $query->whereIn('body_type_id', $filters['body_type_id']);
-            })
-            ->when($filters['category_id'], function ($query) use ($filters) {
-                $query->where('category_id', $filters['category_id']);
             })
             ->when($filters['is_used'], function ($query) use ($filters) {
                 if ($filters['is_used'] === 'yes') {
