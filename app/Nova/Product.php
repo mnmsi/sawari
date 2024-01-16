@@ -314,10 +314,13 @@ class Product extends Resource
                     Select::make('Specification Feature', 'is_key_feature')->options([
                         '1' => 'Yes',
                         '0' => 'No',
-                    ])->rules('required')
+                    ])->hideWhenCreating()
+                        ->hideWhenUpdating()
+                        ->hideFromDetail()
+                        ->hideFromIndex()
                         ->displayUsing(function ($v) {
                             return $v ? "Yes" : "No";
-                        }),
+                        })->hide(),
                 ])->hideFromIndex()
                 ->hideFromDetail(),
         ];
@@ -429,7 +432,7 @@ class Product extends Resource
                 $specification->product_id = $model->id;
                 $specification->title = $s['attributes']['specification_title'];
                 $specification->value = $s['attributes']['specification_value'];
-                $specification->is_key_feature = $s['attributes']['is_key_feature'];
+//                $specification->is_key_feature = $s['attributes']['is_key_feature'];
                 $specification->save();
             }
         }
