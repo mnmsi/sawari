@@ -501,14 +501,14 @@ class Product extends Resource
                     $check_spe->update([
                         'title' => $list['attributes']['specification_title'],
                         'value' => $list['attributes']['specification_value'],
-                        'is_key_feature' => $list['attributes']['is_key_feature']
+//                        'is_key_feature' => $list['attributes']['is_key_feature']
                     ]);
                 } else {
                     $specification_model->create([
                         'product_id' => $model->id,
                         'title' => $list['attributes']['specification_title'],
                         'value' => $list['attributes']['specification_value'],
-                        'is_key_feature' => $list['attributes']['is_key_feature']
+//                        'is_key_feature' => $list['attributes']['is_key_feature']
                     ]);
                 }
             }
