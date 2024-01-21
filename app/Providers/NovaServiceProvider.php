@@ -109,7 +109,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
 //                settings
                 MenuSection::make('Settings', [
                     MenuItem::resource(SiteSetting::class),
-                    MenuItem::resource(SeoSetting::class),
+//                    MenuItem::resource(SeoSetting::class),
                     MenuItem::resource(HomeSection::class),
                     MenuItem::resource(Testimonial::class),
                     MenuItem::resource(TermsAndCondition::class),
