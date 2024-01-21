@@ -113,6 +113,11 @@ class SiteSetting extends Resource
                 ->disk('public')
                 ->nullable()
                 ->disableDownload(),
+            Image::make('Welcome Popup Image', 'welcome_popup_image')
+                ->path('site')
+                ->disk('public')
+                ->nullable()
+                ->disableDownload(),
 //          facebook url
             Text::make('Facebook Url', 'facebook_url')
                 ->sortable()
