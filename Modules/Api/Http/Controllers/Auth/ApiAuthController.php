@@ -90,7 +90,7 @@ class ApiAuthController extends Controller
         $user = User::where('phone', $request->phone)->first();
         if ($user) {
             $otp = $this->generateOtp();
-            $message = "This is your IOTAIT otp: $otp"; // Message to send with OTP
+            $message = "Your One-Time-Password for Sawari is: $otp"; // Message to send with OTP
             // Send otp to user phone if send sms is true then update or create phone verification record
             if ($isSendSms = $this->sendSms($request->phone, $message)) {
                 PhoneVerification::updateOrCreate([
