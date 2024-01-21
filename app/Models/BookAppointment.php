@@ -14,4 +14,8 @@ class BookAppointment extends Model
         'phone_or_email',
         'date',
     ];
+
+    protected $casts = [
+        'date' => 'date',
+    ];
 }

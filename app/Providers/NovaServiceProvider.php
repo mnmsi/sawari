@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Nova\Banner;
 use App\Nova\BikeSellRequest;
 use App\Nova\BodyType;
+use App\Nova\BookAppointment;
 use App\Nova\Brand;
 use App\Nova\Category;
 use App\Nova\Dashboards\Main;
@@ -101,6 +102,10 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                     MenuItem::resource(VideoReview::class),
                     MenuItem::resource(Notification::class),
                 ])->icon('briefcase')->collapsable(),
+//                book appointment
+                MenuSection::make('Servicing Request', [
+                    MenuItem::resource(BookAppointment::class),
+                ])->icon('key')->collapsable(),
 //                settings
                 MenuSection::make('Settings', [
                     MenuItem::resource(SiteSetting::class),
