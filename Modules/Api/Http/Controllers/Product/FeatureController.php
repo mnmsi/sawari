@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Laravel\Sanctum\PersonalAccessToken;
 use Modules\Api\Http\Resources\Product\BikeResource;
 use Modules\Api\Http\Resources\Product\ProductResource;
@@ -20,12 +21,16 @@ class FeatureController extends Controller
      */
     public function newBike(Request $request)
     {
-//        if ($token = PersonalAccessToken::findToken($request->bearerToken())) {
-//            $user = $token->tokenable;
-//            Auth::setUser($user);
-//        }
+
+        $cacheKey = 'featured_new_bike';
+        if (Cache::has($cacheKey)) {
+            $data = Cache::get($cacheKey);
+        } else {
+            $data = $this->featuredNewBike();
+            Cache::put($cacheKey, $data, now()->addMinutes(2400));
+        }
         return $this->respondWithSuccessWithData(
-            ProductResource::collection($this->featuredNewBike())
+            ProductResource::collection($data)
         );
     }
 
@@ -34,8 +39,16 @@ class FeatureController extends Controller
      */
     public function usedBike()
     {
+
+        $cacheKey = 'featured_used_bike';
+        if (Cache::has($cacheKey)) {
+            $data = Cache::get($cacheKey);
+        } else {
+            $data = $this->featuredUsedBike();
+            Cache::put($cacheKey, $data, now()->addMinutes(2400));
+        }
         return $this->respondWithSuccessWithData(
-            ProductResource::collection($this->featuredUsedBike())
+            ProductResource::collection($data)
         );
     }
 

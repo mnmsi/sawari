@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Laravel\Sanctum\PersonalAccessToken;
 use Modules\Api\Http\Resources\Product\BikeCollection;
 use Modules\Api\Http\Resources\Product\BikeDetailsResource;
@@ -25,8 +26,6 @@ class BikeController extends Controller
      */
     public function bikes(Request $request)
     {
-//        dd($request->all());
-        // Initialize filter data
         $filterData = $this->initializeBikeFilterData($request);
         // Return bike products with pagination and filter data as response
         return $this->respondWithSuccessWithData(
@@ -44,17 +43,16 @@ class BikeController extends Controller
             $user = $token->tokenable;
             Auth::setUser($user);
         }
-
-        // Get bike details
-        $bikeDetails = $this->getBikeDetails($name);
-
-//            dd($bikeDetails->toArray());
-
-        // Check if bike details is empty
+        $cacheKey = 'bike_details_' . $name;
+        if (Cache::has($cacheKey)) {
+            $bikeDetails = Cache::get($cacheKey);
+        } else {
+            $bikeDetails = $this->getBikeDetails($name);
+            Cache::put($cacheKey, $bikeDetails, now()->addMinutes(2400));
+        }
         if (empty($bikeDetails)) {
             return $this->respondNotFound("Not Found");
         }
-
         // Return bike details as response
         return $this->respondWithSuccessWithData(
             new ProductDetailsResource($bikeDetails)
@@ -66,8 +64,15 @@ class BikeController extends Controller
      */
     public function relatedBikes()
     {
+        $cacheKey = 'related_bikes';
+        if (Cache::has($cacheKey)) {
+            $bikeDetails = Cache::get($cacheKey);
+        } else {
+            $bikeDetails = $this->getRelatedBikes();
+            Cache::put($cacheKey, $bikeDetails, now()->addMinutes(2));
+        }
         return $this->respondWithSuccessWithData(
-            ProductResource::collection(($this->getRelatedBikes()))
+            ProductResource::collection($bikeDetails)
         );
     }
 
@@ -76,20 +81,45 @@ class BikeController extends Controller
      */
     public function bikeBodyTypes()
     {
+        $cacheKey = 'bike_body_types';
+        if (Cache::has($cacheKey)) {
+            $bikeDetails = Cache::get($cacheKey);
+        } else {
+            $bikeDetails = $this->getBikeBodyTypes();
+            Cache::put($cacheKey, $bikeDetails, now()->addMinutes(2400));
+        }
         return $this->respondWithSuccessWithData(
-            $this->getBikeBodyTypes()
+            $bikeDetails
+        );
+
+    }
+
+    public function scooter()
+    {
+        $cacheKey = 'scooter';
+        if (Cache::has($cacheKey)) {
+            $bikeDetails = Cache::get($cacheKey);
+        } else {
+            $bikeDetails = $this->getScooter();
+            Cache::put($cacheKey, $bikeDetails, now()->addMinutes(2400));
+        }
+        return $this->respondWithSuccessWithData(
+            new BikeCollection($bikeDetails)
         );
     }
 
-    public function scooter(){
-        return $this->respondWithSuccessWithData(
-            new BikeCollection($this->getScooter())
-        );
-    }
+    public function upcomingBikes()
+    {
+        $cacheKey = 'upcoming_bikes';
+        if (Cache::has($cacheKey)) {
+            $bikeDetails = Cache::get($cacheKey);
+        } else {
+            $bikeDetails = $this->getUpComingBikes();
+            Cache::put($cacheKey, $bikeDetails, now()->addMinutes(2400));
+        }
 
-    public function upcomingBikes(){
         return $this->respondWithSuccessWithData(
-            new BikeCollection($this->getUpComingBikes())
+            new BikeCollection($bikeDetails)
         );
     }
 }

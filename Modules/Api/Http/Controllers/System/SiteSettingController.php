@@ -13,7 +13,7 @@ class SiteSettingController extends Controller
             ->first();
 
         $data['status'] = true;
-        $data['welcome_popup_image'] = asset('storage/' . $data['welcome_popup_image']) ?? null;
+        $data['welcome_popup_image'] = isset($data['welcome_popup_image']) ?asset('storage/' . $data['welcome_popup_image']) : null;
         $data['header_logo'] = isset($data['header_logo']) ? asset('storage/' . $data['header_logo']) : null;
         $data['footer_logo'] = isset($data['footer_logo']) ? asset('storage/' . $data['footer_logo']) : null;
         $data['fav_icon'] = isset($data['fav_icon']) ? asset('storage/' . $data['fav_icon']) : '';
