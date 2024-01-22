@@ -47,11 +47,11 @@ class ProductSpecification extends Resource
     {
         return [
             ID::make()->sortable(),
-//            product
-            BelongsTo::make('Product', 'product','App\Nova\Product')
-                ->rules('required')
-                ->searchable()
-                ->noPeeking(),
+//           load specification category
+//            BelongsTo::make('Product', 'product','App\Nova\Product')
+//                ->rules('required')
+//                ->searchable()
+//                ->noPeeking(),
 //            name
             Text::make('Title', 'title')
                 ->sortable()
@@ -136,4 +136,24 @@ class ProductSpecification extends Resource
             new SearchableRelation('product', 'name'),
         ];
     }
+
+    public static function authorizedToCreate(Request $request)
+    {
+        return false;
+    }
+
+    public function authorizedToDelete(Request $request)
+    {
+        return false;
+    }
+
+    public function authorizedToUpdate(Request $request)
+    {
+        return false;
+    }
+
+
+
+//    update
+
 }

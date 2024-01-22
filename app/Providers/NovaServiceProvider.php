@@ -24,6 +24,7 @@ use App\Nova\ProductColor;
 use App\Nova\ProductMedia;
 use App\Nova\ProductReview;
 use App\Nova\ProductSpecification;
+use App\Nova\ProductSpecificationCategory;
 use App\Nova\SellBike;
 use App\Nova\SeoSetting;
 use App\Nova\ShippingCharge;
@@ -75,7 +76,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                     MenuItem::resource(BodyType::class),
                     MenuItem::resource(Product::class),
                     MenuItem::resource(ProductColor::class),
-                    MenuItem::resource(ProductSpecification::class),
+                    MenuItem::resource(ProductSpecificationCategory::class),
                     MenuItem::resource(ProductMedia::class),
                     MenuItem::resource(ProductReview::class),
                 ])->icon('gift')->collapsable(),

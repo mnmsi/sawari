@@ -284,45 +284,45 @@ class Product extends Resource
                 ])->hideFromIndex()
                 ->hideFromDetail(),
 //            product specification
-            Flexible::make('Add Product specification *', 'specification_list')
-                ->button('Add more specification')
-                ->addLayout('Select specification', 'video', [
-                    Hidden::make('Specification Id', 'specification_id')
-                        ->hideFromDetail()
-                        ->hideFromIndex()
-                        ->hideWhenCreating()
-                        ->readonly(),
-//                    title
-                    Text::make('Specification Title', 'specification_title')
-                        ->sortable()
-                        ->rules('required', 'max:255')
-                        ->withMeta([
-                            'extraAttributes' => [
-                                'placeholder' => 'Enter specification title',
-                            ],
-                        ]),
-//                    details
-                    Text::make('Specification Value', 'specification_value')
-                        ->sortable()
-                        ->rules('required', 'max:255')
-                        ->withMeta([
-                            'extraAttributes' => [
-                                'placeholder' => 'Enter specification value',
-                            ],
-                        ]),
-//                    feature
-                    Select::make('Specification Feature', 'is_key_feature')->options([
-                        '1' => 'Yes',
-                        '0' => 'No',
-                    ])->hideWhenCreating()
-                        ->hideWhenUpdating()
-                        ->hideFromDetail()
-                        ->hideFromIndex()
-                        ->displayUsing(function ($v) {
-                            return $v ? "Yes" : "No";
-                        })->hide(),
-                ])->hideFromIndex()
-                ->hideFromDetail(),
+//            Flexible::make('Add Product specification *', 'specification_list')
+//                ->button('Add more specification')
+//                ->addLayout('Select specification', 'video', [
+//                    Hidden::make('Specification Id', 'specification_id')
+//                        ->hideFromDetail()
+//                        ->hideFromIndex()
+//                        ->hideWhenCreating()
+//                        ->readonly(),
+////                    title
+//                    Text::make('Specification Title', 'specification_title')
+//                        ->sortable()
+//                        ->rules('required', 'max:255')
+//                        ->withMeta([
+//                            'extraAttributes' => [
+//                                'placeholder' => 'Enter specification title',
+//                            ],
+//                        ]),
+////                    details
+//                    Text::make('Specification Value', 'specification_value')
+//                        ->sortable()
+//                        ->rules('required', 'max:255')
+//                        ->withMeta([
+//                            'extraAttributes' => [
+//                                'placeholder' => 'Enter specification value',
+//                            ],
+//                        ]),
+////                    feature
+//                    Select::make('Specification Feature', 'is_key_feature')->options([
+//                        '1' => 'Yes',
+//                        '0' => 'No',
+//                    ])->hideWhenCreating()
+//                        ->hideWhenUpdating()
+//                        ->hideFromDetail()
+//                        ->hideFromIndex()
+//                        ->displayUsing(function ($v) {
+//                            return $v ? "Yes" : "No";
+//                        })->hide(),
+//                ])->hideFromIndex()
+//                ->hideFromDetail(),
         ];
     }
 
@@ -376,7 +376,7 @@ class Product extends Resource
             (new ProductImageUpload())->standalone(),
             (new ProductColorAction())->standalone(),
             (new ProductColorImageAction())->standalone(),
-            (new ProductSpecificationAction())->standalone(),
+//            (new ProductSpecificationAction())->standalone(),
         ];
     }
 
@@ -395,13 +395,13 @@ class Product extends Resource
     {
         if ($request->isCreateOrAttachRequest()) {
             $fields = $fields->reject(function ($field) {
-                return in_array($field->attribute, ['color_list', 'specification_list']);
+                return in_array($field->attribute, ['color_list']);
             });
         }
 
         if ($request->isUpdateOrUpdateAttachedRequest()) {
             $fields = $fields->reject(function ($field) {
-                return in_array($field->attribute, ['color_list', 'specification_list']);
+                return in_array($field->attribute, ['color_list']);
             });
         }
 
@@ -412,7 +412,7 @@ class Product extends Resource
     public static function afterCreate(NovaRequest $request, $model)
     {
         $formData = $request->only('color_list');
-        $specification_data = $request->only('specification_list');
+//        $specification_data = $request->only('specification_list');
 
         if (isset($formData['color_list'])) {
             foreach ($formData['color_list'] as $list) {
@@ -426,16 +426,16 @@ class Product extends Resource
             }
         }
 //        specification
-        if (isset($specification_data['specification_list'])) {
-            foreach ($specification_data['specification_list'] as $s) {
-                $specification = new ProductSpecification();
-                $specification->product_id = $model->id;
-                $specification->title = $s['attributes']['specification_title'];
-                $specification->value = $s['attributes']['specification_value'];
-//                $specification->is_key_feature = $s['attributes']['is_key_feature'];
-                $specification->save();
-            }
-        }
+//        if (isset($specification_data['specification_list'])) {
+//            foreach ($specification_data['specification_list'] as $s) {
+//                $specification = new ProductSpecification();
+//                $specification->product_id = $model->id;
+//                $specification->title = $s['attributes']['specification_title'];
+//                $specification->value = $s['attributes']['specification_value'];
+////                $specification->is_key_feature = $s['attributes']['is_key_feature'];
+//                $specification->save();
+//            }
+//        }
     }
 
     public static function afterUpdate(NovaRequest $request, $model)
@@ -482,36 +482,36 @@ class Product extends Resource
         }
 
 //        product specification update
-        $specification_list = $request->only('specification_list');
-        $specification_model = new ProductSpecification();
-
-        $specification_new_color = collect($specification_list['specification_list'])->pluck('attributes.specification_id')->toArray();
-        $specification_prev_colors = $specification_model->where('product_id', $model->id)->pluck('id')->toArray();
-        $specification_delete_colors = array_diff($specification_prev_colors, $specification_new_color);
-//        delete item
-        $ppp = ProductSpecification::whereIn('id', $specification_delete_colors)->each(function ($item) {
-            $item->delete();
-        });
-
-        if (isset($specification_list['specification_list'])) {
-            foreach ($specification_list['specification_list'] as $list) {
-                if ($list['attributes']['specification_id']) {
-                    $check_spe = ProductSpecification::find($list['attributes']['specification_id']);
-
-                    $check_spe->update([
-                        'title' => $list['attributes']['specification_title'],
-                        'value' => $list['attributes']['specification_value'],
-//                        'is_key_feature' => $list['attributes']['is_key_feature']
-                    ]);
-                } else {
-                    $specification_model->create([
-                        'product_id' => $model->id,
-                        'title' => $list['attributes']['specification_title'],
-                        'value' => $list['attributes']['specification_value'],
-//                        'is_key_feature' => $list['attributes']['is_key_feature']
-                    ]);
-                }
-            }
-        }
+//        $specification_list = $request->only('specification_list');
+//        $specification_model = new ProductSpecification();
+//
+//        $specification_new_color = collect($specification_list['specification_list'])->pluck('attributes.specification_id')->toArray();
+//        $specification_prev_colors = $specification_model->where('product_id', $model->id)->pluck('id')->toArray();
+//        $specification_delete_colors = array_diff($specification_prev_colors, $specification_new_color);
+////        delete item
+//        $ppp = ProductSpecification::whereIn('id', $specification_delete_colors)->each(function ($item) {
+//            $item->delete();
+//        });
+//
+//        if (isset($specification_list['specification_list'])) {
+//            foreach ($specification_list['specification_list'] as $list) {
+//                if ($list['attributes']['specification_id']) {
+//                    $check_spe = ProductSpecification::find($list['attributes']['specification_id']);
+//
+//                    $check_spe->update([
+//                        'title' => $list['attributes']['specification_title'],
+//                        'value' => $list['attributes']['specification_value'],
+////                        'is_key_feature' => $list['attributes']['is_key_feature']
+//                    ]);
+//                } else {
+//                    $specification_model->create([
+//                        'product_id' => $model->id,
+//                        'title' => $list['attributes']['specification_title'],
+//                        'value' => $list['attributes']['specification_value'],
+////                        'is_key_feature' => $list['attributes']['is_key_feature']
+//                    ]);
+//                }
+//            }
+//        }
     }
 }
