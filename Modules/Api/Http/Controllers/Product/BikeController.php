@@ -39,6 +39,11 @@ class BikeController extends Controller
      */
     public function details(Request $request, $name)
     {
+      $bikeDetails = $this->getBikeDetails($name);
+//      dd($bikeDetails->toArray());
+        return $this->respondWithSuccessWithData(
+            new ProductDetailsResource($bikeDetails)
+        );
         if ($token = PersonalAccessToken::findToken($request->bearerToken())) {
             $user = $token->tokenable;
             Auth::setUser($user);

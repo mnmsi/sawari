@@ -22,6 +22,6 @@ class ProductSpecificationCategory extends Model
 
     public function specifications()
     {
-        return $this->hasMany(ProductSpecification::class, 'category_id', 'id');
+        return $this->hasMany(ProductSpecification::class);
     }
 }

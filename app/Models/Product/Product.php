@@ -82,7 +82,7 @@ class Product extends BaseModel
         return $this->hasMany(ProductMedia::class);
     }
 
-    public function specifications()
+    public function specificationCategories()
     {
         return $this->hasMany(ProductSpecificationCategory::class);
     }
