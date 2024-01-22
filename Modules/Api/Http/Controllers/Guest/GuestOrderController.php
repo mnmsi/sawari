@@ -20,12 +20,13 @@ use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\DB;
 use Modules\Api\Http\Requests\Guest\GuestOrderRequest;
 use Modules\Api\Http\Traits\Order\OrderTrait;
+use Modules\Api\Http\Traits\OTP\OtpTrait;
 use Modules\Api\Http\Traits\Payment\PaymentTrait;
 use Modules\Api\Http\Traits\Response\ApiResponseHelper;
 
 class GuestOrderController extends Controller
 {
-    use ApiResponseHelper, OrderTrait, PaymentTrait;
+    use ApiResponseHelper, OrderTrait, PaymentTrait,  OtpTrait;
 
     public function guestOrder(GuestOrderRequest $request)
     {
