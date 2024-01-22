@@ -2,6 +2,7 @@
 
 namespace App\Models\Product;
 
+use App\Models\ProductSpecificationCategory;
 use App\Models\System\BikeBodyType;
 use App\Models\User\UserWishlist;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -83,7 +84,7 @@ class Product extends BaseModel
 
     public function specifications()
     {
-        return $this->hasMany(ProductSpecification::class);
+        return $this->hasMany(ProductSpecificationCategory::class);
     }
 
     public function wishlists()
