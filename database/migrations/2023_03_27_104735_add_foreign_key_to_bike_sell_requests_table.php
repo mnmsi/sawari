@@ -12,10 +12,6 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('bike_sell_requests', function (Blueprint $table) {
-            $table->foreign('user_id')
-                  ->references('id')
-                  ->on('users');
-
             $table->foreign('city_id')
                     ->references('id')
                     ->on('cities');

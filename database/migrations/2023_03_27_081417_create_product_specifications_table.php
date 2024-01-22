@@ -12,7 +12,7 @@ return new class extends Migration {
     {
         Schema::create('product_specifications', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('product_id');
+            $table->foreignId('product_specification_category_id')->constrained('product_specification_categories');
             $table->string('title');
             $table->string('value');
             $table->dateTime('created_at')->useCurrent();

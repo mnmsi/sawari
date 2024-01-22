@@ -2,21 +2,23 @@
 
 namespace App\Models\Product;
 
+use App\Models\ProductSpecificationCategory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Models\BaseModel;
 
 class ProductSpecification extends BaseModel
 {
     protected $fillable = [
-        'product_id',
+        'product_specification_category_id',
         'title',
         'value',
         'created_at',
         'updated_at'
     ];
 
-    public function product()
+    public function specificationCategory()
     {
-        return $this->belongsTo(Product::class, 'product_id', 'id');
+        return $this->belongsTo(ProductSpecificationCategory::class);
     }
+
 }
