@@ -242,7 +242,7 @@ class Product extends Resource
                 ->default(now()),
 
             HasMany::make('Product Color', 'colors'),
-            HasMany::make('Product Specifications', 'specifications'),
+            HasMany::make('Product Specifications', 'specificationCategories', 'App\Nova\ProductSpecificationCategory'),
             HasMany::make('Product Media', 'media', 'App\Nova\ProductMedia'),
 
             Flexible::make('Add Color List *', 'color_list')

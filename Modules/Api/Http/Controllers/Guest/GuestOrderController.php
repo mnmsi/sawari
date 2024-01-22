@@ -12,6 +12,7 @@ use App\Models\System\Area;
 use App\Models\System\City;
 use App\Models\System\DeliveryOption;
 use App\Models\System\Division;
+use App\Models\System\Notification;
 use App\Models\System\PaymentMethod;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
@@ -99,6 +100,10 @@ class GuestOrderController extends Controller
                 if ($request->payment_method_id == 2) {
                     if ($isProcessPayment = $this->processPayment($orderData, $request)) {
                         DB::commit();
+                        $numbers = Notification::get();
+                        foreach ($numbers as $number) {
+                            $this->sendSms(trim($number->phone), "New order has been placed");
+                        }
                         return [
                             'status' => 'success',
                             'message' => 'Payment Successful',
@@ -111,6 +116,10 @@ class GuestOrderController extends Controller
                         ];
                     }
                 } else {
+                    $numbers = Notification::get();
+                    foreach ($numbers as $number) {
+                        $this->sendSms(trim($number->phone), "New order has been placed");
+                    }
                     DB::commit();
                     return [
                         'data' => [
@@ -207,6 +216,10 @@ class GuestOrderController extends Controller
 //                    if ($isProcessPayment = $sslc->payment($orderData)) {
                     if ($isProcessPayment = $this->processPayment($orderData,$request)) {
                         DB::commit();
+                        $numbers = Notification::get();
+                        foreach ($numbers as $number) {
+                            $this->sendSms(trim($number->phone), "New order has been placed");
+                        }
                         return [
                             'status' => 'success',
                             'message' => 'Payment Successful',
@@ -221,6 +234,10 @@ class GuestOrderController extends Controller
                     }
                 } else {
                     DB::commit();
+                    $numbers = Notification::get();
+                    foreach ($numbers as $number) {
+                        $this->sendSms(trim($number->phone), "New order has been placed");
+                    }
                     return [
                         'data' => [
                             'status' => true,

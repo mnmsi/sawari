@@ -5,6 +5,7 @@ namespace Modules\Api\Http\Controllers\Order;
 use App\Http\Controllers\Controller;
 use App\Models\GuestOrder;
 use App\Models\Order\Order;
+use App\Models\System\Notification;
 use App\Models\System\SiteSetting;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
@@ -13,6 +14,7 @@ use Modules\Api\Http\Requests\Order\AddCartRequest;
 use Modules\Api\Http\Requests\Order\CreateOrderRequest;
 use Modules\Api\Http\Resources\Order\OrderResource;
 use Modules\Api\Http\Traits\Order\OrderTrait;
+use Modules\Api\Http\Traits\OTP\OtpTrait;
 use Modules\Api\Http\Traits\Payment\PaymentTrait;
 use Modules\Api\Http\Traits\Product\ProductTrait;
 
@@ -21,6 +23,7 @@ class OrderController extends Controller
     use ProductTrait;
     use PaymentTrait;
     use OrderTrait;
+    use OtpTrait;
 
     /**
      * Get Delivery Options
@@ -50,6 +53,10 @@ class OrderController extends Controller
     {
         $order = $this->storeOrder($request);
         if ($order) {
+            $numbers = Notification::get();
+            foreach ($numbers as $number) {
+                $this->sendSms(trim($number->phone), "New order has been placed");
+            }
             return $this->respondWithSuccessWithData(
                 $order
             );
@@ -102,6 +109,11 @@ class OrderController extends Controller
         ]);
         $order = $this->buyNowRequest($request);
         if ($order) {
+            $numbers = Notification::get();
+            foreach ($numbers as $number) {
+                $this->sendSms(trim($number->phone), "New order has been placed");
+            }
+//            send sms if order success
             return $this->respondWithSuccessWithData(
                 $order
             );
