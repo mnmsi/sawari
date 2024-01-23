@@ -32,7 +32,7 @@ use Modules\Api\Http\Controllers\System\TestimonialController;
 use Modules\Api\Http\Controllers\System\VideoReviewController;
 use Modules\Api\Http\Controllers\User\UserAddressController;
 use Modules\Api\Http\Controllers\User\UserController;
-
+use Modules\Api\Http\Traits\OTP\OtpTrait;
 // Authenticating Routes
 Route::controller(ApiAuthController::class)->group(function () {
     Route::match(['get', 'post'], 'login', 'login');
@@ -230,3 +230,5 @@ Route::controller(SystemAddressController::class)->group(function () {
 });
 Route::post('buy-now', [OrderController::class, 'buyNow']); // Buy Routes now
 Route::post("sell/store", [SellBikeController::class, 'store']);
+
+//Route::get('/send-sms',[OtpController::class,'sendTestSMS']);
