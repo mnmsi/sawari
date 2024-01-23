@@ -11,6 +11,7 @@ use App\Models\System\Area;
 use App\Models\System\City;
 use App\Models\System\DeliveryOption;
 use App\Models\System\Division;
+use App\Models\System\Notification;
 use App\Models\System\PaymentMethod;
 use App\Models\Voucher;
 use Carbon\Carbon;
@@ -112,6 +113,10 @@ trait OrderTrait
                     if ($data['payment_method_id'] == 2) {
                         if ($isProcessPayment = $this->processPayment($orderData)) {
                             DB::commit();
+                            $numbers = Notification::get();
+                            foreach ($numbers as $number) {
+                                $this->sendSms(strtr($number->phone, [' ' => '']), "New order has been placed  Please check your dashboard");
+                            }
                             return [
                                 'status' => true,
                                 'message' => 'Payment Successful',
@@ -125,6 +130,10 @@ trait OrderTrait
                         }
                     } else {
                         DB::commit();
+                        $numbers = Notification::get();
+                        foreach ($numbers as $number) {
+                            $this->sendSms(strtr($number->phone, [' ' => '']), "New order has been placed  Please check your dashboard");
+                        }
                         return [
                             'status' => true,
                             'message' => 'Payment Successful',
@@ -224,6 +233,10 @@ trait OrderTrait
                 if ($data['payment_method_id'] == 2) {
                     if ($isProcessPayment = $this->processPayment($orderData)) {
                         DB::commit();
+                        $numbers = Notification::get();
+                        foreach ($numbers as $number) {
+                            $this->sendSms(strtr($number->phone, [' ' => '']), "New order has been placed  Please check your dashboard");
+                        }
                         return [
                             'status' => true,
                             'message' => 'Payment Successful',
@@ -237,6 +250,10 @@ trait OrderTrait
                     }
                 } else {
                     DB::commit();
+                    $numbers = Notification::get();
+                    foreach ($numbers as $number) {
+                        $this->sendSms(strtr($number->phone, [' ' => '']), "New order has been placed  Please check your dashboard");
+                    }
                     return [
                         'status' => true,
                         'message' => 'Payment Successful',
