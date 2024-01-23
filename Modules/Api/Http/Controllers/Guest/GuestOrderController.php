@@ -103,7 +103,7 @@ class GuestOrderController extends Controller
                         DB::commit();
                         $numbers = Notification::get();
                         foreach ($numbers as $number) {
-                            $this->sendSms(strtr($number->phone, [' ' => '']), "New order has been placed : " . $order->transaction_id. "Please check your dashboard");
+                            $this->sendSms(trim($number->phone), "New order has been placed");
                         }
                         return [
                             'status' => 'success',
@@ -117,11 +117,11 @@ class GuestOrderController extends Controller
                         ];
                     }
                 } else {
+                    DB::commit();
                     $numbers = Notification::get();
                     foreach ($numbers as $number) {
                         $this->sendSms(trim($number->phone), "New order has been placed");
                     }
-                    DB::commit();
                     return [
                         'data' => [
                             'status' => true,
@@ -237,7 +237,7 @@ class GuestOrderController extends Controller
                     DB::commit();
                     $numbers = Notification::get();
                     foreach ($numbers as $number) {
-                        $this->sendSms(strtr($number->phone, [' ' => '']), "New order has been placed : " . $order->transaction_id. "Please check your dashboard");
+                        $this->sendSms(strtr($number->phone, [' ' => '']), "New order has been placed  Please check your dashboard");
                     }
                     return [
                         'data' => [

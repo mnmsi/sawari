@@ -55,7 +55,7 @@ class OrderController extends Controller
         if ($order) {
             $numbers = Notification::get();
             foreach ($numbers as $number) {
-                $this->sendSms(strtr($number->phone, [' ' => '']), "New order has been placed : " . $order->transaction_id. "Please check your dashboard");
+                $this->sendSms(strtr($number->phone, [' ' => '']), "New order has been placed  Please check your dashboard");
             }
             return $this->respondWithSuccessWithData(
                 $order
@@ -111,7 +111,7 @@ class OrderController extends Controller
         if ($order) {
             $numbers = Notification::get();
             foreach ($numbers as $number) {
-                $this->sendSms(strtr($number->phone, [' ' => '']), "New order has been placed : " . $order->transaction_id. "Please check your dashboard");
+                $this->sendSms(strtr($number->phone, [' ' => '']), "New order has been placed  Please check your dashboard");
             }
 //            send sms if order success
             return $this->respondWithSuccessWithData(
