@@ -82,8 +82,11 @@ trait AccessoryTrait
      */
     public function getAccessoryDetails($name)
     {
-        return Product::with('brand', 'bodyType', 'category', 'colors', 'media', 'specifications')
+        return Product::with('brand', 'bodyType', 'category', 'colors', 'media', 'specificationCategories.specifications')
             ->where('type', 'accessory')
+            ->whereHas('colors',function ($query){
+                $query->where('stock' , '>' , 0);
+            })
             ->where('is_active', 1)
             ->where('slug', $name)
             ->first();

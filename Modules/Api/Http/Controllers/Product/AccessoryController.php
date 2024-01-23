@@ -35,6 +35,7 @@ class AccessoryController extends Controller
      */
     public function details($name)
     {
+//        dd($name);
         // Get bike details
         $accessoryDetails = $this->getAccessoryDetails($name);
 
