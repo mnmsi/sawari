@@ -56,6 +56,7 @@ class ProductMedia extends Resource
             BelongsTo::make('Product', 'product')
                 ->rules('required')
                 ->searchable()
+                ->help("Select product for media if product selected or not")
                 ->noPeeking(),
 //            color
 
