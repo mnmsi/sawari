@@ -26,7 +26,7 @@ use Modules\Api\Http\Traits\Response\ApiResponseHelper;
 
 class GuestOrderController extends Controller
 {
-    use ApiResponseHelper, OrderTrait, PaymentTrait,  OtpTrait;
+    use ApiResponseHelper, OrderTrait, PaymentTrait, OtpTrait;
 
     public function guestOrder(GuestOrderRequest $request)
     {
@@ -101,7 +101,7 @@ class GuestOrderController extends Controller
                 if ($request->payment_method_id == 2) {
                     if ($isProcessPayment = $this->processPayment($orderData, $request)) {
                         DB::commit();
-                        $numbers = Notification::get();
+                        $numbers = Notification::where('status', 1)->get();
                         foreach ($numbers as $number) {
                             $this->sendSms(strtr($number->phone, [' ' => '']), "New order has been placed  Please check your dashboard");
                         }
@@ -118,14 +118,16 @@ class GuestOrderController extends Controller
                     }
                 } else {
                     DB::commit();
-                    $numbers = Notification::get();
+                    $numbers = Notification::where('status', 1)->get();
                     foreach ($numbers as $number) {
                         $this->sendSms(strtr($number->phone, [' ' => '']), "New order has been placed  Please check your dashboard");
                     }
                     return [
                         'data' => [
+                            'order_key' => $order->order_key,
+                            'transaction_id' => $order->transaction_id,
                             'status' => true,
-                            'message' => 'Payment Successful',
+                            'message' => 'Order Successful',
                         ]
                     ];
                 }
@@ -215,7 +217,7 @@ class GuestOrderController extends Controller
                 if ($request->payment_method_id == 2) {
 //                    $sslc = new AmarPayController();
 //                    if ($isProcessPayment = $sslc->payment($orderData)) {
-                    if ($isProcessPayment = $this->processPayment($orderData,$request)) {
+                    if ($isProcessPayment = $this->processPayment($orderData, $request)) {
                         DB::commit();
                         $numbers = Notification::get();
                         foreach ($numbers as $number) {
@@ -223,7 +225,7 @@ class GuestOrderController extends Controller
                         }
                         return [
                             'status' => 'success',
-                            'message' => 'Payment Successful',
+                            'message' => 'Order Successful',
                             'data' => json_decode($isProcessPayment)
 //                            'data' => $isProcessPayment->getTargetUrl()
                         ];
@@ -235,14 +237,16 @@ class GuestOrderController extends Controller
                     }
                 } else {
                     DB::commit();
-                    $numbers = Notification::get();
+                    $numbers = Notification::where('status', 1)->get();
                     foreach ($numbers as $number) {
                         $this->sendSms(strtr($number->phone, [' ' => '']), "New order has been placed  Please check your dashboard");
                     }
                     return [
                         'data' => [
+                            'order_key' => $order->order_key,
+                            'transaction_id' => $order->transaction_id,
                             'status' => true,
-                            'message' => 'Payment Successful',
+                            'message' => 'Order Successful',
                         ]
                     ];
                 }

@@ -113,7 +113,7 @@ trait OrderTrait
                     if ($data['payment_method_id'] == 2) {
                         if ($isProcessPayment = $this->processPayment($orderData)) {
                             DB::commit();
-                            $numbers = Notification::get();
+                            $numbers = Notification::where('status', 1)->get();
                             foreach ($numbers as $number) {
                                 $this->sendSms(strtr($number->phone, [' ' => '']), "New order has been placed  Please check your dashboard");
                             }
@@ -130,13 +130,17 @@ trait OrderTrait
                         }
                     } else {
                         DB::commit();
-                        $numbers = Notification::get();
+                        $numbers = Notification::where('status', 1)->get();
                         foreach ($numbers as $number) {
                             $this->sendSms(strtr($number->phone, [' ' => '']), "New order has been placed  Please check your dashboard");
                         }
                         return [
-                            'status' => true,
-                            'message' => 'Payment Successful',
+                            'data' => [
+                                'order_key' => $order->order_key,
+                                'transaction_id' => $order->transaction_id,
+                                'status' => true,
+                                'message' => 'Order Successful',
+                            ]
                         ];
                     }
                 } else {
@@ -255,8 +259,10 @@ trait OrderTrait
                         $this->sendSms(strtr($number->phone, [' ' => '']), "New order has been placed  Please check your dashboard");
                     }
                     return [
+                        'order_key' => $order->order_key,
+                        'transaction_id' => $order->transaction_id,
                         'status' => true,
-                        'message' => 'Payment Successful',
+                        'message' => 'Order Successful',
                     ];
                 }
             } else {
