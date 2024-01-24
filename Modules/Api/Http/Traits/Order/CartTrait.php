@@ -18,14 +18,15 @@ trait CartTrait
 
 //    total price of cart
 
-    public function getTotalPrice()
+    public function getTotalPrice($list)
     {
-        $cart = Cart::where('user_id', auth()->id())->where('status', '1')->get();
-        $total_price = 0;
-        foreach ($cart as $item) {
-            $total_price += $this->calculateDiscountPrice($item->product->price, $item->product->discount_rate) + $item->productColor->price;
+        $total = 0;
+        foreach ($list as $i) {
+            if ($i->status === 1) {
+                $total += ($i->quantity * $this->calculateDiscountPrice($i->product->price, $i->product->discount_rate) + $i->productColor->price);
+            }
         }
-        return $total_price;
+        return $total;
 
     }
 

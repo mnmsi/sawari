@@ -21,9 +21,10 @@ class CartController extends Controller
     public function carts()
     {
         $carts = $this->getCartedData();
+        $list = CartResource::collection($carts);
         return $this->respondWithSuccess([
-            'data' => CartResource::collection($carts),
-            'total_price' => $this->getTotalPrice(),
+            'data' => $list,
+            'total_price' => $this->getTotalPrice($list),
         ]);
     }
 
@@ -87,10 +88,12 @@ class CartController extends Controller
 
     public function getSelectedProduct()
     {
+//        dd($this->getSelectedCartProduct());
         $product = $this->getSelectedCartProduct();
+        $list = CartResource::collection($product);
         return $this->respondWithSuccess([
-            'data' => CartResource::collection($product),
-            'total_price' => $this->getTotalPrice(),
+            'data' => $list,
+            'total_price' => $this->getTotalPrice($list),
         ]);
     }
 }
