@@ -31,6 +31,7 @@ class AccessoryResource extends JsonResource
             'is_used' => $this->is_used,
             'is_favorite' => $this->is_favorite,
             'colors' => $this->colors->pluck('name', 'id', 'price', 'stock') ?? [],
+            'is_stock_out' => $this->colors->sum('stock') == 0,
         ];
     }
 }

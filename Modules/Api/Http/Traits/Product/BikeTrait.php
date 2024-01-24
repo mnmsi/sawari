@@ -20,9 +20,6 @@ trait BikeTrait
 //        dd($filters,count($filters['brand_id']));
         return Product::where('type', 'bike')
             ->where('is_active', 1)
-            ->whereHas('colors', function ($query) {
-                $query->where('stock', '>', 0);
-            })
             ->when($filters['brand_id'], function ($query) use ($filters) {
                 $query->whereIn('brand_id', $filters['brand_id']);
             })
@@ -127,9 +124,6 @@ trait BikeTrait
     {
         return Product::where('type', 'bike')
             ->where('is_active', 1)
-            ->whereHas('colors', function ($query) {
-                $query->where('stock', '>', 0);
-            })
             ->where('is_upcoming', 1)
             ->orderByRaw('ISNULL(`category_order_no`), `category_order_no` ASC')
             ->paginate( 12);
@@ -139,9 +133,6 @@ trait BikeTrait
     {
         return Product::where('type', 'bike')
             ->where('is_active', 1)
-            ->whereHas('colors', function ($query) {
-                $query->where('stock', '>', 0);
-            })
             ->where('is_scooter', 1)
             ->orderByRaw('ISNULL(`category_order_no`), `category_order_no` ASC')
             ->paginate( 12);

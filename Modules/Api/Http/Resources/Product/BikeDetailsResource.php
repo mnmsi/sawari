@@ -38,6 +38,7 @@
                 'summary' => SpecificationResource::collection($this->specifications->where('is_key_feature', 0)),
                 'description' => $this->description,
                 'is_favorite' => $this->is_favorite,
+                'is_stock_out' => $this->colors->sum('stock') == 0,
             ];
         }
     }

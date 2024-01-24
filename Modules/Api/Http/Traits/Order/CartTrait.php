@@ -34,7 +34,9 @@ trait CartTrait
      */
     public function getCartedData()
     {
-        return Cart::with(['product', 'productColor'])->where('user_id', auth()->id())->get();
+        return Cart::with(['product'])->whereHas('productColor', function ($query) {
+            $query->where('stock', '>', 0);
+        })->where('user_id', auth()->id())->get();
     }
 
     /**
@@ -110,7 +112,9 @@ trait CartTrait
      */
     public function getSelectedCartProduct()
     {
-        return Cart::where('user_id', auth()->id())->with('product')->where('status', '1')->get();
+        return Cart::where('user_id', auth()->id())->with('product')->whereHas('productColor', function ($query) {
+            $query->where('stock', '>', 0);
+        })->where('status', '1')->get();
     }
 
 
