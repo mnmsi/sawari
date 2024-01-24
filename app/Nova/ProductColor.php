@@ -72,9 +72,8 @@ class ProductColor extends Resource
                 ->disableDownload(),
             //            price
             Number::make('price')
-                ->min(1)
                 ->step('any')
-                ->rules('required'),
+                ->default(0),
 //            total stock
             Number::make('Stock', 'stock')
                 ->min(0)
