@@ -23,7 +23,7 @@ trait CartTrait
         $total = 0;
         foreach ($list as $i) {
             if ($i->status === 1) {
-                $total += ($i->quantity * $this->calculateDiscountPrice($i->product->price, $i->product->discount_rate) + $i->productColor->price);
+                $total += ($i->quantity * $this->calculateDiscountPrice($i->product->price, $i->product->discount_rate) + $i->productColor->price * $i->quantity);
             }
         }
         return $total;
