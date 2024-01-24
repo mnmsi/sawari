@@ -33,6 +33,7 @@ class ProductResource extends JsonResource
             $this->mergeWhen($this->type == 'bike', [
                 'is_used' => $this->is_used ?? 0,
             ]),
+            'is_stock_out' => $this->colors->sum('stock') == 0,
         ];
     }
 }

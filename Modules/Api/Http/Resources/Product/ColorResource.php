@@ -20,7 +20,7 @@ class ColorResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'price' => $this->price ? $this->price : 0,
-            'stock' => $this->stock ? $this->stock : 0,
+            'stock' => max($this->stock, 0),
             'image_url' => asset('storage/' . $this->image_url),
         ];
     }
