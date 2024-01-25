@@ -2,6 +2,7 @@
 
 namespace App\Models\System;
 
+use App\Models\GuestOrder;
 use App\Models\Order\Order;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Models\BaseModel;
@@ -48,8 +49,14 @@ class Showroom extends BaseModel
         return $this->belongsTo(Area::class);
     }
 
-    public function order(){
+    public function order()
+    {
         return $this->hasMany(Order::class);
+    }
+
+    public function guestOrder()
+    {
+        return $this->hasMany(GuestOrder::class);
     }
 
 //    public function getLocationImageUrlAttribute($value)

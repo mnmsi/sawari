@@ -38,7 +38,7 @@ class BikeSellRequest extends Resource
      * @var array
      */
     public static $search = [
-        'id','registration_series'
+        'id', 'registration_series'
     ];
 
     /**
@@ -53,108 +53,109 @@ class BikeSellRequest extends Resource
         return [
             ID::make()->sortable(),
 //            user
-            Text::make('Name','name')->rules('required'),
-            Text::make('Phone','phone')->rules('required'),
+            Text::make('Name', 'name')->rules('required'),
+            Text::make('Phone', 'phone')->rules('required'),
 //            city
-            BelongsTo::make('City', 'city','App\Nova\Others\City')
+            BelongsTo::make('City', 'city', 'App\Nova\Others\City')
                 ->rules('required')
                 ->searchable()
                 ->noPeeking(),
 //            area
-            BelongsTo::make('Area', 'area','App\Nova\Others\Area')
+            BelongsTo::make('Area', 'area', 'App\Nova\Others\Area')
                 ->rules('required')
                 ->searchable()
                 ->noPeeking(),
 //            brand
-            BelongsTo::make('Bike Brand', 'brand','App\Nova\Brand')
+            BelongsTo::make('Bike Brand', 'brand', 'App\Nova\Brand')
                 ->rules('required')
                 ->noPeeking(),
 //            sell bike
-            BelongsTo::make('Bike', 'bike','App\Nova\SellBike')
+            BelongsTo::make('Bike', 'bike', 'App\Nova\SellBike')
                 ->rules('required')
                 ->noPeeking(),
 //            registration year
             Text::make('Registration year', 'registration_year')
                 ->sortable()
-                ->rules('required', 'max:255')
+                ->rules('', 'max:255')
                 ->withMeta([
                     'extraAttributes' => [
                         'placeholder' => 'Enter year',
                     ],
-                ]),
+                ])->default('-'),
 //            duration
             Text::make('Registration duration', 'registration_duration')
                 ->sortable()
-                ->rules('required', 'max:255')
+                ->rules('', 'max:255')
                 ->withMeta([
                     'extraAttributes' => [
                         'placeholder' => 'Enter duration',
                     ],
-                ]),
+                ])->default('-'),
 //            zone
             Text::make('Registration zone', 'registration_zone')
                 ->sortable()
-                ->rules('required', 'max:255')
+                ->nullable()->default('-')
+                ->rules('', 'max:255')
                 ->withMeta([
                     'extraAttributes' => [
                         'placeholder' => 'Enter zone',
                     ],
-                ]),
+                ])->default('-'),
 //            series
             Text::make('Registration series', 'registration_series')
                 ->sortable()
-                ->rules('required', 'max:255')
+                ->rules('', 'max:255')
                 ->withMeta([
                     'extraAttributes' => [
                         'placeholder' => 'Enter series',
                     ],
-                ]),
+                ])->default('-'),
 //            color
             Text::make('Bike Color', 'color')
                 ->sortable()
-                ->rules('required', 'max:255')
+                ->rules('', 'max:255')
                 ->withMeta([
                     'extraAttributes' => [
                         'placeholder' => 'Enter color',
                     ],
-                ]),
+                ])->default('-'),
 //            mile range
             Text::make('Mileage range', 'mileage_range')
                 ->sortable()
-                ->rules('required', 'max:255')
+                ->rules('', 'max:255')
                 ->withMeta([
                     'extraAttributes' => [
                         'placeholder' => 'Enter range',
                     ],
-                ]),
+                ])->default('-'),
 //            from us
             Select::make('Bought from us', 'bought_from_us')->options([
                 'yes' => 'Yes',
                 'no' => 'No',
-            ])->rules('required'),
+            ])->rules('')->default('yes'),
 //            owner status
             Text::make('OwnerShip', 'ownership_status')
                 ->sortable()
-                ->rules('required', 'max:255')
+                ->rules('', 'max:255')
                 ->withMeta([
                     'extraAttributes' => [
                         'placeholder' => 'Enter owner level',
                     ],
-                ]),
+                ])->default('-'),
 //            Engine condition
             Text::make('Engine Condition', 'engine_condition')
                 ->sortable()
-                ->rules('required', 'max:255')
+                ->rules('', 'max:255')
                 ->withMeta([
                     'extraAttributes' => [
                         'placeholder' => 'Enter condition',
                     ],
-                ]),
+                ])->default('-'),
 //            Engine condition
             Select::make('Accident History', 'accident_history')->options([
                 'Has Accident History' => 'Has Accident History',
                 'no' => 'No',
-            ])->rules('required'),
+            ])->default('no'),
 //            image
             Text::make('Images', 'bike_image')
                 ->hideFromIndex()
@@ -166,11 +167,11 @@ class BikeSellRequest extends Resource
                 '0' => 'Pending',
                 '1' => 'Accepted',
                 '2' => 'Rejected',
-            ])->rules('required')
+            ])->default('0')
                 ->displayUsing(function ($v) {
                     $text = "Pending";
-                    if($v == 1) $text = "Accepted";
-                    if($v == 2) $text = "Rejected";
+                    if ($v == 1) $text = "Accepted";
+                    if ($v == 2) $text = "Rejected";
                     return $text;
                 }),
 
@@ -193,7 +194,7 @@ class BikeSellRequest extends Resource
     /**
      * Get the cards available for the request.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @param \Laravel\Nova\Http\Requests\NovaRequest $request
      * @return array
      */
     public function cards(NovaRequest $request)
@@ -206,7 +207,7 @@ class BikeSellRequest extends Resource
     /**
      * Get the filters available for the resource.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @param \Laravel\Nova\Http\Requests\NovaRequest $request
      * @return array
      */
     public function filters(NovaRequest $request)
@@ -219,7 +220,7 @@ class BikeSellRequest extends Resource
     /**
      * Get the lenses available for the resource.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @param \Laravel\Nova\Http\Requests\NovaRequest $request
      * @return array
      */
     public function lenses(NovaRequest $request)
@@ -227,10 +228,16 @@ class BikeSellRequest extends Resource
         return [];
     }
 
+    public function setAttribute($key, $value)
+    {
+        if ($value == 'undefined') $value = '-';
+        return parent::setAttribute($key, $value);
+    }
+
     /**
      * Get the actions available for the resource.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @param \Laravel\Nova\Http\Requests\NovaRequest $request
      * @return array
      */
     public function actions(NovaRequest $request)

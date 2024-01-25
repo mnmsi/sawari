@@ -12,6 +12,7 @@ use App\Nova\Actions\Order\OrderProcessingActions;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Badge;
+use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\ID;
@@ -70,6 +71,7 @@ class GuestOrder extends Resource
             Text::make('Shipping Amount','shipping_amount')->required(),
             Text::make('Subtotal Price','subtotal_price')->required(),
             Text::make('Total Price','total_price')->required(),
+            BelongsTo::make('Showroom','showRooms',Showroom::class)->required(),
 
             //            status
             Select::make('Status', 'status')->options([
