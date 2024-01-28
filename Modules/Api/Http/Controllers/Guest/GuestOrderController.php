@@ -23,6 +23,7 @@ use Modules\Api\Http\Traits\Order\OrderTrait;
 use Modules\Api\Http\Traits\OTP\OtpTrait;
 use Modules\Api\Http\Traits\Payment\PaymentTrait;
 use Modules\Api\Http\Traits\Response\ApiResponseHelper;
+use Str;
 
 class GuestOrderController extends Controller
 {
@@ -64,9 +65,14 @@ class GuestOrderController extends Controller
                 }
             }
 
+            $orderKey = str_replace(' ', '', 'SAWBD-' . Str::random(10));
+            if (isset($request->showroom_id) && $request->showroom_id == 6) {
+                $orderKey = str_replace(' ', '', 'HPS-' . Str::random(10));
+            }
+
             $orderData = [
                 'transaction_id' => uniqid(),
-                'order_key' => uniqid(),
+                'order_key' => $orderKey,
                 'discount_rate' => $product->discount_rate ?? 0,
                 'shipping_amount' => $request->shipping_amount,
                 'subtotal_price' => $subtotal_price,
@@ -103,7 +109,7 @@ class GuestOrderController extends Controller
                         DB::commit();
                         $numbers = Notification::where('status', 1)->get();
                         foreach ($numbers as $number) {
-                            $this->sendSms(strtr($number->phone, [' ' => '']), "New order has been placed  Please check your dashboard");
+                            $this->sendSms(strtr($number->phone, [' ' => '']), "New order has been placed with the order number: ".$order->order_key."  Please check your dashboard");
                         }
                         return [
                             'status' => 'success',
@@ -120,7 +126,7 @@ class GuestOrderController extends Controller
                     DB::commit();
                     $numbers = Notification::where('status', 1)->get();
                     foreach ($numbers as $number) {
-                        $this->sendSms(strtr($number->phone, [' ' => '']), "New order has been placed  Please check your dashboard");
+                        $this->sendSms(strtr($number->phone, [' ' => '']), "New order has been placed with the order number: ".$order->order_key."  Please check your dashboard");
                     }
                     return [
                         'data' => [
@@ -172,9 +178,13 @@ class GuestOrderController extends Controller
                 $voucher_dis = $this->calculateVoucherDiscount($request['voucher_id'], $subtotal_price);
                 $subtotal_price = $subtotal_price - $voucher_dis;
             }
+            $orderKey = str_replace(' ', '', 'SAWBD-' . Str::random(10));
+            if (isset($request->showroom_id) && $request->showroom_id == 6){
+                $orderKey = str_replace(' ', '', 'HPS-' . Str::random(10));
+            }
             $orderData = [
                 'transaction_id' => uniqid(),
-                'order_key' => uniqid(),
+                'order_key' => $orderKey,
                 'discount_rate' => $product->discount_rate ?? 0,
                 'shipping_amount' => $request->shipping_amount,
                 'subtotal_price' => $subtotal_price,
@@ -219,9 +229,9 @@ class GuestOrderController extends Controller
 //                    if ($isProcessPayment = $sslc->payment($orderData)) {
                     if ($isProcessPayment = $this->processPayment($orderData, $request)) {
                         DB::commit();
-                        $numbers = Notification::get();
+                        $numbers = Notification::where('status', 1)->get();
                         foreach ($numbers as $number) {
-                            $this->sendSms(trim($number->phone), "New order has been placed");
+                            $this->sendSms(strtr($number->phone, [' ' => '']), "New order has been placed with the order number: ".$order->order_key."  Please check your dashboard");
                         }
                         return [
                             'status' => 'success',
@@ -239,7 +249,7 @@ class GuestOrderController extends Controller
                     DB::commit();
                     $numbers = Notification::where('status', 1)->get();
                     foreach ($numbers as $number) {
-                        $this->sendSms(strtr($number->phone, [' ' => '']), "New order has been placed  Please check your dashboard");
+                        $this->sendSms(strtr($number->phone, [' ' => '']), "New order has been placed with the order number: ".$order->order_key."  Please check your dashboard");
                     }
                     return [
                         'data' => [

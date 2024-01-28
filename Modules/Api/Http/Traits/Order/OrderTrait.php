@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Modules\Api\Http\Traits\Payment\PaymentTrait;
 use Modules\Api\Http\Traits\Product\ProductTrait;
+use Str;
 
 trait OrderTrait
 {
@@ -67,10 +68,15 @@ trait OrderTrait
                 }
             }
 
+            $orderKey = str_replace(' ', '', 'SAWBD-' . Str::random(10));
+            if (isset($data['showroom_id']) && $data['showroom_id'] == 6) {
+                $orderKey = str_replace(' ', '', 'HPS-' . Str::random(10));
+            }
+
             $orderData = [
                 'user_id' => Auth::id(),
                 'transaction_id' => uniqid(),
-                'order_key' => uniqid(),
+                'order_key' => $orderKey,
                 'delivery_option_id' => $data['delivery_option_id'],
                 'payment_method_id' => $data['payment_method_id'],
                 'user_address_id' => $data['user_address_id'],
@@ -115,7 +121,7 @@ trait OrderTrait
                             DB::commit();
                             $numbers = Notification::where('status', 1)->get();
                             foreach ($numbers as $number) {
-                                $this->sendSms(strtr($number->phone, [' ' => '']), "New order has been placed  Please check your dashboard");
+                                $this->sendSms(strtr($number->phone, [' ' => '']), "New order has been placed with the order number: " . $order->order_key . "  Please check your dashboard");
                             }
                             return [
                                 'status' => true,
@@ -132,7 +138,7 @@ trait OrderTrait
                         DB::commit();
                         $numbers = Notification::where('status', 1)->get();
                         foreach ($numbers as $number) {
-                            $this->sendSms(strtr($number->phone, [' ' => '']), "New order has been placed  Please check your dashboard");
+                            $this->sendSms(strtr($number->phone, [' ' => '']), "New order has been placed with the order number: " . $order->order_key . "  Please check your dashboard");
                         }
                         return [
                             'data' => [
@@ -165,8 +171,8 @@ trait OrderTrait
     public function buyNowProduct($request)
     {
         try {
-            $buyNowProduct = Product::with(['colors'=>function($q) use ($request){
-                return $q->where('id',$request->product_color_id)->first();
+            $buyNowProduct = Product::with(['colors' => function ($q) use ($request) {
+                return $q->where('id', $request->product_color_id)->first();
             }])->find($request->product_id);
             if ($buyNowProduct) {
                 return $buyNowProduct;
@@ -193,16 +199,20 @@ trait OrderTrait
                 }
                 $product_color_check->stock = $product_color_check->stock - 1;
                 $product_color_check->save();
-                $newPrice +=  $product_color_check->price * 1;
+                $newPrice += $product_color_check->price * 1;
             }
 
             $total_discountRate = $products->discount_rate;
 //            $subtotal_price = $this->calculateDiscountPrice($products->price, $products->discount_rate);
             $subtotal_price = $newPrice;
+            $orderKey = str_replace(' ', '', 'SAWBD-' . Str::random(10));
+            if (isset($data['showroom_id']) && $data['showroom_id'] == 6) {
+                $orderKey = str_replace(' ', '', 'HPS-' . Str::random(10));
+            }
             $orderData = [
                 'user_id' => Auth::id(),
                 'transaction_id' => uniqid(),
-                'order_key' => uniqid(),
+                'order_key' => $orderKey,
                 'delivery_option_id' => $data['delivery_option_id'],
                 'payment_method_id' => $data['payment_method_id'],
                 'user_address_id' => $data['user_address_id'] ?? null,
@@ -237,9 +247,9 @@ trait OrderTrait
                 if ($data['payment_method_id'] == 2) {
                     if ($isProcessPayment = $this->processPayment($orderData)) {
                         DB::commit();
-                        $numbers = Notification::get();
+                        $numbers = Notification::where('status', 1)->get();
                         foreach ($numbers as $number) {
-                            $this->sendSms(strtr($number->phone, [' ' => '']), "New order has been placed  Please check your dashboard");
+                            $this->sendSms(strtr($number->phone, [' ' => '']), "New order has been placed with the order number: " . $order->order_key . "  Please check your dashboard");
                         }
                         return [
                             'status' => true,
@@ -254,9 +264,9 @@ trait OrderTrait
                     }
                 } else {
                     DB::commit();
-                    $numbers = Notification::get();
+                    $numbers = Notification::where('status', 1)->get();
                     foreach ($numbers as $number) {
-                        $this->sendSms(strtr($number->phone, [' ' => '']), "New order has been placed  Please check your dashboard");
+                        $this->sendSms(strtr($number->phone, [' ' => '']), "New order has been placed with the order number: " . $order->order_key . "  Please check your dashboard");
                     }
                     return [
                         'order_key' => $order->order_key,
@@ -282,11 +292,11 @@ trait OrderTrait
 
 //        $buyNowProduct = $this->buyNowProduct($request);
 //        dd($buyNowProduct->toArray());
-        $buyNowProduct = Product::with(['colors'=>function($q) use ($request){
-            return $q->where('id',$request->product_color_id);
+        $buyNowProduct = Product::with(['colors' => function ($q) use ($request) {
+            return $q->where('id', $request->product_color_id);
         }])->find($request->product_id);
 //        dd($buyNowProduct->price,$buyNowProduct->colors[0]->price);
-        return $this->calculateDiscountPrice($buyNowProduct->price , $buyNowProduct->discount_rate) + $buyNowProduct->colors[0]->price ?? 0;
+        return $this->calculateDiscountPrice($buyNowProduct->price, $buyNowProduct->discount_rate) + $buyNowProduct->colors[0]->price ?? 0;
     }
 
     public function calculateVoucherDiscount($id, $amount)
