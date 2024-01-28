@@ -59,6 +59,9 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
             return Blade::render('nova/footer');
         });
 
+        Nova::withoutGlobalSearch();
+        Nova::withoutNotificationCenter();
+
 //        menu
         Nova::mainMenu(function (Request $request) {
             return [

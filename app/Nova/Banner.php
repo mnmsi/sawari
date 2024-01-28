@@ -290,4 +290,12 @@ class Banner extends Resource
             $banner_item->save();
         }
     }
+
+    public static function searchableColumns()
+    {
+        return [
+            'id',
+            'page',
+        ];
+    }
 }

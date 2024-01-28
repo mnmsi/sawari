@@ -158,7 +158,7 @@ class Order extends Resource
                 ->hideWhenUpdating()
                 ->default(now()),
 
-            HasMany::make('Order Details','orderDetails',OrderDetail::class)->show(),
+            HasMany::make('Order Details', 'orderDetails', OrderDetail::class)->show(),
         ];
     }
 
@@ -181,14 +181,21 @@ class Order extends Resource
      * @param NovaRequest $request
      * @return array
      */
-    public function filters(NovaRequest $request)
-    {
-        return [
-            new OrderStatusFilter,
-            new OrderByDateFilter,
-        ];
-    }
+//    public function filters(NovaRequest $request)
+//    {
+//        return [
+//            new OrderStatusFilter,
+//            new OrderByDateFilter,
+//        ];
+//    }
 
+    /**
+     * Apply search query to the index query.
+     *
+     * @param \Laravel\Nova\Http\Requests\NovaRequest $request
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
     /**
      * Get the lenses available for the resource.
      *
@@ -229,6 +236,9 @@ class Order extends Resource
     {
         return [
             'id',
+            'transaction_id',
+            'order_key',
+            'phone',
             new SearchableRelation('user', 'email'),
             new SearchableRelation('paymentMethod', 'name'),
             new SearchableRelation('deliveryOption', 'name'),

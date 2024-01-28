@@ -2,10 +2,15 @@
 
 namespace App\Nova;
 
+use App\Nova\Actions\ChangeSellBikeStatus;
+use App\Nova\Actions\SellBikeAcceptedAction;
+use App\Nova\Actions\SellBikePendingAction;
+use App\Nova\Actions\SellBikeRejectedAction;
 use App\Nova\Filters\BikeSellStatusFilter;
 use App\Nova\Metrics\BikeSellRequestPerDay;
 use Illuminate\Http\Request;
 use Laravel\Nova\Exceptions\HelperNotSupported;
+use Laravel\Nova\Fields\Badge;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\ID;
@@ -164,16 +169,18 @@ class BikeSellRequest extends Resource
                 ->asHtml(),
 //            status
             Select::make('Status', 'status')->options([
-                '0' => 'Pending',
-                '1' => 'Accepted',
-                '2' => 'Rejected',
-            ])->default('0')
-                ->displayUsing(function ($v) {
-                    $text = "Pending";
-                    if ($v == 1) $text = "Accepted";
-                    if ($v == 2) $text = "Rejected";
-                    return $text;
-                }),
+                'pending' => 'Pending',
+                'accepted' => 'Accepted',
+                'rejected' => 'Rejected',
+            ])->rules('required')->hideFromIndex()
+                ->hideFromDetail(),
+
+            Badge::make('Status', 'status')->map([
+                'pending' => 'warning',
+                'accepted' => 'success',
+                'rejected' => 'danger',
+            ]),
+
 
 //            date
             DateTime::make('Created At', 'created_at')
@@ -242,11 +249,23 @@ class BikeSellRequest extends Resource
      */
     public function actions(NovaRequest $request)
     {
-        return [];
+        return [
+            new  SellBikePendingAction(),
+
+            (new SellBikePendingAction())->onlyOnTableRow(),
+            (new SellBikeRejectedAction())->onlyOnTableRow(),
+            (new SellBikeAcceptedAction())->onlyOnTableRow(),
+        ];
     }
 
     public static function searchableColumns()
     {
-        return ['id', new SearchableRelation('user', 'email')];
+        return [
+            'id',
+            'name',
+            'phone',
+            'status',
+        ];
     }
+
 }

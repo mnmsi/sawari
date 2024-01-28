@@ -133,6 +133,7 @@ class ProductSpecification extends Resource
     {
         return [
             'id',
+            'title',
             new SearchableRelation('product', 'name'),
         ];
     }
@@ -151,6 +152,8 @@ class ProductSpecification extends Resource
     {
         return false;
     }
+
+
 
 
 

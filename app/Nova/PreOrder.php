@@ -153,4 +153,14 @@ class PreOrder extends Resource
     {
         return [];
     }
+
+    public static function searchableColumns()
+    {
+        return [
+            'id',
+            'phone',
+            'name',
+            'email',
+        ];
+    }
 }

@@ -42,36 +42,36 @@ class GuestOrder extends Resource
      * @var array
      */
     public static $search = [
-        'id','order_key','name',
+        'id', 'order_key', 'name',
     ];
 
     /**
      * Get the fields displayed by the resource.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @param \Laravel\Nova\Http\Requests\NovaRequest $request
      * @return array
      */
     public function fields(NovaRequest $request)
     {
         return [
             ID::make()->sortable(),
-            Text::make('Name of the customer','name')->required(),
-            Text::make('Email','email'),
-            Text::make('Phone','phone_number')->required(),
-            Text::make('City','city')->required(),
-            Text::make('Division','division')->required(),
-            Text::make('Area','area')->required(),
-            Text::make('Address Line','address_line')->required(),
-            Text::make('Delivery Option','delivery_option')->required(),
-            Text::make('Payment Method','payment_method')->required(),
-            Text::make('Order Note','order_note')->required(),
-            Text::make('Transaction ID','transaction_id')->required(),
-            Text::make('Order Key','order_key')->required(),
-            Text::make('Discount Rate','discount_rate')->required(),
-            Text::make('Shipping Amount','shipping_amount')->required(),
-            Text::make('Subtotal Price','subtotal_price')->required(),
-            Text::make('Total Price','total_price')->required(),
-            BelongsTo::make('Showroom','showRooms',Showroom::class)->required(),
+            Text::make('Name of the customer', 'name')->required(),
+            Text::make('Email', 'email'),
+            Text::make('Phone', 'phone_number')->required(),
+            Text::make('City', 'city')->required(),
+            Text::make('Division', 'division')->required(),
+            Text::make('Area', 'area')->required(),
+            Text::make('Address Line', 'address_line')->required(),
+            Text::make('Delivery Option', 'delivery_option')->required(),
+            Text::make('Payment Method', 'payment_method')->required(),
+            Text::make('Order Note', 'order_note')->required(),
+            Text::make('Transaction ID', 'transaction_id')->required(),
+            Text::make('Order Key', 'order_key')->required(),
+            Text::make('Discount Rate', 'discount_rate')->required(),
+            Text::make('Shipping Amount', 'shipping_amount')->required(),
+            Text::make('Subtotal Price', 'subtotal_price')->required(),
+            Text::make('Total Price', 'total_price')->required(),
+            BelongsTo::make('Showroom', 'showRooms', Showroom::class)->required(),
 
             //            status
             Select::make('Status', 'status')->options([
@@ -83,7 +83,7 @@ class GuestOrder extends Resource
             ])->rules('required')->hideFromIndex()
                 ->hideFromDetail(),
 
-            Badge::make('Status','status')->map([
+            Badge::make('Status', 'status')->map([
                 'pending' => 'warning',
                 'processing' => 'info',
                 'completed' => 'success',
@@ -103,14 +103,14 @@ class GuestOrder extends Resource
                 ->hideWhenCreating()
                 ->hideWhenUpdating()
                 ->default(now()),
-            HasMany::make('Order Details','orderItems',GuestOrderDetails::class)->show(),
+            HasMany::make('Order Details', 'orderItems', GuestOrderDetails::class)->show(),
         ];
     }
 
     /**
      * Get the cards available for the request.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @param \Laravel\Nova\Http\Requests\NovaRequest $request
      * @return array
      */
     public function cards(NovaRequest $request)
@@ -121,7 +121,7 @@ class GuestOrder extends Resource
     /**
      * Get the filters available for the resource.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @param \Laravel\Nova\Http\Requests\NovaRequest $request
      * @return array
      */
     public function filters(NovaRequest $request)
@@ -132,7 +132,7 @@ class GuestOrder extends Resource
     /**
      * Get the lenses available for the resource.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @param \Laravel\Nova\Http\Requests\NovaRequest $request
      * @return array
      */
     public function lenses(NovaRequest $request)
@@ -143,7 +143,7 @@ class GuestOrder extends Resource
     /**
      * Get the actions available for the resource.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @param \Laravel\Nova\Http\Requests\NovaRequest $request
      * @return array
      */
     public function actions(NovaRequest $request)
@@ -168,5 +168,15 @@ class GuestOrder extends Resource
     public static function authorizedToCreate(Request $request)
     {
         return false;
+    }
+
+    public static function searchableColumns()
+    {
+        return [
+            'id',
+            'phone_number',
+            'transaction_id',
+            'order_key',
+        ];
     }
 }

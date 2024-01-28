@@ -114,4 +114,5 @@ class Notification extends Resource
     {
         return [];
     }
+
 }
