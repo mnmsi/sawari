@@ -149,7 +149,8 @@ class GuestOrder extends Resource
      */
     public function actions(NovaRequest $request)
     {
-        return [
+        $user = $request->user();
+        $action = [
             new OrderGuestInvoiceActions(),
             new OrderPendingActions(),
             new OrderProcessingActions(),
@@ -162,8 +163,11 @@ class GuestOrder extends Resource
             (new OrderProcessingActions())->onlyOnTableRow(),
             (new OrderDeliveredActions())->onlyOnTableRow(),
             (new OrderCompletedActions())->onlyOnTableRow(),
-            (new OrderCanceledActions())->onlyOnTableRow(),
         ];
+        if ($user->role_id === 1) {
+            $action[] = (new OrderCanceledActions())->onlyOnTableRow();
+        }
+        return $action;
     }
 
     public static function authorizedToCreate(Request $request)
