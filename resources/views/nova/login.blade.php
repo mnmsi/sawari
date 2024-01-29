@@ -10,11 +10,18 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/19.2.15/js/intlTelInput-jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/19.2.15/css/intlTelInput.css"/>
     <link href="{{asset('assets/css/login.css')}}" rel="stylesheet">
+    <style>
+        .iti.iti--show-selected-dial-code.iti--inline-dropdown {
+            width: 100%;
+        }
+    </style>
 </head>
 <body class="login-form-body">
 <div class="login-form">
-    <form action="{{route('admin-login-check')}}" method="post">
+    <form autocomplete="off" action="{{route('admin-login-check')}}" method="post">
         @csrf
         @method('POST')
         <div class="avatar">
@@ -22,29 +29,29 @@
         </div>
         <h4 class="modal-title">Welcome Back!</h4>
         <hr/>
-{{--        <div class="form-group">--}}
-{{--            <label for="loginDropdown">--}}
-{{--                Select login method:--}}
-{{--            </label>--}}
-{{--            <div style="display: flex; align-items: center; gap: 20px;">--}}
-{{--                <label style="display: flex;align-items: center;gap: 10px;cursor: pointer;">--}}
-{{--                    <input type="radio" name="login_type" style="margin: 0;cursor: pointer;" value="email" checked>--}}
-{{--                    Email--}}
-{{--                </label>--}}
-{{--                <label style="display: flex;align-items: center;gap: 10px;cursor: pointer;">--}}
-{{--                    <input type="radio" name="login_type" value="phone" style="margin: 0;cursor: pointer;">--}}
-{{--                    Phone--}}
-{{--                </label>--}}
-{{--            </div>--}}
-{{--        </div>--}}
+        {{--        <div class="form-group">--}}
+        {{--            <label for="loginDropdown">--}}
+        {{--                Select login method:--}}
+        {{--            </label>--}}
+        {{--            <div style="display: flex; align-items: center; gap: 20px;">--}}
+        {{--                <label style="display: flex;align-items: center;gap: 10px;cursor: pointer;">--}}
+        {{--                    <input type="radio" name="login_type" style="margin: 0;cursor: pointer;" value="email" checked>--}}
+        {{--                    Email--}}
+        {{--                </label>--}}
+        {{--                <label style="display: flex;align-items: center;gap: 10px;cursor: pointer;">--}}
+        {{--                    <input type="radio" name="login_type" value="phone" style="margin: 0;cursor: pointer;">--}}
+        {{--                    Phone--}}
+        {{--                </label>--}}
+        {{--            </div>--}}
+        {{--        </div>--}}
         <div class="form-group" id="phone_login" style="">
             <label for="phone">Enter your number:</label>
             <input class="form-control" name="phone" placeholder="Enter number" type="text" id="phone">
         </div>
-{{--        <div class="form-group" id="email_login" style="display: none;">--}}
-{{--            <label for="email">Enter your email:</label>--}}
-{{--            <input class="form-control" placeholder="Enter email" name="email"  type="email" id="email">--}}
-{{--        </div>--}}
+        {{--        <div class="form-group" id="email_login" style="display: none;">--}}
+        {{--            <label for="email">Enter your email:</label>--}}
+        {{--            <input class="form-control" placeholder="Enter email" name="email"  type="email" id="email">--}}
+        {{--        </div>--}}
         <div class="form-group">
             <label for="password">
                 Enter Password:
@@ -52,6 +59,7 @@
             <input type="password" id="password" value="{{old('password')}}" name="password" class="form-control"
                    placeholder="Enter Password"
                    required="required">
+            <input type="hidden" name="country_code" id="country_code">
         </div>
         @if ($errors->any())
             <div class="alert alert-danger">
@@ -66,8 +74,24 @@
     </form>
 </div>
 </body>
+
 <script>
     $(document).ready(function () {
+        // let input = document.querySelector("#phone");
+        $("#phone").intlTelInput({
+            showSelectedDialCode: true,
+            showFlags: false,
+            // onlyCountries: ['bd'],
+            separateDialCode: true,
+            // nationalMode: false,
+            initialCountry: "bd",
+            allowDropdown: false,
+            // countryCOdeEditable: false,
+        })
+        let countryData = $("#phone").intlTelInput("getSelectedCountryData");
+        let countryCode = countryData.dialCode;
+        $("#country_code").val(countryCode);
+
         // const phoneLoginDiv = document.getElementById('phone_login');
         // const emailLoginDiv = document.getElementById('email_login');
 

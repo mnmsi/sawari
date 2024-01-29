@@ -58,7 +58,7 @@ class User extends Resource
 
     public static function label()
     {
-        return __('All User List');
+        return __('User List');
     }
 
     /**

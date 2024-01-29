@@ -69,9 +69,9 @@ trait OrderTrait
                 }
             }
 
-            $orderKey = str_replace(' ', '', 'SAWBD-' . now()->format('Ymd') . '-' . Order::count() + 1);
+            $orderKey = str_replace(' ', '', 'SAWBD-' . now()->format('dmY') . '-' . Order::count() + 1);
             if (isset($data['showroom_id']) && $data['showroom_id'] == 6) {
-                $orderKey = str_replace(' ', '', 'HPS-' . now()->format('Ymd') . '-' . Order::count() + 1);
+                $orderKey = str_replace(' ', '', 'HPS-' . now()->format('dmY') . '-' . Order::count() + 1);
             }
 
             $orderData = [
@@ -206,9 +206,9 @@ trait OrderTrait
             $total_discountRate = $products->discount_rate;
 //            $subtotal_price = $this->calculateDiscountPrice($products->price, $products->discount_rate);
             $subtotal_price = $newPrice;
-            $orderKey = str_replace(' ', '', 'SAWBD-' . now()->format('Ymd') . '-' . Order::count() + 1);
+            $orderKey = str_replace(' ', '', 'SAWBD-' . now()->format('dmY') . '-' . Order::count() + 1);
             if (isset($data['showroom_id']) && $data['showroom_id'] == 6) {
-                $orderKey = str_replace(' ', '', 'HPS-' . now()->format('Ymd') . '-' . Order::count() + 1);
+                $orderKey = str_replace(' ', '', 'HPS-' . now()->format('dmY') . '-' . Order::count() + 1);
             }
             $orderData = [
                 'user_id' => Auth::id(),
