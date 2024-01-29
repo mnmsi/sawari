@@ -54,6 +54,7 @@ class Order extends Resource
         return __('Order List');
     }
 
+
     /**
      * Get the fields displayed by the resource.
      *

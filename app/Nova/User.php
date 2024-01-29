@@ -20,6 +20,18 @@ use YieldStudio\NovaPhoneField\PhoneNumber;
 
 class User extends Resource
 {
+    public static function authorizedToViewAny(Request $request)
+    {
+        // Get the authenticated user
+        $user = $request->user();
+
+        // Check if the authenticated user's ID is 2
+        if ($user && $user->role_id === 3) {
+            return false; // Hide the resource
+        }
+
+        return true; // Allow all other users to view the resource
+    }
     /**
      * The model the resource corresponds to.
      *
@@ -81,15 +93,16 @@ class User extends Resource
             //email
             Text::make('Email')
                 ->sortable()
-                ->rules('required', 'email', 'max:254')
+                ->rules('nullable','email', 'max:254')
                 ->creationRules('unique:users,email')
                 ->updateRules('unique:users,email,{{resourceId}}'),
 //            phone
             PhoneNumber::make('Phone', 'phone')
                 ->withCustomFormats('880## #### ####')
                 ->onlyCustomFormats()
-                ->creationRules('unique:users,email')
-                ->updateRules('unique:users,email,{{resourceId}}')
+                ->required()
+                ->creationRules('unique:users,phone')
+                ->updateRules('unique:users,phone,{{resourceId}}')
                 ->help("Ex: 880 #### #####"),
 //password
             Password::make('Password')
@@ -99,18 +112,10 @@ class User extends Resource
 
 //            date of birth
 
-            Date::make('Date of Birth', 'date_of_birth')
-                ->nullable(),
+
 
             // gender
-            Select::make('Gender', 'gender')
-                ->options([
-                    'male' => 'Male',
-                    'female' => 'Female',
-                    'other' => 'Other',
-                ])
-                ->sortable()
-                ->nullable(),
+
 //            date
             DateTime::make('Created At', 'created_at')
                 ->hideFromIndex()

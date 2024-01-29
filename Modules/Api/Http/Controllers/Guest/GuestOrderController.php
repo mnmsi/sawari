@@ -6,6 +6,7 @@ use App\Models\GuestCart;
 use App\Models\GuestOrder;
 use App\Models\GuestOrderDetails;
 use App\Models\GuestUser;
+use App\Models\Order\Order;
 use App\Models\Product\Product;
 use App\Models\Product\ProductColor;
 use App\Models\System\Area;
@@ -65,13 +66,13 @@ class GuestOrderController extends Controller
                 }
             }
 
-            $orderKey = str_replace(' ', '', 'SAWBD-' . Str::random(10));
-            if (isset($request->showroom_id) && $request->showroom_id == 6) {
-                $orderKey = str_replace(' ', '', 'HPS-' . Str::random(10));
+            $orderKey = str_replace(' ', '', 'SAWBD-' . now()->format('dmY') . '-' . GuestOrder::count() + 1);
+            if (isset($data['showroom_id']) && $data['showroom_id'] == 6) {
+                $orderKey = str_replace(' ', '', 'HPS-' . now()->format('dmY') . '-' . GuestOrder::count() + 1);
             }
 
             $orderData = [
-                'transaction_id' => uniqid(),
+                'transaction_id' => $orderKey,
                 'order_key' => $orderKey,
                 'discount_rate' => $product->discount_rate ?? 0,
                 'shipping_amount' => $request->shipping_amount,
@@ -178,12 +179,12 @@ class GuestOrderController extends Controller
                 $voucher_dis = $this->calculateVoucherDiscount($request['voucher_id'], $subtotal_price);
                 $subtotal_price = $subtotal_price - $voucher_dis;
             }
-            $orderKey = str_replace(' ', '', 'SAWBD-' . Str::random(10));
-            if (isset($request->showroom_id) && $request->showroom_id == 6){
-                $orderKey = str_replace(' ', '', 'HPS-' . Str::random(10));
+            $orderKey = str_replace(' ', '', 'SAWBD-' . now()->format('dmY') . '-' . GuestOrder::count() + 1);
+            if (isset($data['showroom_id']) && $data['showroom_id'] == 6) {
+                $orderKey = str_replace(' ', '', 'HPS-' . now()->format('dmY') . '-' . GuestOrder::count() + 1);
             }
             $orderData = [
-                'transaction_id' => uniqid(),
+                'transaction_id' => $orderKey,
                 'order_key' => $orderKey,
                 'discount_rate' => $product->discount_rate ?? 0,
                 'shipping_amount' => $request->shipping_amount,

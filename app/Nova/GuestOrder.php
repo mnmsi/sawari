@@ -22,6 +22,7 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 
 class GuestOrder extends Resource
 {
+
     /**
      * The model the resource corresponds to.
      *

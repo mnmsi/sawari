@@ -9,6 +9,7 @@ use App\Nova\Actions\Product\ProductSpecificationAction;
 use App\Nova\Actions\Product\ProductUpload;
 use App\Nova\Filters\ProductStatusFilter;
 use App\Nova\Metrics\TotalProduct;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\DateTime;
@@ -56,6 +57,19 @@ class Product extends Resource
     public static function label()
     {
         return __('Product List');
+    }
+
+    public static function authorizedToViewAny(Request $request)
+    {
+        // Get the authenticated user
+        $user = $request->user();
+
+        // Check if the authenticated user's ID is 2
+        if ($user && $user->role_id === 3) {
+            return false; // Hide the resource
+        }
+
+        return true; // Allow all other users to view the resource
     }
 
     /**

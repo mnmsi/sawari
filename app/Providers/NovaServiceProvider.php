@@ -36,9 +36,11 @@ use App\Nova\User;
 use App\Nova\UserAddress;
 use App\Nova\UserWishlist;
 use App\Nova\VideoReview;
+use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Gate;
+use Laravel\Nova\Events\ServingNova;
 use Laravel\Nova\Menu\MenuItem;
 use Laravel\Nova\Menu\MenuSection;
 use Laravel\Nova\Nova;
@@ -62,65 +64,85 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
         Nova::withoutGlobalSearch();
         Nova::withoutNotificationCenter();
 
-//        menu
-        Nova::mainMenu(function (Request $request) {
-            return [
-                MenuSection::dashboard(Main::class)->icon('chart-bar'),
+        Nova::serving(function (ServingNova $event) {
+            $user = auth()->user();
+            if ($user && $user->role_id == 3) {
+                Nova::mainMenu(function (Request $request) {
+                    return [
+                        MenuSection::make('Orders', [
+                            MenuItem::resource(Order::class),
+                            MenuItem::resource(OrderDetail::class),
+                            MenuItem::resource(PaymentDetails::class),
+                            MenuItem::resource(PreOrder::class),
+                            MenuItem::resource(GuestOrder::class),
+                        ])->icon('shopping-cart')->collapsable(),
+                    ];
+                });
+            } else {
+                Nova::mainMenu(function (Request $request) {
+                    return [
+                        MenuSection::dashboard(Main::class)->icon('chart-bar'),
 //                user users
-                MenuSection::make('Users', [
-                    MenuItem::resource(User::class),
-                    MenuItem::resource(UserAddress::class),
-                    MenuItem::resource(UserWishlist::class),
-                ])->icon('users')->collapsable(),
+                        MenuSection::make('Users', [
+                            MenuItem::resource(User::class),
+                            MenuItem::resource(UserAddress::class),
+                            MenuItem::resource(UserWishlist::class),
+                        ])->icon('users')->collapsable(),
 //                product
-                MenuSection::make('Products', [
-                    MenuItem::resource(Brand::class),
-                    MenuItem::resource(Category::class),
-                    MenuItem::resource(BodyType::class),
-                    MenuItem::resource(Product::class),
-                    MenuItem::resource(ProductColor::class),
-                    MenuItem::resource(ProductSpecificationCategory::class),
-                    MenuItem::resource(ProductMedia::class),
-                    MenuItem::resource(ProductReview::class),
-                ])->icon('gift')->collapsable(),
+                        MenuSection::make('Products', [
+                            MenuItem::resource(Brand::class),
+                            MenuItem::resource(Category::class),
+                            MenuItem::resource(BodyType::class),
+                            MenuItem::resource(Product::class),
+                            MenuItem::resource(ProductColor::class),
+                            MenuItem::resource(ProductSpecificationCategory::class),
+                            MenuItem::resource(ProductMedia::class),
+                            MenuItem::resource(ProductReview::class),
+                        ])->icon('gift')->collapsable(),
 //                order
-                MenuSection::make('Orders', [
-                    MenuItem::resource(Order::class),
-                    MenuItem::resource(OrderDetail::class),
-                    MenuItem::resource(PaymentDetails::class),
-                    MenuItem::resource(PreOrder::class),
-                    MenuItem::resource(GuestOrder::class),
-                ])->icon('shopping-cart')->collapsable(),
+                        MenuSection::make('Orders', [
+                            MenuItem::resource(Order::class),
+                            MenuItem::resource(OrderDetail::class),
+                            MenuItem::resource(PaymentDetails::class),
+                            MenuItem::resource(PreOrder::class),
+                            MenuItem::resource(GuestOrder::class),
+                        ])->icon('shopping-cart')->collapsable(),
 //                bike sell
-                MenuSection::make('Bike Sell', [
-                    MenuItem::resource(SellBike::class),
-                    MenuItem::resource(BikeSellRequest::class),
-                ])->icon('cube')->collapsable(),
+                        MenuSection::make('Bike Sell', [
+                            MenuItem::resource(SellBike::class),
+                            MenuItem::resource(BikeSellRequest::class),
+                        ])->icon('cube')->collapsable(),
 //                system
-                MenuSection::make('System', [
-                    MenuItem::resource(Showroom::class),
-                    MenuItem::resource(Banner::class),
-                    MenuItem::resource(PaymentMethods::class),
-                    MenuItem::resource(ShippingCharge::class),
-                    MenuItem::resource(DeliveryOption::class),
-                    MenuItem::resource(VideoReview::class),
-                    MenuItem::resource(Notification::class),
-                ])->icon('briefcase')->collapsable(),
+                        MenuSection::make('System', [
+                            MenuItem::resource(Showroom::class),
+                            MenuItem::resource(Banner::class),
+                            MenuItem::resource(PaymentMethods::class),
+                            MenuItem::resource(ShippingCharge::class),
+                            MenuItem::resource(DeliveryOption::class),
+                            MenuItem::resource(VideoReview::class),
+                            MenuItem::resource(Notification::class),
+                        ])->icon('briefcase')->collapsable(),
 //                book appointment
-                MenuSection::make('Servicing Request', [
-                    MenuItem::resource(BookAppointment::class),
-                ])->icon('key')->collapsable(),
+                        MenuSection::make('Servicing Request', [
+                            MenuItem::resource(BookAppointment::class),
+                        ])->icon('key')->collapsable(),
 //                settings
-                MenuSection::make('Settings', [
-                    MenuItem::resource(SiteSetting::class),
+                        MenuSection::make('Settings', [
+                            MenuItem::resource(SiteSetting::class),
 //                    MenuItem::resource(SeoSetting::class),
-                    MenuItem::resource(HomeSection::class),
-                    MenuItem::resource(Testimonial::class),
-                    MenuItem::resource(TermsAndCondition::class),
-                    MenuItem::resource(PrivacyPolicy::class),
-                ])->icon('cog')->collapsable(),
-            ];
+                            MenuItem::resource(HomeSection::class),
+                            MenuItem::resource(Testimonial::class),
+                            MenuItem::resource(TermsAndCondition::class),
+                            MenuItem::resource(PrivacyPolicy::class),
+                        ])->icon('cog')->collapsable(),
+                    ];
+                });
+            }
         });
+
+
+//        menu
+
     }
 
     /**

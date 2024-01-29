@@ -24,13 +24,18 @@ class LoginController extends \Laravel\Nova\Http\Controllers\LoginController
         ]);
 
         $login = $request->email ?? $request->phone;
+//        dd($login);
         $fieldType = filter_var($login, FILTER_VALIDATE_EMAIL) ? 'email' : 'phone';
+//        dd($fieldType);
+
 
         $credentials = [
             $fieldType => $login,
             'password' => $request->password,
-            'role_id' => 1,
+            'role_id' => [1, 3],
         ];
+
+//        dd($credentials);
 
         if (Auth::attempt($credentials)) {
             return redirect()->route('nova.pages.dashboard');

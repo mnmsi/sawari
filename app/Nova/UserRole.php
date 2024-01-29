@@ -11,6 +11,18 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 
 class UserRole extends Resource
 {
+    public static function authorizedToViewAny(Request $request)
+    {
+        // Get the authenticated user
+        $user = $request->user();
+
+        // Check if the authenticated user's ID is 2
+        if ($user && $user->role_id === 3) {
+            return false; // Hide the resource
+        }
+
+        return true; // Allow all other users to view the resource
+    }
     /**
      * The model the resource corresponds to.
      *
