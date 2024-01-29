@@ -43,7 +43,7 @@ Route::controller(ApiAuthController::class)->group(function () {
 });
 
 Route::post('send-otp', [OtpController::class, 'sendOtp']); // Send OTP Routes
-Route::post('verify-otp', [OtpController::class, 'verifyOtp']); // Verify OTP Routes
+Route::post('verify-otp', [OtpController::class, 'verifyOtp']); // Verify OTP Routes // Verify Phone Number Routes
 
 // System Routes (Public) or (Guest) Mode
 Route::middleware('guest')->group(function () {

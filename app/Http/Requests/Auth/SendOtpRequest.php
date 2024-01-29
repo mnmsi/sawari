@@ -12,6 +12,7 @@ use Modules\Api\Http\Traits\Response\ApiResponseHelper;
 class SendOtpRequest extends FormRequest
 {
     use ApiResponseHelper;
+
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -28,7 +29,14 @@ class SendOtpRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'phone' => 'required|string|unique:App\Models\User\User,phone',
+            'phone' => 'required|string|unique:App\Models\VerifiedPhoneNumber,phone',
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'phone.unique' => 'This phone number is already verified,no need to send otp',
         ];
     }
 

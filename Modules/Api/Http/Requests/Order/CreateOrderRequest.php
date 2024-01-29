@@ -28,7 +28,7 @@ class CreateOrderRequest extends FormRequest
             'product_feature_id' => 'nullable',
             'quantity' => 'nullable|numeric|min:1|max:5',
             'name' => 'required|string',
-            'phone' => 'required|string',
+            'phone' => 'required|string|exists:App\Models\VerifiedPhoneNumber,phone',
             'email' => 'nullable|email',
             'city_id' => 'required|exists:cities,id',
             'division_id' => 'required|exists:divisions,id',

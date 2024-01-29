@@ -24,7 +24,7 @@ class GuestOrderRequest extends FormRequest
             'voucher_id' => 'nullable|exists:vouchers,id',
             'color_id' => 'nullable|exists:product_colors,id',
             'name' => 'required|string',
-            'phone' => 'required|string',
+            'phone' => 'required|string|exists:verified_phone_numbers,phone',
             'email' => 'nullable|email',
             'city_id' => 'required|exists:cities,id',
             'division_id' => 'required|exists:divisions,id',
