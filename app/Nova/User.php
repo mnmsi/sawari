@@ -94,15 +94,13 @@ class User extends Resource
             Text::make('Email')
                 ->sortable()
                 ->rules('nullable','email', 'max:254')
-                ->creationRules('unique:users,email')
-                ->updateRules('unique:users,email,{{resourceId}}'),
+                ->creationRules('unique:users,email'),
 //            phone
             PhoneNumber::make('Phone', 'phone')
                 ->withCustomFormats('880##########')
                 ->onlyCustomFormats()
                 ->required()
                 ->creationRules('unique:users,phone')
-                ->updateRules('unique:users,phone,{{resourceId}}')
                 ->help("Ex: 880#########"),
 //password
             Password::make('Password')

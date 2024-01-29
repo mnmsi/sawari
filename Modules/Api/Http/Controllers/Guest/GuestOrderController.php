@@ -65,7 +65,6 @@ class GuestOrderController extends Controller
                     }
                 }
             }
-
             $orderKey = str_replace(' ', '', 'SAWBD-' . now()->format('dmY') . '-' . GuestOrder::count() + 1);
             if (isset($data['showroom_id']) && $data['showroom_id'] == 6) {
                 $orderKey = str_replace(' ', '', 'HPS-' . now()->format('dmY') . '-' . GuestOrder::count() + 1);
