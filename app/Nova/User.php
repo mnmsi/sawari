@@ -98,12 +98,12 @@ class User extends Resource
                 ->updateRules('unique:users,email,{{resourceId}}'),
 //            phone
             PhoneNumber::make('Phone', 'phone')
-                ->withCustomFormats('880## #### ####')
+                ->withCustomFormats('880##########')
                 ->onlyCustomFormats()
                 ->required()
                 ->creationRules('unique:users,phone')
                 ->updateRules('unique:users,phone,{{resourceId}}')
-                ->help("Ex: 880 #### #####"),
+                ->help("Ex: 880#########"),
 //password
             Password::make('Password')
                 ->onlyOnForms()
