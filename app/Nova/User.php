@@ -101,6 +101,8 @@ class User extends Resource
                 ->onlyCustomFormats()
                 ->required()
                 ->creationRules('unique:users,phone')
+                ->updateRules('')
+                ->hideWhenUpdating()
                 ->help("Ex: 880#########"),
 //password
             Password::make('Password')
