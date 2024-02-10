@@ -21,10 +21,9 @@ class OtpController extends Controller
     public function sendOtp(SendOtpRequest $request)
     {
 
-//        check if user requesting within 2 minutes
+        //        check if user requesting within 2 minutes
 
         $lastSent = PhoneVerification::where('phone', $request->phone)->first();
-
         if ($lastSent) {
             if (now() < $lastSent->expires_at) {
                 return $this->respondWithSuccessWithData([
@@ -88,6 +87,4 @@ class OtpController extends Controller
         // If phone verification record not found then return response with error status
         return $this->respondError('OTP is invalid');
     }
-
-
 }

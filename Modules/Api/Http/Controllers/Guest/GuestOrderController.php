@@ -109,7 +109,7 @@ class GuestOrderController extends Controller
                         DB::commit();
                         $numbers = Notification::where('status', 1)->get();
                         foreach ($numbers as $number) {
-                            $this->sendSms(strtr($number->phone, [' ' => '']), "New order has been placed with the order number: ".$order->order_key."  Please check your dashboard");
+                            $this->sendSms(strtr($number->phone, [' ' => '']), "New order has been placed with the order number: " . $order->order_key . "  Please check your dashboard");
                         }
                         return [
                             'status' => 'success',
@@ -126,7 +126,7 @@ class GuestOrderController extends Controller
                     DB::commit();
                     $numbers = Notification::where('status', 1)->get();
                     foreach ($numbers as $number) {
-                        $this->sendSms(strtr($number->phone, [' ' => '']), "New order has been placed with the order number: ".$order->order_key."  Please check your dashboard");
+                        $this->sendSms(strtr($number->phone, [' ' => '']), "New order has been placed with the order number: " . $order->order_key . "  Please check your dashboard");
                     }
                     return [
                         'data' => [
@@ -154,7 +154,7 @@ class GuestOrderController extends Controller
     {
         DB::beginTransaction();
         try {
-//        buy now from cart session
+            //        buy now from cart session
             $guest = GuestUser::where('uuid', $request->guest_user_id)->first();
             $carts = GuestCart::select('id', 'product_id', 'product_color_id', 'product_data', 'quantity')
                 ->where('guest_user_id', $guest->id)->where('status', 1)->whereIn('id', $request->guest_cart_id)->get();
@@ -163,7 +163,7 @@ class GuestOrderController extends Controller
             foreach ($carts as $cartItem) {
                 $product = Product::find($cartItem['product_id']);
                 $subtotal_price = $this->calculateDiscountPrice($product->price, $product->discount_rate) * $cartItem['quantity'];
-//            product color price
+                //            product color price
                 $product_color = ProductColor::find($cartItem['product_color_id']);
                 if ($product_color) {
                     $subtotal_price += $product_color->price * $cartItem['quantity'];
@@ -225,19 +225,19 @@ class GuestOrderController extends Controller
                 GuestOrderDetails::insert($orderDetails);
                 GuestCart::whereIn('id', $request->guest_cart_id)->delete();
                 if ($request->payment_method_id == 2) {
-//                    $sslc = new AmarPayController();
-//                    if ($isProcessPayment = $sslc->payment($orderData)) {
+                    //                    $sslc = new AmarPayController();
+                    //                    if ($isProcessPayment = $sslc->payment($orderData)) {
                     if ($isProcessPayment = $this->processPayment($orderData, $request)) {
                         DB::commit();
                         $numbers = Notification::where('status', 1)->get();
                         foreach ($numbers as $number) {
-                            $this->sendSms(strtr($number->phone, [' ' => '']), "New order has been placed with the order number: ".$order->order_key."  Please check your dashboard");
+                            $this->sendSms(strtr($number->phone, [' ' => '']), "New order has been placed with the order number: " . $order->order_key . "  Please check your dashboard");
                         }
                         return [
                             'status' => 'success',
                             'message' => 'Order Successful',
                             'data' => json_decode($isProcessPayment)
-//                            'data' => $isProcessPayment->getTargetUrl()
+                            //                            'data' => $isProcessPayment->getTargetUrl()
                         ];
                     } else {
                         return [
@@ -249,7 +249,7 @@ class GuestOrderController extends Controller
                     DB::commit();
                     $numbers = Notification::where('status', 1)->get();
                     foreach ($numbers as $number) {
-                        $this->sendSms(strtr($number->phone, [' ' => '']), "New order has been placed with the order number: ".$order->order_key."  Please check your dashboard");
+                        $this->sendSms(strtr($number->phone, [' ' => '']), "New order has been placed with the order number: " . $order->order_key . "  Please check your dashboard");
                     }
                     return [
                         'data' => [
@@ -268,10 +268,10 @@ class GuestOrderController extends Controller
             }
         } catch (\Exception $e) {
             return (
-            [
-                $e->getMessage(),
-                $e->getLine(),
-            ]
+                [
+                    $e->getMessage(),
+                    $e->getLine(),
+                ]
             );
         }
     }

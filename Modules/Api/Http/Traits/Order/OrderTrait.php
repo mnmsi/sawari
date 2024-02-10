@@ -51,14 +51,14 @@ trait OrderTrait
             $products = Product::whereIn('id', $carts->pluck('product_id'))->with('colors')->get();
             $total_discountRate = $products->sum('discount_rate');
             $subtotal_price = $this->calculateDiscountPrice($products->sum('price'), $total_discountRate);
-//            $newPrice =
+            //            $newPrice =
             $carts->map(function ($value, $key) {
                 return $value['product_id'] == 1;
             });
-//            color check
+            //            color check
             //calculateDiscountPrice
             foreach ($carts as $c) {
-//                $newProduct = Product::find($c["product_id"]);
+                //                $newProduct = Product::find($c["product_id"]);
                 $product_color = ProductColor::find($c['product_color_id']);
                 if ($product_color) {
                     if ($product_color->stock < $c['quantity']) {
@@ -87,7 +87,7 @@ trait OrderTrait
                 'discount_rate' => $total_discountRate,
                 'total_price' => $subtotal_price + $data['shipping_amount'] ?? 0,
                 'status' => 1,
-//                new
+                //                new
                 'name' => $data['name'],
                 'phone' => $data['phone'],
                 'email' => $data['email'] ?? null,
@@ -157,7 +157,6 @@ trait OrderTrait
                     ];
                 }
             }
-
         } catch (\Exception $e) {
             DB::rollBack();
             return $e->getMessage();
@@ -204,7 +203,7 @@ trait OrderTrait
             }
 
             $total_discountRate = $products->discount_rate;
-//            $subtotal_price = $this->calculateDiscountPrice($products->price, $products->discount_rate);
+            //            $subtotal_price = $this->calculateDiscountPrice($products->price, $products->discount_rate);
             $subtotal_price = $newPrice;
             $orderKey = str_replace(' ', '', 'SAWBD-' . now()->format('dmY') . '-' . Order::count() + 1);
             if (isset($data['showroom_id']) && $data['showroom_id'] == 6) {
@@ -291,33 +290,32 @@ trait OrderTrait
     public function buyNowProductPrice($request)
     {
 
-//        $buyNowProduct = $this->buyNowProduct($request);
-//        dd($buyNowProduct->toArray());
+        //        $buyNowProduct = $this->buyNowProduct($request);
+        //        dd($buyNowProduct->toArray());
         $buyNowProduct = Product::with(['colors' => function ($q) use ($request) {
             return $q->where('id', $request->product_color_id);
         }])->find($request->product_id);
-//        dd($buyNowProduct->price,$buyNowProduct->colors[0]->price);
+        //        dd($buyNowProduct->price,$buyNowProduct->colors[0]->price);
         return $this->calculateDiscountPrice($buyNowProduct->price, $buyNowProduct->discount_rate) + $buyNowProduct->colors[0]->price ?? 0;
     }
 
     public function calculateVoucherDiscount($id, $amount)
     {
         return 0;
-//        $value = $amount;
-//        $voucher = Voucher::where('id', $id)
-//            ->where('expires_at', '>', Carbon::parse(now()->addHours(6))->format('Y-m-d H:i:s'))
-//            ->where('status', 1)
-//            ->first();
-//        if ($voucher) {
-//            if ($voucher->type == "percentage") {
-//                $value = (($value * $voucher->value) / 100);
-//            } else {
-//                $value = $voucher->value;
-//            }
-//            return $value;
-//        } else {
-//            return 0;
-//        }
+        //        $value = $amount;
+        //        $voucher = Voucher::where('id', $id)
+        //            ->where('expires_at', '>', Carbon::parse(now()->addHours(6))->format('Y-m-d H:i:s'))
+        //            ->where('status', 1)
+        //            ->first();
+        //        if ($voucher) {
+        //            if ($voucher->type == "percentage") {
+        //                $value = (($value * $voucher->value) / 100);
+        //            } else {
+        //                $value = $voucher->value;
+        //            }
+        //            return $value;
+        //        } else {
+        //            return 0;
+        //        }
     }
-
 }
