@@ -21,17 +21,20 @@ class FeatureController extends Controller
      */
     public function newBike(Request $request)
     {
-
-        $cacheKey = 'featured_new_bike';
-        if (Cache::has($cacheKey)) {
-            $data = Cache::get($cacheKey);
-        } else {
-            $data = $this->featuredNewBike();
-            Cache::put($cacheKey, $data, now()->addMinutes(2400));
-        }
+        $data = $this->featuredNewBike();
         return $this->respondWithSuccessWithData(
             ProductResource::collection($data)
         );
+//        $cacheKey = 'featured_new_bike';
+//        if (Cache::has($cacheKey)) {
+//            $data = Cache::get($cacheKey);
+//        } else {
+//            $data = $this->featuredNewBike();
+//            Cache::put($cacheKey, $data, now()->addMinutes(2400));
+//        }
+//        return $this->respondWithSuccessWithData(
+//            ProductResource::collection($data)
+//        );
     }
 
     /**
@@ -39,17 +42,20 @@ class FeatureController extends Controller
      */
     public function usedBike()
     {
-
-        $cacheKey = 'featured_used_bike';
-        if (Cache::has($cacheKey)) {
-            $data = Cache::get($cacheKey);
-        } else {
-            $data = $this->featuredUsedBike();
-            Cache::put($cacheKey, $data, now()->addMinutes(2400));
-        }
+        $data = $this->featuredUsedBike();
         return $this->respondWithSuccessWithData(
             ProductResource::collection($data)
         );
+//        $cacheKey = 'featured_used_bike';
+//        if (Cache::has($cacheKey)) {
+//            $data = Cache::get($cacheKey);
+//        } else {
+//            $data = $this->featuredUsedBike();
+//            Cache::put($cacheKey, $data, now()->addMinutes(2400));
+//        }
+//        return $this->respondWithSuccessWithData(
+//            ProductResource::collection($data)
+//        );
     }
 
 }
