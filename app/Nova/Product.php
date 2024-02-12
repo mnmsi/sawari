@@ -399,9 +399,11 @@ class Product extends Resource
         return [
             'id',
             'name',
+            'product_code',
             new SearchableRelation('brand', 'name'),
             new SearchableRelation('bodyType', 'name'),
             new SearchableRelation('category', 'name'),
+
         ];
     }
 

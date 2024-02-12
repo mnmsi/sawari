@@ -114,17 +114,17 @@ class SiteSetting extends Resource
                 ->nullable()
                 ->disableDownload(),
 //          fav icon
-            Image::make('Fav Icon', 'fav_icon')
-                ->path('site')
-                ->disk('public')
-                ->nullable()
-                ->disableDownload(),
+//            Image::make('Fav Icon', 'fav_icon')
+//                ->path('site')
+//                ->disk('public')
+//                ->nullable()
+//                ->disableDownload(),
 //          fav icon
-            Image::make('Dark fav Icon', 'dark_fav_icon')
-                ->path('site')
-                ->disk('public')
-                ->nullable()
-                ->disableDownload(),
+//            Image::make('Dark fav Icon', 'dark_fav_icon')
+//                ->path('site')
+//                ->disk('public')
+//                ->nullable()
+//                ->disableDownload(),
             Image::make('Welcome Popup Image', 'welcome_popup_image')
                 ->path('site')
                 ->disk('public')
