@@ -4,6 +4,7 @@ namespace Modules\Api\Http\Controllers\Product;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Cache;
 use Modules\Api\Http\Resources\Product\BrandCollection;
 use Modules\Api\Http\Resources\Product\BrandResource;
 use Modules\Api\Http\Traits\Product\BrandTrait;
@@ -17,9 +18,12 @@ class BrandController extends Controller
      */
     public function bikeBrands()
     {
-        return $this->respondWithSuccessWithData(
-            new BrandCollection($this->getBikeBrands())
-        );
+        // Cache the brands forever
+        $data = Cache::rememberForever('brands', function () {
+            return new BrandCollection($this->getBikeBrands());
+        });
+
+        return $this->respondWithSuccessWithData($data);
     }
 
     /**
@@ -27,9 +31,12 @@ class BrandController extends Controller
      */
     public function popularBikeBrands()
     {
-        return $this->respondWithSuccessWithData(
-            BrandResource::collection($this->getPopularBikeBrands())
-        );
+        // Cache the popular brands forever
+        $data = Cache::rememberForever('brands.popular', function () {
+            return BrandResource::collection($this->getPopularBikeBrands());
+        });
+
+        return $this->respondWithSuccessWithData($data);
     }
 
     /**

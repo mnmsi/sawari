@@ -17,6 +17,10 @@ class BaseModel extends Model
         static::updating(function ($model) {
             // Forget the cache for the updated model
             Cache::forget($model->getTable());
+
+            if ($model->getTable() === 'brands') {
+                $model->delKeys('brands*');
+            }
         });
 
         static::deleting(function ($model) {

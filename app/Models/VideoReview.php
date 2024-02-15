@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class VideoReview extends Model
+class VideoReview extends BaseModel
 {
     use HasFactory;
 

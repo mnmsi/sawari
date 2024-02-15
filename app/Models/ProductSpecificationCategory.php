@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Whitecube\NovaFlexibleContent\Value\FlexibleCast;
 
-class ProductSpecificationCategory extends Model
+class ProductSpecificationCategory extends BaseModel
 {
     use HasFactory;
     protected $fillable = [
