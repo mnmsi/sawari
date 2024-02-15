@@ -33,6 +33,7 @@ use Modules\Api\Http\Controllers\System\VideoReviewController;
 use Modules\Api\Http\Controllers\User\UserAddressController;
 use Modules\Api\Http\Controllers\User\UserController;
 use Modules\Api\Http\Traits\OTP\OtpTrait;
+
 // Authenticating Routes
 Route::controller(ApiAuthController::class)->group(function () {
     Route::match(['get', 'post'], 'login', 'login');
@@ -42,31 +43,29 @@ Route::controller(ApiAuthController::class)->group(function () {
     Route::get('logout', 'logout')->middleware('auth:sanctum');
 });
 
-Route::post('send-otp', [OtpController::class, 'sendOtp']); // Send OTP Routes
+Route::post('send-otp', [OtpController::class, 'sendOtp']);     // Send OTP Routes
 Route::post('verify-otp', [OtpController::class, 'verifyOtp']); // Verify OTP Routes // Verify Phone Number Routes
 
 // System Routes (Public) or (Guest) Mode
 Route::middleware('guest')->group(function () {
 
-    Route::get('site-settings', [SiteSettingController::class, 'siteSettings']);
-    Route::get('seo-settings', [SeoSettingController::class, 'seoSettings']);
-    Route::get('banners', [BannerController::class, 'banners']);                // Banner Routes
-    Route::get('testimonials', [TestimonialController::class, 'testimonials']); // Testimonial Routes
-    Route::get('showrooms', [ShowroomController::class, 'showrooms']);          // Showroom Routes
-    Route::get('colors', [ColorController::class, 'colors']);
-    Route::get('video-review', [VideoReviewController::class, 'index']);// Color Routes
+    Route::get('site-settings', [SiteSettingController::class, 'siteSettings']); //-------------Cached
+    Route::get('seo-settings', [SeoSettingController::class, 'seoSettings']);    //-------------Cached
+    Route::get('banners', [BannerController::class, 'banners']);                 // Banner Routes //-------------Cached
+    Route::get('testimonials', [TestimonialController::class, 'testimonials']);  // Testimonial Routes //-------------Cached
+    Route::get('showrooms', [ShowroomController::class, 'showrooms']);           // Showroom Routes //-------------Cached
+    Route::get('colors', [ColorController::class, 'colors']);                    // Color Routes //-------------Cached
+    Route::get('video-review', [VideoReviewController::class, 'index']);        // Video Review Routes //-------------Cached
 
     // Routes on OrderController
     Route::controller(OrderController::class)->group(function () {
-        Route::get('delivery-options', 'deliveryOptions'); // Delivery Options
-        Route::get('payment-methods', 'paymentMethods');   // Payment Methods// Shipping Charges
+        Route::get('delivery-options', 'deliveryOptions'); // Delivery Options //-------------Cached
+        Route::get('payment-methods', 'paymentMethods');   // Payment Methods// Shipping Charges //-------------Cached
     });
 });
 
 // User Routes (Auth) or (User) Mode
 Route::middleware('auth:sanctum')->group(function () {
-
-
 
     // Routes on user prefix
     Route::prefix('user')->group(function () {
@@ -83,9 +82,9 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // Routes on address prefix
     Route::controller(UserAddressController::class)->prefix('address')->group(function () {
-        Route::post('store', 'store');               // Address Store Routes
-        Route::put('update/{id}', 'update');         // Address Update Routes
-        Route::delete('delete/{id}', 'delete');      // Address Delete Routes
+        Route::post('store', 'store');                                   // Address Store Routes
+        Route::put('update/{id}', 'update');                             // Address Update Routes
+        Route::delete('delete/{id}', 'delete');                          // Address Delete Routes
 
         //        selected address
         Route::get('selected-address/{id?}', 'getSelectedAddress');      // Address Delete Routes
@@ -107,10 +106,10 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // Routes on cart prefix
     Route::controller(CartController::class)->prefix('cart')->group(function () {
-        Route::get('/', 'carts');                      // Cart Add/Increase/Decreased Routes
-        Route::post('add', 'store');               // Get Carted Products
-        Route::delete('remove/{id}', 'removeCart');   // Cart Remove Routes
-        Route::post('update', 'updateCart');   // Cart Update Routes
+        Route::get('/', 'carts');                               // Cart Add/Increase/Decreased Routes
+        Route::post('add', 'store');                            // Get Carted Products
+        Route::delete('remove/{id}', 'removeCart');             // Cart Remove Routes
+        Route::post('update', 'updateCart');                    // Cart Update Routes
         Route::get('selected-product', 'getSelectedProduct');   // Cart Update Routes
     });
 
@@ -121,6 +120,7 @@ Route::middleware('auth:sanctum')->group(function () {
 });
 
 Route::get('product/suggestion', [ProductController::class, 'getProductSuggestion']); // Product Review
+
 // Product Routes (Auth) or (Guest) Mode
 Route::middleware('guest')->group(function () {
 
@@ -129,7 +129,7 @@ Route::middleware('guest')->group(function () {
 
         // Route for product count
         Route::get('counts', [ProductController::class, 'totalProductType']);          // Total Product Count
-        Route::get('review/{id}', [ReviewController::class, 'review']); // Product Review
+        Route::get('review/{id}', [ReviewController::class, 'review']);                // Product Review
     });
 
     // Routes on BikeController
@@ -187,15 +187,15 @@ Route::middleware('product')->group(function () {
         Route::get('used-bike', 'usedBike'); // Feature used bikes
     });
     Route::controller(BikeController::class)->group(function () {
-        Route::get('bikes', 'bikes');                                                // Bikes Routes
-        Route::get('related-bikes', 'relatedBikes');                                 // Related Bikes Routes
-        Route::get('bike-body-types', 'bikeBodyTypes');                              // Related Bikes Routes
+        Route::get('bikes', 'bikes');                                                  // Bikes Routes
+        Route::get('related-bikes', 'relatedBikes');                                   // Related Bikes Routes
+        Route::get('bike-body-types', 'bikeBodyTypes');                                // Related Bikes Routes
         Route::get('bike/details/{name}', 'details');                                  // Bike Details Routes
     });
     Route::controller(AccessoryController::class)->group(function () {
-        Route::get('accessories', 'accessories');                        // Accessories Routes
-        Route::get('related-accessories', 'relatedAccessories');         // Related Accessories Routes
-        Route::get('featured-accessories', 'featuredAccessories');        // Featured Accessories Routes
+        Route::get('accessories', 'accessories');                          // Accessories Routes
+        Route::get('related-accessories', 'relatedAccessories');           // Related Accessories Routes
+        Route::get('featured-accessories', 'featuredAccessories');         // Featured Accessories Routes
         Route::get('accessory/details/{name}', 'details');                 // Accessory Details Routes
     });
     Route::get('home-page-sections', [HomePageSectionController::class, 'homePageSections']);

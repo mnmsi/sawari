@@ -10,6 +10,7 @@ use App\Models\System\SiteSetting;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Cache;
 use Modules\Api\Http\Requests\Order\AddCartRequest;
 use Modules\Api\Http\Requests\Order\CreateOrderRequest;
 use Modules\Api\Http\Resources\Order\OrderResource;
@@ -32,9 +33,12 @@ class OrderController extends Controller
      */
     public function deliveryOptions(): JsonResponse
     {
-        return $this->respondWithSuccessWithData(
-            $this->getDeliveryOptions()
-        );
+        // Cache the delivery options forever
+        $data = Cache::rememberForever('delivery_options', function () {
+            return $this->getDeliveryOptions();
+        });
+
+        return $this->respondWithSuccessWithData($data);
     }
 
     /**
@@ -44,9 +48,11 @@ class OrderController extends Controller
      */
     public function paymentMethods(): JsonResponse
     {
-        return $this->respondWithSuccessWithData(
-            $this->getPaymentMethods()
-        );
+        $data = Cache::rememberForever('payment_methods', function () {
+            return $this->getPaymentMethods();
+        });
+
+        return $this->respondWithSuccessWithData($data);
     }
 
     public function order(CreateOrderRequest $request)
