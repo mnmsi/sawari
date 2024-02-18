@@ -27,10 +27,11 @@ class BikeController extends Controller
     public function bikes(Request $request)
     {
         $filterData = $this->initializeBikeFilterData($request);
-        // Return bike products with pagination and filter data as response
-        return $this->respondWithSuccessWithData(
-            new BikeCollection($this->getBikeProducts($filterData))
-        );
+        $data = Cache::remember(json_encode($request->all()) . json_encode($filterData), config('cache.stores.redis.lifetime'), function () use ($filterData) {
+            return new BikeCollection($this->getBikeProducts($filterData));
+        });
+
+        return $this->respondWithSuccessWithData($data);
     }
 
     /**
@@ -39,33 +40,16 @@ class BikeController extends Controller
      */
     public function details(Request $request, $name)
     {
-      $bikeDetails = $this->getBikeDetails($name);
         if ($token = PersonalAccessToken::findToken($request->bearerToken())) {
             $user = $token->tokenable;
             Auth::setUser($user);
         }
-//      dd($bikeDetails->toArray());
-//        return $this->respondWithSuccessWithData(
-//            new ProductDetailsResource($bikeDetails)
-//        );
-//        if ($token = PersonalAccessToken::findToken($request->bearerToken())) {
-//            $user = $token->tokenable;
-//            Auth::setUser($user);
-//        }
-//        $cacheKey = 'bike_details_' . $name;
-//        if (Cache::has($cacheKey)) {
-//            $bikeDetails = Cache::get($cacheKey);
-//        } else {
-//            $bikeDetails = $this->getBikeDetails($name);
-//            Cache::put($cacheKey, $bikeDetails, now()->addMinutes(2400));
-//        }
-        if (empty($bikeDetails)) {
-            return $this->respondNotFound("Not Found");
-        }
-        // Return bike details as response
-        return $this->respondWithSuccessWithData(
-            new ProductDetailsResource($bikeDetails)
-        );
+        $product = Cache::rememberForever('products.' . $name, function () use ($name) {
+            return new ProductDetailsResource($this->getBikeDetails($name));
+        });
+
+        return $this->respondWithSuccessWithData($product);
+
     }
 
     /**
@@ -73,20 +57,10 @@ class BikeController extends Controller
      */
     public function relatedBikes()
     {
-        $bikeDetails = $this->getRelatedBikes();
-        return $this->respondWithSuccessWithData(
-            ProductResource::collection($bikeDetails)
-        );
-//        $cacheKey = 'related_bikes';
-//        if (Cache::has($cacheKey)) {
-//            $bikeDetails = Cache::get($cacheKey);
-//        } else {
-//            $bikeDetails = $this->getRelatedBikes();
-//            Cache::put($cacheKey, $bikeDetails, now()->addMinutes(2));
-//        }
-//        return $this->respondWithSuccessWithData(
-//            ProductResource::collection($bikeDetails)
-//        );
+        $bikeDetails = Cache::remember('related_bikes', config('cache.stores.redis.lifetime'), function () {
+            return ProductResource::collection($this->getRelatedBikes());
+        });
+        return $this->respondWithSuccessWithData($bikeDetails);
     }
 
     /**
@@ -94,57 +68,30 @@ class BikeController extends Controller
      */
     public function bikeBodyTypes()
     {
-        $bikeDetails = $this->getBikeBodyTypes();
-        return $this->respondWithSuccessWithData(
-            $bikeDetails
-        );
-//        $cacheKey = 'bike_body_types';
-//        if (Cache::has($cacheKey)) {
-//            $bikeDetails = Cache::get($cacheKey);
-//        } else {
-//            $bikeDetails = $this->getBikeBodyTypes();
-//            Cache::put($cacheKey, $bikeDetails, now()->addMinutes(2400));
-//        }
-//        return $this->respondWithSuccessWithData(
-//            $bikeDetails
-//        );
+        $bikeBodyTypes = Cache::remember('bike_body_types', config('cache.stores.redis.lifetime'), function () {
+            return $this->getBikeBodyTypes();
+        });
 
+        return $this->respondWithSuccessWithData(
+            $bikeBodyTypes
+        );
     }
 
     public function scooter()
     {
-        $bikeDetails = $this->getScooter();
-        return $this->respondWithSuccessWithData(
-            new BikeCollection($bikeDetails)
-        );
-//        $cacheKey = 'scooter';
-//        if (Cache::has($cacheKey)) {
-//            $bikeDetails = Cache::get($cacheKey);
-//        } else {
-//            $bikeDetails = $this->getScooter();
-//            Cache::put($cacheKey, $bikeDetails, now()->addMinutes(2400));
-//        }
-//        return $this->respondWithSuccessWithData(
-//            new BikeCollection($bikeDetails)
-//        );
+
+        $scooter = Cache::remember('products.scooter', config('cache.stores.redis.lifetime'), function () {
+            return new BikeCollection($this->getScooter());
+
+        });
+        return $this->respondWithSuccessWithData($scooter);
     }
 
     public function upcomingBikes()
     {
-        $bikeDetails = $this->getUpComingBikes();
-        return $this->respondWithSuccessWithData(
-            new BikeCollection($bikeDetails)
-        );
-//        $cacheKey = 'upcoming_bikes';
-//        if (Cache::has($cacheKey)) {
-//            $bikeDetails = Cache::get($cacheKey);
-//        } else {
-//            $bikeDetails = $this->getUpComingBikes();
-//            Cache::put($cacheKey, $bikeDetails, now()->addMinutes(2400));
-//        }
-//
-//        return $this->respondWithSuccessWithData(
-//            new BikeCollection($bikeDetails)
-//        );
+        $upcomingBikes = Cache::remember('products.upcoming_bikes', config('cache.stores.redis.lifetime'), function () {
+            return new BikeCollection($this->getUpComingBikes());
+        });
+        return $this->respondWithSuccessWithData($upcomingBikes);
     }
 }

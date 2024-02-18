@@ -5,9 +5,11 @@ namespace Modules\Api\Http\Controllers\Product;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Modules\Api\Http\Resources\Product\AccessoryCollection;
 use Modules\Api\Http\Resources\Product\AccessoryDetailsResource;
 use Modules\Api\Http\Resources\Product\AccessoryResource;
+use Modules\Api\Http\Resources\Product\BikeCollection;
 use Modules\Api\Http\Resources\Product\ProductDetailsResource;
 use Modules\Api\Http\Resources\Product\ProductResource;
 use Modules\Api\Http\Traits\Product\AccessoryTrait;
@@ -22,11 +24,13 @@ class AccessoryController extends Controller
      */
     public function accessories(Request $request)
     {
-        $filters = $this->initializeAccessoryFilterData($request);
 
-        return $this->respondWithSuccessWithData(
-            new AccessoryCollection($this->getAccessories($filters))
-        );
+        $filterData = $this->initializeAccessoryFilterData($request);
+        $data = Cache::remember(json_encode($request->all()) . json_encode($filterData), config('cache.stores.redis.lifetime'), function () use ($filterData) {
+            return new AccessoryCollection($this->getAccessories($filterData));
+        });
+
+        return $this->respondWithSuccessWithData($data);
     }
 
     /**
@@ -35,19 +39,11 @@ class AccessoryController extends Controller
      */
     public function details($name)
     {
-//        dd($name);
-        // Get bike details
-        $accessoryDetails = $this->getAccessoryDetails($name);
+        $product = Cache::rememberForever('products.' . $name, function () use ($name) {
+            return new ProductDetailsResource($this->getAccessoryDetails($name));
+        });
 
-        // Check if bike details is empty
-        if (empty($accessoryDetails)) {
-            return $this->respondWithNotFound();
-        }
-
-        // Return bike details as response
-        return $this->respondWithSuccessWithData(
-            new ProductDetailsResource($accessoryDetails)
-        );
+        return $this->respondWithSuccessWithData($product);
     }
 
     /**
@@ -55,9 +51,11 @@ class AccessoryController extends Controller
      */
     public function relatedAccessories()
     {
-        return $this->respondWithSuccessWithData(
-            ProductResource::collection(($this->getRelatedAccessories()))
-        );
+
+        $product = Cache::remember('products.related_accessory', config('cache.stores.redis.lifetime'), function () {
+            return ProductResource::collection(($this->getRelatedAccessories()));
+        });
+        return $this->respondWithSuccessWithData($product);
     }
 
     /**
@@ -65,8 +63,11 @@ class AccessoryController extends Controller
      */
     public function featuredAccessories()
     {
-        return $this->respondWithSuccessWithData(
-            ProductResource::collection(($this->getFeaturedAccessories()))
-        );
+
+        $product = Cache::remember('products.featured_accessory', config('cache.stores.redis.lifetime'), function () {
+            return ProductResource::collection(($this->getFeaturedAccessories()));
+        });
+
+        return $this->respondWithSuccessWithData($product);
     }
 }

@@ -183,17 +183,17 @@ Route::middleware('product')->group(function () {
     });
 
     Route::controller(BikeController::class)->group(function () {
-        Route::get('bikes', 'bikes');                                                  // Bikes Routes
-        Route::get('related-bikes', 'relatedBikes');                                   // Related Bikes Routes
-        Route::get('bike-body-types', 'bikeBodyTypes');                                // Related Bikes Routes
-        Route::get('bike/details/{name}', 'details');                                  // Bike Details Routes
+        Route::get('bikes', 'bikes');                                                  // Bikes Routes  /------- Cached
+        Route::get('related-bikes', 'relatedBikes');                                   // Related Bikes Routes /------- Cached
+        Route::get('bike-body-types', 'bikeBodyTypes');                                // Related Bikes Routes /------- Cached
+        Route::get('bike/details/{name}', 'details');                                  // Bike Details Routes /------- Cached
     });
 
     Route::controller(AccessoryController::class)->group(function () {
-        Route::get('accessories', 'accessories');                          // Accessories Routes
-        Route::get('related-accessories', 'relatedAccessories');           // Related Accessories Routes
-        Route::get('featured-accessories', 'featuredAccessories');         // Featured Accessories Routes
-        Route::get('accessory/details/{name}', 'details');                 // Accessory Details Routes
+        Route::get('accessories', 'accessories');                          // Accessories Routes /------- Cached
+        Route::get('related-accessories', 'relatedAccessories');           // Related Accessories Routes /------- Cached
+        Route::get('featured-accessories', 'featuredAccessories');         // Featured Accessories Routes /------- Cached
+        Route::get('accessory/details/{name}', 'details');                 // Accessory Details Routes /------- Cached
     });
 
     Route::get('home-page-sections', [HomePageSectionController::class, 'homePageSections']);

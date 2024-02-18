@@ -77,6 +77,7 @@ return [
             'driver'          => 'redis',
             'connection'      => 'cache',
             'lock_connection' => 'default',
+            'lifetime'        => env('CACHE_LIFETIME', 120),
         ],
 
         'dynamodb' => [
