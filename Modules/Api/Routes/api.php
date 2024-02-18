@@ -223,9 +223,9 @@ Route::prefix('guest-order')->middleware('api-session')->as('guest-order.')->con
 Route::post('create-guest-user', [GuestCartController::class, 'createGuestUser']);
 
 Route::controller(SystemAddressController::class)->group(function () {
-    Route::get('divisions', 'division');
-    Route::get('city/{id?}', 'city');
-    Route::get('area/{id?}', 'area');
+    Route::get('divisions', 'division'); // Division Routes //-------------Cached
+    Route::get('city/{id?}', 'city');   // City Routes //-------------Cached
+    Route::get('area/{id?}', 'area');  // Area Routes //-------------Cached
 });
 
 Route::post('buy-now', [OrderController::class, 'buyNow']); // Buy Routes now

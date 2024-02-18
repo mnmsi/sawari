@@ -21,6 +21,7 @@ class OtpController extends Controller
     public function sendOtp(SendOtpRequest $request)
     {
 
+
         //        check if user requesting within 2 minutes
 
         $lastSent = PhoneVerification::where('phone', $request->phone)->first();
@@ -44,7 +45,7 @@ class OtpController extends Controller
             ], [
                 'phone' => $request->phone,
                 'otp' => $otp,
-                'expires_at' => now()->addMinutes(5),
+                'expires_at' => now()->addMinutes(120),
             ]);
         }
 

@@ -44,18 +44,20 @@ class GuestOrderController extends Controller
     {
         DB::beginTransaction();
         try {
-            $product = Product::where('id', $request->product_id)->first();
-            $subtotal_price = $this->calculateDiscountPrice($product->price, $product->discount_rate) * $request->quantity;
-            if (!empty($request->voucher_id)) {
-                $calculateVoucher = $this->calculateVoucherDiscount($request->voucher_id, $subtotal_price);
-                $subtotal_price = -$calculateVoucher;
-            }
-            if ($request->color_id) {
-                $product_color = ProductColor::find($request->color_id);
+            $product = Product::with('colors')->where('id', $request->product_id)->first();
+            $price = $product->price + $product->colors->whereIn('id', $request->product_color_id)->sum('price');
+            $subtotal_price = $this->calculateDiscountPrice($price, $product->discount_rate) * $request->quantity;
+
+//            if (!empty($request->voucher_id)) {
+//                $calculateVoucher = $this->calculateVoucherDiscount($request->voucher_id, $subtotal_price);
+//                $subtotal_price = -$calculateVoucher;
+//            }
+
+            if ($request->product_color_id) {
+                $product_color = ProductColor::find($request->product_color_id);
                 if ($product_color) {
                     if ($product_color->stock > 0) {
-                        $subtotal_price += $product_color->price;
-                        ProductColor::where('id', $request->color_id)->update([
+                        ProductColor::where('id', $request->product_color_id)->update([
                             'stock' => $product_color->stock - $request->quantity
                         ]);
                     } else {
@@ -65,10 +67,16 @@ class GuestOrderController extends Controller
                     }
                 }
             }
+
+
             $orderKey = str_replace(' ', '', 'SAWBD-' . now()->format('dmY') . '-' . GuestOrder::count() + 1);
             if (isset($data['showroom_id']) && $data['showroom_id'] == 6) {
                 $orderKey = str_replace(' ', '', 'HPS-' . now()->format('dmY') . '-' . GuestOrder::count() + 1);
             }
+
+
+            $totalPrice = $subtotal_price + $request->shipping_amount;
+
 
             $orderData = [
                 'transaction_id' => $orderKey,
@@ -76,7 +84,7 @@ class GuestOrderController extends Controller
                 'discount_rate' => $product->discount_rate ?? 0,
                 'shipping_amount' => $request->shipping_amount,
                 'subtotal_price' => $subtotal_price,
-                'total_price' => $subtotal_price + $request->shipping_amount,
+                'total_price' => $totalPrice,
                 'name' => $request->name,
                 'phone_number' => $request->phone,
                 'email' => $request->email ?? null,
@@ -98,7 +106,7 @@ class GuestOrderController extends Controller
                 'quantity' => $request->quantity,
                 'product_color_id' => $request->product_color_id ?? null,
                 'feature' => $request->feature_id ?? null,
-                'price' => $product->price,
+                'price' => $price,
                 'discount_rate' => $product->discount_rate ?? 0,
                 'subtotal_price' => $subtotal_price,
             ];
