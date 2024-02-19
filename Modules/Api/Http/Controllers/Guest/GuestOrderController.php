@@ -137,12 +137,10 @@ class GuestOrderController extends Controller
                         $this->sendSms(strtr($number->phone, [' ' => '']), "New order has been placed with the order number: " . $order->order_key . "  Please check your dashboard");
                     }
                     return [
-                        'data' => [
-                            'order_key' => $order->order_key,
-                            'transaction_id' => $order->transaction_id,
-                            'status' => true,
-                            'message' => 'Order Successful',
-                        ]
+                        'order_key' => $order->order_key,
+                        'transaction_id' => $order->transaction_id,
+                        'status' => true,
+                        'message' => 'Order Successful',
                     ];
                 }
             } else {
@@ -260,12 +258,10 @@ class GuestOrderController extends Controller
                         $this->sendSms(strtr($number->phone, [' ' => '']), "New order has been placed with the order number: " . $order->order_key . "  Please check your dashboard");
                     }
                     return [
-                        'data' => [
-                            'order_key' => $order->order_key,
-                            'transaction_id' => $order->transaction_id,
-                            'status' => true,
-                            'message' => 'Order Successful',
-                        ]
+                        'order_key' => $order->order_key,
+                        'transaction_id' => $order->transaction_id,
+                        'status' => true,
+                        'message' => 'Order Successful',
                     ];
                 }
             } else {
