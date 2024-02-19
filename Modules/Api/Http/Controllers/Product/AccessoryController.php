@@ -24,9 +24,8 @@ class AccessoryController extends Controller
      */
     public function accessories(Request $request)
     {
-
         $filterData = $this->initializeAccessoryFilterData($request);
-        $data = Cache::remember(json_encode($request->all()) . json_encode($filterData), config('cache.stores.redis.lifetime'), function () use ($filterData) {
+        $data       = Cache::remember(json_encode($request->all()) . json_encode($filterData), config('cache.stores.redis.lifetime'), function () use ($filterData) {
             return new AccessoryCollection($this->getAccessories($filterData));
         });
 
@@ -51,10 +50,10 @@ class AccessoryController extends Controller
      */
     public function relatedAccessories()
     {
-
         $product = Cache::remember('products.related_accessory', config('cache.stores.redis.lifetime'), function () {
             return ProductResource::collection(($this->getRelatedAccessories()));
         });
+
         return $this->respondWithSuccessWithData($product);
     }
 
@@ -63,7 +62,6 @@ class AccessoryController extends Controller
      */
     public function featuredAccessories()
     {
-
         $product = Cache::remember('products.featured_accessory', config('cache.stores.redis.lifetime'), function () {
             return ProductResource::collection(($this->getFeaturedAccessories()));
         });

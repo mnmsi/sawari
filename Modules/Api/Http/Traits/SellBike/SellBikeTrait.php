@@ -15,18 +15,15 @@ trait SellBikeTrait
 
     public function storeSellBike($request)
     {
-
-
-//            $file = $request->file('bike_image');
-
         $bike_images = [];
         foreach ($request->images as $image) {
             $bike_images[] = $image->store('bike_images', 'public');
         }
-//            dd($bike_images);
+
         $request->merge([
             'bike_image' => json_encode($bike_images),
         ]);
+
         return BikeSellRequest::create($request->all());
     }
 }

@@ -35,7 +35,8 @@ class BikeController extends Controller
     }
 
     /**
-     * @param $id
+     * @param Request $request
+     * @param $name
      * @return JsonResponse
      */
     public function details(Request $request, $name)
@@ -44,12 +45,12 @@ class BikeController extends Controller
             $user = $token->tokenable;
             Auth::setUser($user);
         }
+
         $product = Cache::rememberForever('products.' . $name, function () use ($name) {
             return new ProductDetailsResource($this->getBikeDetails($name));
         });
 
         return $this->respondWithSuccessWithData($product);
-
     }
 
     /**
@@ -60,6 +61,7 @@ class BikeController extends Controller
         $bikeDetails = Cache::remember('related_bikes', config('cache.stores.redis.lifetime'), function () {
             return ProductResource::collection($this->getRelatedBikes());
         });
+
         return $this->respondWithSuccessWithData($bikeDetails);
     }
 
@@ -72,17 +74,15 @@ class BikeController extends Controller
             return $this->getBikeBodyTypes();
         });
 
-        return $this->respondWithSuccessWithData(
-            $bikeBodyTypes
-        );
+        return $this->respondWithSuccessWithData($bikeBodyTypes);
     }
 
     public function scooter()
     {
         $scooter = Cache::remember('products.scooter', config('cache.stores.redis.lifetime'), function () {
             return new BikeCollection($this->getScooter());
-
         });
+
         return $this->respondWithSuccessWithData($scooter);
     }
 
@@ -91,6 +91,7 @@ class BikeController extends Controller
         $upcomingBikes = Cache::remember('products.upcoming_bikes', config('cache.stores.redis.lifetime'), function () {
             return new BikeCollection($this->getUpComingBikes());
         });
+
         return $this->respondWithSuccessWithData($upcomingBikes);
     }
 }

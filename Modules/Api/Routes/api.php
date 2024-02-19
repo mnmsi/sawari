@@ -168,7 +168,7 @@ Route::middleware('guest')->group(function () {
 
     //        Sell Bike
     Route::controller(SellBikeController::class)->prefix('sell')->group(function () {
-        Route::get('bike/{brand_id}', 'bikeByBrand');
+        Route::get('bike/{brand_id}', 'bikeByBrand'); // Sell Bike Routes //-------------Cached
     });
 
     Route::get('shipping-charges/{name?}', [ShippingChargeController::class, 'shippingCharges']); // Shipping Charges //-------------Cached
@@ -178,8 +178,8 @@ Route::middleware('guest')->group(function () {
 // Routes on feature prefix
 Route::middleware('product')->group(function () {
     Route::controller(FeatureController::class)->prefix('featured')->group(function () {
-        Route::get('new-bike', 'newBike');   // Feature new bikes
-        Route::get('used-bike', 'usedBike'); // Feature used bikes
+        Route::get('new-bike', 'newBike');   // Feature new bikes //-------------Cached
+        Route::get('used-bike', 'usedBike'); // Feature used bikes //-------------Cached
     });
 
     Route::controller(BikeController::class)->group(function () {
@@ -196,7 +196,7 @@ Route::middleware('product')->group(function () {
         Route::get('accessory/details/{name}', 'details');                 // Accessory Details Routes /------- Cached
     });
 
-    Route::get('home-page-sections', [HomePageSectionController::class, 'homePageSections']);
+    Route::get('home-page-sections', [HomePageSectionController::class, 'homePageSections']); // Home Page Sections Routes /------- Cached
     Route::get('scooter', [BikeController::class, 'scooter']); // Scooter Routes /------- Cached
     Route::get('upcoming-bikes', [BikeController::class, 'upcomingBikes']); // Upcoming Bikes Routes /------- Cached
 });
