@@ -44,9 +44,11 @@ class BrandController extends Controller
      */
     public function accessoryBrands()
     {
-        return $this->respondWithSuccessWithData(
-            new BrandCollection($this->getAccessoryBrands())
-        );
+        $data = Cache::rememberForever('brands.accessory', function () {
+            return new BrandCollection($this->getAccessoryBrands());
+        });
+
+        return $this->respondWithSuccessWithData($data);
     }
 
     /**
@@ -54,9 +56,11 @@ class BrandController extends Controller
      */
     public function popularAccessoryBrands()
     {
-        return $this->respondWithSuccessWithData(
-            BrandResource::collection($this->getPopularAccessoryBrands())
-        );
+        $data = Cache::rememberForever('brands.accessory.popular', function () {
+            return BrandResource::collection($this->getPopularAccessoryBrands());
+        });
+
+        return $this->respondWithSuccessWithData($data);
     }
 
     /**
@@ -65,8 +69,10 @@ class BrandController extends Controller
      */
     public function categoryBrands($id)
     {
-        return $this->respondWithSuccessWithData(
-            BrandResource::collection($this->getCategoryBrands($id))
-        );
+        $data = Cache::rememberForever('brands.categories.' . $id, function () use ($id) {
+            return BrandResource::collection($this->getCategoryBrands($id));
+        });
+
+        return $this->respondWithSuccessWithData($data);
     }
 }

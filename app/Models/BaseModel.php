@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Redis;
 
 class BaseModel extends Model
 {
-
     protected static function boot()
     {
         parent::boot();
@@ -20,19 +19,43 @@ class BaseModel extends Model
 
             if ($model->getTable() === 'brands') {
                 $model->delKeys('brands*');
+                $model->delKeys('sell_bikes.' . $model->id);
+            }
+            elseif ($model->getTable() === 'categories') {
+                $model->delKeys('*categories*');
+            }
+            elseif ($model->getTable() === 'shipping_charges') {
+                $model->delKeys('shipping_charges*');
+            }
+            elseif ($model->getTable() === 'products') {
+                $model->delKeys('products*');
             }
         });
 
         static::deleting(function ($model) {
             // Forget the cache for the updated model
             Cache::forget($model->getTable());
+
+            if ($model->getTable() === 'brands') {
+                $model->delKeys('brands*');
+                $model->delKeys('sell_bikes.' . $model->id);
+            }
+            elseif ($model->getTable() === 'categories') {
+                $model->delKeys('*categories*');
+            }
+            elseif ($model->getTable() === 'shipping_charges') {
+                $model->delKeys('shipping_charges*');
+            }
+            elseif ($model->getTable() === 'products') {
+                $model->delKeys('products*');
+            }
         });
     }
 
     private function delKeys($pattern): void
     {
         $redis = Redis::connection('cache');
-        $keys = $redis->keys($pattern);
+        $keys  = $redis->keys($pattern);
 
         foreach ($keys as $key) {
             $redis->del($key);
