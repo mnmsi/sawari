@@ -79,7 +79,6 @@ class BikeController extends Controller
 
     public function scooter()
     {
-
         $scooter = Cache::remember('products.scooter', config('cache.stores.redis.lifetime'), function () {
             return new BikeCollection($this->getScooter());
 

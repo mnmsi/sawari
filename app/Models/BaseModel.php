@@ -21,6 +21,12 @@ class BaseModel extends Model
             if ($model->getTable() === 'brands') {
                 $model->delKeys('brands*');
             }
+            elseif ($model->getTable() === 'categories') {
+                $model->delKeys('*categories*');
+            }
+            elseif ($model->getTable() === 'shipping_charges') {
+                $model->delKeys('shipping_charges*');
+            }
         });
 
         static::deleting(function ($model) {

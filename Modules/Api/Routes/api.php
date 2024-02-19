@@ -137,33 +137,33 @@ Route::middleware('guest')->group(function () {
 
         // Routes on bike prefix for bike brand and popular bike brand
         Route::prefix('bike')->group(function () {
-            Route::get('brands', 'bikeBrands');                    // Product Brands
-            Route::get('popular-brands', 'popularBikeBrands');     // Product Popular Brands
+            Route::get('brands', 'bikeBrands');                    // Product Brands // -------------Cached
+            Route::get('popular-brands', 'popularBikeBrands');     // Product Popular Brands // -------------Cached
         });
 
         // Accessory Brand Route
         Route::prefix('accessory')->group(function () {
-            Route::get('brands', 'accessoryBrands');                // Accessory Brands
-            Route::get('popular-brands', 'popularAccessoryBrands'); // Accessory Popular Brands
+            Route::get('brands', 'accessoryBrands');                // Accessory Brands // -------------Cached
+            Route::get('popular-brands', 'popularAccessoryBrands'); // Accessory Popular Brands // -------------Cached
         });
 
-        Route::get('category/brands/{id}', 'categoryBrands');       // Accessory Category Brands
+        Route::get('category/brands/{id}', 'categoryBrands');       // Accessory Category Brands // -------------Cached
     });
 
     // Routes on accessory prefix for accessory category
     Route::controller(CategoryController::class)->prefix('accessory')->group(function () {
-        Route::get('categories', 'categories');                // Product Categories
-        Route::get('popular-categories', 'popularCategories'); // Product Popular Categories
+        Route::get('categories', 'categories');                // Product Categories // -------------Cached
+        Route::get('popular-categories', 'popularCategories'); // Product Popular Categories // -------------Cached
     });
 
     //        Route on Terms and Condition
     Route::controller(TermsConditionController::class)->group(function () {
-        Route::get('terms', 'terms');
+        Route::get('terms', 'terms'); // Terms and Condition Routes //-------------Cached
     });
 
     //        Route on Privacy Policy
     Route::controller(PrivacyPolicyController::class)->group(function () {
-        Route::get('privacy-policy', 'privacyPolicy');
+        Route::get('privacy-policy', 'privacyPolicy'); // Privacy Policy Routes //-------------Cached
     });
 
     //        Sell Bike
@@ -171,7 +171,7 @@ Route::middleware('guest')->group(function () {
         Route::get('bike/{brand_id}', 'bikeByBrand');
     });
 
-    Route::get('shipping-charges/{name?}', [ShippingChargeController::class, 'shippingCharges']);
+    Route::get('shipping-charges/{name?}', [ShippingChargeController::class, 'shippingCharges']); // Shipping Charges //-------------Cached
 });
 
 //Route::get('bike/details/{name}', [BikeController::class, 'details']);
@@ -197,8 +197,8 @@ Route::middleware('product')->group(function () {
     });
 
     Route::get('home-page-sections', [HomePageSectionController::class, 'homePageSections']);
-    Route::get('scooter', [BikeController::class, 'scooter']);
-    Route::get('upcoming-bikes', [BikeController::class, 'upcomingBikes']);
+    Route::get('scooter', [BikeController::class, 'scooter']); // Scooter Routes /------- Cached
+    Route::get('upcoming-bikes', [BikeController::class, 'upcomingBikes']); // Upcoming Bikes Routes /------- Cached
 });
 
 Route::controller(PreOrderController::class)->prefix('pre-order')->group(function () {
