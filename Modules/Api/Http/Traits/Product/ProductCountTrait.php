@@ -56,8 +56,11 @@ trait ProductCountTrait
 
     public function getSearchSuggestions($search)
     {
-        return Product::where('name', 'LIKE', '%' . $search . '%')
-            ->where('is_active', 1)
-            ->take(5)->get();
+        $searchItem = explode(' ', $search);
+        $query = Product::where('is_active', 1);
+        foreach ($searchItem as $item) {
+            $query->where('type', 'bike')->where('name', 'LIKE', '%' . $item . '%');
+        }
+        return $query->take(5)->get();
     }
 }

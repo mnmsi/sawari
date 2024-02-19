@@ -160,41 +160,54 @@ class GuestOrderController extends Controller
     {
         DB::beginTransaction();
         try {
-            //        buy now from cart session
             $guest = GuestUser::where('uuid', $request->guest_user_id)->first();
-            $carts = GuestCart::select('id', 'product_id', 'product_color_id', 'product_data', 'quantity')
-                ->where('guest_user_id', $guest->id)->where('status', 1)->whereIn('id', $request->guest_cart_id)->get();
-            $subtotal_price = 0;
+            $guestCarts = GuestCart::where('guest_user_id', $guest->id)->where('status', 1);
+            $carts = $guestCarts->get();
+            $orderDetails = [];
+
+            if ($carts->isEmpty()) {
+                throw new \Exception('Cart is empty.');
+            }
 
             foreach ($carts as $cartItem) {
-                $product = Product::find($cartItem['product_id']);
+                $product = Product::with('colors')->where('id', $cartItem['product_id'])->first();
+                $price = $product->price + $product->colors->whereIn('id', $cartItem->product_color_id)->sum('price');
                 $subtotal_price = $this->calculateDiscountPrice($product->price, $product->discount_rate) * $cartItem['quantity'];
-                //            product color price
-                $product_color = ProductColor::find($cartItem['product_color_id']);
+
+                $product_color = $product->colors->whereIn('id', $cartItem->product_color_id)->first();
                 if ($product_color) {
-                    $subtotal_price += $product_color->price * $cartItem['quantity'];
                     if ($product_color->stock < $cartItem['quantity']) {
                         throw new \Exception('Product color out of stock.');
                     }
                     $product_color->stock = $product_color->stock - $cartItem['quantity'];
                     $product_color->save();
                 }
+
+                $orderDetails[] = [
+                    'product_id' => $cartItem['product_id'],
+                    'product_color_id' => $cartItem['product_color_id'],
+                    'price' => $price,
+                    'quantity' => $cartItem['quantity'],
+                    'discount_rate' => $product->discount_rate,
+                    'subtotal_price' => $subtotal_price,
+                ];
             }
-            if (!empty($request['voucher_id'])) {
-                $voucher_dis = $this->calculateVoucherDiscount($request['voucher_id'], $subtotal_price);
-                $subtotal_price = $subtotal_price - $voucher_dis;
-            }
+
+            $subtotal_price = collect($orderDetails)->sum('subtotal_price');
+            $totalPrice = $subtotal_price + $request->shipping_amount;
+
             $orderKey = str_replace(' ', '', 'SAWBD-' . now()->format('dmY') . '-' . GuestOrder::count() + 1);
             if (isset($data['showroom_id']) && $data['showroom_id'] == 6) {
                 $orderKey = str_replace(' ', '', 'HPS-' . now()->format('dmY') . '-' . GuestOrder::count() + 1);
             }
+
             $orderData = [
                 'transaction_id' => $orderKey,
                 'order_key' => $orderKey,
                 'discount_rate' => $product->discount_rate ?? 0,
                 'shipping_amount' => $request->shipping_amount,
                 'subtotal_price' => $subtotal_price,
-                'total_price' => $subtotal_price + $request->shipping_amount,
+                'total_price' => $totalPrice,
                 'name' => $request->name,
                 'phone_number' => $request->phone,
                 'email' => $request->email ?? null,
@@ -209,30 +222,16 @@ class GuestOrderController extends Controller
                 'showroom_id' => $request->showroom_id ?? null,
             ];
             $order = GuestOrder::create($orderData);
-
-            $orderDetails = [];
-            foreach ($carts as $p) {
-                $product_p = Product::find($p['product_id']);
-                $subtotal_p = $product_p->price;
-                $product_color_p = ProductColor::find($p['product_color_id']);
-                $subtotal_p += $product_color_p->price * $p['quantity'];
-                $orderDetails[] = [
-                    'guest_order_id' => $order->id,
-                    'product_id' => $product_p->id,
-                    'product_color_id' => $p['product_color_id'],
-                    'feature' => $p['product_data_id'] ?? null,
-                    'price' => $product_p->price,
-                    'quantity' => $p['quantity'],
-                    'discount_rate' => $product_p->discount_rate,
-                    'subtotal_price' => $subtotal_p,
-                ];
-            }
             if ($order) {
+                $orderDetails = array_map(function ($item) use ($order) {
+                    $item['guest_order_id'] = $order->id;
+                    return $item;
+                }, $orderDetails);
+
                 GuestOrderDetails::insert($orderDetails);
-                GuestCart::whereIn('id', $request->guest_cart_id)->delete();
+                $guestCarts->delete();
+
                 if ($request->payment_method_id == 2) {
-                    //                    $sslc = new AmarPayController();
-                    //                    if ($isProcessPayment = $sslc->payment($orderData)) {
                     if ($isProcessPayment = $this->processPayment($orderData, $request)) {
                         DB::commit();
                         $numbers = Notification::where('status', 1)->get();
@@ -272,10 +271,10 @@ class GuestOrderController extends Controller
             }
         } catch (\Exception $e) {
             return (
-                [
-                    $e->getMessage(),
-                    $e->getLine(),
-                ]
+            [
+                $e->getMessage(),
+                $e->getLine(),
+            ]
             );
         }
     }
