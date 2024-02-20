@@ -20,7 +20,7 @@ class BaseModel extends Model
             // flush the all cache
             Cache::flush();
 
-            if ($model->getTable() === 'brands') {
+            /*if ($model->getTable() === 'brands') {
                 $model->delKeys('brands*');
                 $model->delKeys('sell_bikes.' . $model->id);
             }
@@ -32,7 +32,7 @@ class BaseModel extends Model
             }
             elseif ($model->getTable() === 'products') {
                 $model->delKeys('products*');
-            }
+            }*/
         });
 
         static::updating(function ($model) {
@@ -42,7 +42,7 @@ class BaseModel extends Model
             // flush the all cache
             Cache::flush();
 
-            if ($model->getTable() === 'brands') {
+            /*if ($model->getTable() === 'brands') {
                 $model->delKeys('brands*');
                 $model->delKeys('sell_bikes.' . $model->id);
             }
@@ -54,7 +54,7 @@ class BaseModel extends Model
             }
             elseif ($model->getTable() === 'products') {
                 $model->delKeys('products*');
-            }
+            }*/
         });
 
         static::deleting(function ($model) {
@@ -64,7 +64,7 @@ class BaseModel extends Model
             Cache::flush();
 
 
-            if ($model->getTable() === 'brands') {
+            /*if ($model->getTable() === 'brands') {
                 $model->delKeys('brands*');
                 $model->delKeys('sell_bikes.' . $model->id);
             }
@@ -76,7 +76,7 @@ class BaseModel extends Model
             }
             elseif ($model->getTable() === 'products') {
                 $model->delKeys('products*');
-            }
+            }*/
         });
     }
 
