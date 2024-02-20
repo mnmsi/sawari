@@ -31,7 +31,7 @@ class SystemAddressController extends Controller
      * Display a listing of the resource.
      * @return JsonResponse
      */
-    public function city($division_id)
+    public function city($division_id = null)
     {
         $citiesByDivision = Cache::rememberForever("$division_id.cities", function () use ($division_id) {
             return $this->getCityByDivision($division_id);
@@ -44,7 +44,7 @@ class SystemAddressController extends Controller
      * Display a listing of the resource.
      * @return JsonResponse
      */
-    public function area($city_id)
+    public function area($city_id = null)
     {
         $areasByCity = Cache::rememberForever("$city_id.areas", function () use ($city_id) {
             return $this->getAreaByCity($city_id);
