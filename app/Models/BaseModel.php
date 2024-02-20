@@ -13,6 +13,28 @@ class BaseModel extends Model
     {
         parent::boot();
 
+        static::creating(function ($model) {
+            // Forget the cache for the updated model
+            Cache::forget($model->getTable());
+
+            // flush the all cache
+            Cache::flush();
+
+            if ($model->getTable() === 'brands') {
+                $model->delKeys('brands*');
+                $model->delKeys('sell_bikes.' . $model->id);
+            }
+            elseif ($model->getTable() === 'categories') {
+                $model->delKeys('*categories*');
+            }
+            elseif ($model->getTable() === 'shipping_charges') {
+                $model->delKeys('shipping_charges*');
+            }
+            elseif ($model->getTable() === 'products') {
+                $model->delKeys('products*');
+            }
+        });
+
         static::updating(function ($model) {
             // Forget the cache for the updated model
             Cache::forget($model->getTable());
