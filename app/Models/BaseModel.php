@@ -17,6 +17,9 @@ class BaseModel extends Model
             // Forget the cache for the updated model
             Cache::forget($model->getTable());
 
+            // flush the all cache
+            Cache::flush();
+
             if ($model->getTable() === 'brands') {
                 $model->delKeys('brands*');
                 $model->delKeys('sell_bikes.' . $model->id);
@@ -35,6 +38,9 @@ class BaseModel extends Model
         static::deleting(function ($model) {
             // Forget the cache for the updated model
             Cache::forget($model->getTable());
+
+            Cache::flush();
+
 
             if ($model->getTable() === 'brands') {
                 $model->delKeys('brands*');
