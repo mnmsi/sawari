@@ -218,6 +218,20 @@ class Product extends Resource
                     return $v ? "Yes" : "No";
                 }),
             //              status
+//            is_upcoming
+            Select::make('Is Upcoming', 'is_upcoming')->options([
+                '1' => 'Yes',
+                '0' => 'No',
+            ])->rules('required')
+                ->resolveUsing(function ($value) {
+                    if (!$value) {
+                        return 0;
+                    }
+                    return 1;
+                })
+                ->displayUsing(function ($v) {
+                    return $v ? "Yes" : "No";
+                }),
             Select::make('Status', 'is_active')->options([
                 '1' => 'Yes',
                 '0' => 'No',
