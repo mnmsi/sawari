@@ -337,4 +337,9 @@ class SiteSetting extends Resource
             $model->save();
         }
     }
+
+    public static function redirectAfterUpdate(NovaRequest $request, $resource)
+    {
+        return '/resources/site-settings/';
+    }
 }
