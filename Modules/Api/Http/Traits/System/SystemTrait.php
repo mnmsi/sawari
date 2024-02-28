@@ -17,6 +17,8 @@
         {
             if ($division_id) {
                 return City::where('division_id', $division_id)->get();
+            } else {
+                return City::all();
             }
         }
 
@@ -25,6 +27,8 @@
         {
             if ($city_id) {
                 return Area::where('city_id', $city_id)->get();
+            } else {
+                return Area::all();
             }
         }
     }

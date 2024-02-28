@@ -16,11 +16,7 @@ class SellBikeController extends Controller
 
     public function bikeByBrand($brand_id)
     {
-        $data = Cache::rememberForever('sell_bikes.' . $brand_id, function () use ($brand_id) {
-            return BikeResource::collection($this->getBikeByBrand($brand_id));
-        });
-
-        return $this->respondWithSuccessWithData($data);
+        return $this->respondWithSuccessWithData(BikeResource::collection($this->getBikeByBrand($brand_id)));
     }
 
     public function store(SellBikeRequest $request)
